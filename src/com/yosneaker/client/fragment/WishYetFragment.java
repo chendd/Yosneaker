@@ -1,14 +1,11 @@
 package com.yosneaker.client.fragment;
 
 import com.yosneaker.client.R;
-import com.yosneaker.client.view.RoundImageView;
-
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 
 /**
  * 

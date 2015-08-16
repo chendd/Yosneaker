@@ -1,6 +1,7 @@
 package com.yosneaker.client.fragment;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.apache.http.Header;
@@ -15,11 +16,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 
+import com.alibaba.fastjson.JSON;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.yosneaker.client.ArticleDetailActivity;
 import com.yosneaker.client.R;
 import com.yosneaker.client.adapter.ArticleAdapter;
+import com.yosneaker.client.app.YosneakerAppState;
 import com.yosneaker.client.model.ArticleList;
+import com.yosneaker.client.util.Constants;
+import com.yosneaker.client.util.DateUtil;
 import com.yosneaker.client.util.HttpClientUtil;
 import com.yosneaker.client.view.XListView;
 import com.yosneaker.client.view.XListView.IXListViewListener;
@@ -38,12 +43,10 @@ public class ArticleSquareFragment extends BaseFragment implements IXListViewLis
 	private ArticleAdapter mAdapter;
 	private ArrayList<ArticleList> items = new ArrayList<ArticleList>();
 	private Handler mHandler;
+	private Date lastRefreshDate;//最后一次刷新时间
 	
-	// 测试数据
-	int start = 1;
-	int rows = 5;
-	ArrayList<String> heads = new ArrayList<String>();
-	ArrayList<String> covers = new ArrayList<String>();
+	int page;
+	int rows;
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -51,20 +54,20 @@ public class ArticleSquareFragment extends BaseFragment implements IXListViewLis
 		viewFragment = inflater.inflate(R.layout.fragment_square_article,
 				container, false);
 		
-		// 模拟测试数据
-		heads.add("drawable://" + R.drawable.list_user_head);
-		heads.add("drawable://" + R.drawable.list_user_head2);		
-		covers.add("drawable://" + R.drawable.list_bg);
-		covers.add("drawable://" + R.drawable.list_bg2);
+		page = Constants.DEFAULT_PAGE;
+		rows = Constants.DEFAULT_ROWS;
+		lastRefreshDate = new Date();
 		
-		geneItems();
 		initViews();
+		xListView.setPullLoadEnable(false);
+		xListView.autoRefresh();
 		return viewFragment;
 	}
 
 	private void initViews(){
 		xListView=(XListView) viewFragment.findViewById(R.id.xListView);	
 		xListView.setPullLoadEnable(true);
+		items.addAll(YosneakerAppState.db.loadArticleList(page, rows));
 		mAdapter = new ArticleAdapter(getActivity(),items);
 		xListView.setAdapter(mAdapter);
 		xListView.setXListViewListener(this);
@@ -90,10 +93,11 @@ public class ArticleSquareFragment extends BaseFragment implements IXListViewLis
 			@Override
 			public void run() {
 				items.clear();
-				geneItems();
+				geneItems(Constants.DEFAULT_PAGE,rows*page);
 				mAdapter = new ArticleAdapter(getActivity(),items);
 				xListView.setAdapter(mAdapter);
 				onLoad();
+				lastRefreshDate = new Date();
 			}
 		}, 2000);
 	}
@@ -103,19 +107,21 @@ public class ArticleSquareFragment extends BaseFragment implements IXListViewLis
 		mHandler.postDelayed(new Runnable() {
 			@Override
 			public void run() {
-				geneItems();
+				geneItems(++page, rows);
 				mAdapter.notifyDataSetChanged();
 				onLoad();
 			}
 		}, 2000);
 	}
 	
-	private void geneItems() {
-		HttpClientUtil.getPublicArticle(++start, rows, new JsonHttpResponseHandler(){
+	private void geneItems(int page,int rows) {
+		HttpClientUtil.getPublicArticle(page, rows, new JsonHttpResponseHandler(){
 			@Override
 			public void onFailure(int statusCode, Header[] headers,
 					Throwable throwable, JSONObject errorResponse) {
 				System.out.println("==========4"+errorResponse);
+				items.addAll(YosneakerAppState.db.loadArticleList(Constants.DEFAULT_PAGE, Constants.DEFAULT_ROWS));
+				mAdapter.notifyDataSetChanged();
 			}
 
 			@Override
@@ -126,7 +132,10 @@ public class ArticleSquareFragment extends BaseFragment implements IXListViewLis
 				try {
 					total = (Integer) response.get("total");
 					JSONArray list = response.getJSONArray("articles");
-					result  = com.alibaba.fastjson.JSONArray.parseArray(list.toString(),ArticleList.class);
+					result  = JSON.parseArray(list.toString(),ArticleList.class);
+					for (ArticleList articleList : result) {
+						YosneakerAppState.db.saveArticleList(articleList);
+					}
 					items.addAll(result);
 				} catch (JSONException e) {
 					// TODO Auto-generated catch block
@@ -139,8 +148,14 @@ public class ArticleSquareFragment extends BaseFragment implements IXListViewLis
 	}
 
 	private void onLoad() {
+		xListView.setRefreshTime(DateUtil.getLocalDate(lastRefreshDate));
 		xListView.stopRefresh();
 		xListView.stopLoadMore();
-		xListView.setRefreshTime("刚刚");
-	}
+		mHandler.postDelayed(new Runnable() {
+			@Override
+			public void run() {
+				xListView.setPullLoadEnable(true);
+			}
+		}, 2000);
+	} 
 }

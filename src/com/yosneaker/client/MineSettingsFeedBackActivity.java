@@ -1,13 +1,9 @@
 package com.yosneaker.client;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
 import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 /**
  * 意见反馈

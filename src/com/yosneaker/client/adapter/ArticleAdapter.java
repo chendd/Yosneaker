@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.yosneaker.client.R;
 import com.yosneaker.client.model.ArticleList;
+import com.yosneaker.client.util.DateUtil;
 import com.yosneaker.client.view.AssessStarView;
 import com.yosneaker.client.view.RoundImageView;
 
@@ -52,7 +53,7 @@ public class ArticleAdapter extends ArrayAdapter<ArticleList> {
 
         holder.tv_comment_title.setText(c.getArticleTitle());
         holder.tv_comment_readers.setText(""+(c.getArticleReadCount()==null?0:c.getArticleReadCount()));
-        holder.tv_comment_date.setText(""+c.getArticleCreateTime());
+        holder.tv_comment_date.setText(""+DateUtil.getIntervalDate(c.getArticleCreateTime()));
         holder.asv_comment_assess_star.setStarNumber(c.getArticleLevel()==null?0:c.getArticleLevel());
         //TODO iv_comment_cover,riv_comment_head
         ImageLoader.getInstance().displayImage(c.getArticleImages(), holder.iv_comment_cover);

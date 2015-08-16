@@ -17,7 +17,8 @@ public class AnimatedImageSpan extends DynamicDrawableSpan {
         // Use handler for 'ticks' to proceed to next frame 
         final Handler mHandler = new Handler();
         mHandler.post(new Runnable() {
-            public void run() {
+            @Override
+			public void run() {
                 ((AnimatedGifDrawable)mDrawable).nextFrame();
                 // Set next with a delay depending on the duration for this frame 
                 mHandler.postDelayed(this, ((AnimatedGifDrawable)mDrawable).getFrameDuration());

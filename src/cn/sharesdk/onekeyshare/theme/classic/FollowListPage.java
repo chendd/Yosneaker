@@ -52,6 +52,7 @@ public class FollowListPage extends FollowerListFakeActivity implements OnClickL
 	private FollowAdapter adapter;
 	private int lastPosition = -1;
 
+	@Override
 	public void onCreate() {
 		LinearLayout llPage = new LinearLayout(getContext());
 		llPage.setBackgroundColor(0xfff5f5f5);
@@ -76,12 +77,12 @@ public class FollowListPage extends FollowerListFakeActivity implements OnClickL
 		}
 		llTitle.getBtnRight().setOnClickListener(this);
 		llTitle.setLayoutParams(new LinearLayout.LayoutParams(
-				LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
+				android.view.ViewGroup.LayoutParams.MATCH_PARENT, android.view.ViewGroup.LayoutParams.WRAP_CONTENT));
 		llPage.addView(llTitle);
 
 		FrameLayout flPage = new FrameLayout(getContext());
 		LinearLayout.LayoutParams lpFl = new LinearLayout.LayoutParams(
-				LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
+				android.view.ViewGroup.LayoutParams.MATCH_PARENT, android.view.ViewGroup.LayoutParams.WRAP_CONTENT);
 		lpFl.weight = 1;
 		flPage.setLayoutParams(lpFl);
 		llPage.addView(flPage);
@@ -89,7 +90,7 @@ public class FollowListPage extends FollowerListFakeActivity implements OnClickL
 		// 关注（或朋友）列表
 		PullToRefreshView followList = new PullToRefreshView(getContext());
 		FrameLayout.LayoutParams lpLv = new FrameLayout.LayoutParams(
-				LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
+				android.view.ViewGroup.LayoutParams.MATCH_PARENT, android.view.ViewGroup.LayoutParams.MATCH_PARENT);
 		followList.setLayoutParams(lpLv);
 		flPage.addView(followList);
 		adapter = new FollowAdapter(followList);
@@ -103,7 +104,7 @@ public class FollowListPage extends FollowerListFakeActivity implements OnClickL
 			ivShadow.setBackgroundResource(resId);
 		}
 		FrameLayout.LayoutParams lpSd = new FrameLayout.LayoutParams(
-				LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
+				android.view.ViewGroup.LayoutParams.MATCH_PARENT, android.view.ViewGroup.LayoutParams.WRAP_CONTENT);
 		ivShadow.setLayoutParams(lpSd);
 		flPage.addView(ivShadow);
 
@@ -111,6 +112,7 @@ public class FollowListPage extends FollowerListFakeActivity implements OnClickL
 		followList.performPulling(true);
 	}
 
+	@Override
 	public void onClick(View v) {
 		if (v.equals(llTitle.getBtnRight())) {
 			ArrayList<String> selected = new ArrayList<String>();
@@ -126,6 +128,7 @@ public class FollowListPage extends FollowerListFakeActivity implements OnClickL
 		finish();
 	}
 
+	@Override
 	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 		String name = platform.getName();
 		if (isRadioMode(name)) {
@@ -182,6 +185,7 @@ public class FollowListPage extends FollowerListFakeActivity implements OnClickL
 			}
 		}
 
+		@Override
 		public View getView(int position, View convertView, ViewGroup parent) {
 			FollowListItem item = null;
 			boolean simpleMode = "FacebookMessenger".equals(platform.getName());
@@ -208,7 +212,7 @@ public class FollowListPage extends FollowerListFakeActivity implements OnClickL
 				llText.setPadding(0, dp_10, dp_10, dp_10);
 				llText.setOrientation(LinearLayout.VERTICAL);
 				LinearLayout.LayoutParams lpText = new LinearLayout.LayoutParams(
-						LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+						android.view.ViewGroup.LayoutParams.WRAP_CONTENT, android.view.ViewGroup.LayoutParams.WRAP_CONTENT);
 				lpText.gravity = Gravity.CENTER_VERTICAL;
 				lpText.weight = 1;
 				llText.setLayoutParams(lpText);
@@ -234,7 +238,7 @@ public class FollowListPage extends FollowerListFakeActivity implements OnClickL
 				item.ivCheck = new ImageView(parent.getContext());
 				item.ivCheck.setPadding(0, 0, dp_10, 0);
 				LinearLayout.LayoutParams lpCheck = new LinearLayout.LayoutParams(
-						LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+						android.view.ViewGroup.LayoutParams.WRAP_CONTENT, android.view.ViewGroup.LayoutParams.WRAP_CONTENT);
 				lpCheck.gravity = Gravity.CENTER_VERTICAL;
 				item.ivCheck.setLayoutParams(lpCheck);
 				llItem.addView(item.ivCheck);
@@ -267,26 +271,32 @@ public class FollowListPage extends FollowerListFakeActivity implements OnClickL
 			return convertView;
 		}
 
+		@Override
 		public Following getItem(int position) {
 			return follows.get(position);
 		}
 
+		@Override
 		public long getItemId(int position) {
 			return position;
 		}
 
+		@Override
 		public int getCount() {
 			return follows == null ? 0 : follows.size();
 		}
 
+		@Override
 		public View getHeaderView() {
 			return llHeader;
 		}
 
+		@Override
 		public void onPullDown(int percent) {
 			llHeader.onPullDown(percent);
 		}
 
+		@Override
 		public void onRequest() {
 			llHeader.onRequest();
 			curPage = -1;
@@ -295,10 +305,12 @@ public class FollowListPage extends FollowerListFakeActivity implements OnClickL
 			next();
 		}
 
+		@Override
 		public void onCancel(Platform plat, int action) {
 			UIHandler.sendEmptyMessage(-1, this);
 		}
 
+		@Override
 		public void onComplete(Platform plat, int action, HashMap<String, Object> res) {
 			FollowersResult followersResult = parseFollowers(platform.getName(), res, map);
 
@@ -316,10 +328,12 @@ public class FollowListPage extends FollowerListFakeActivity implements OnClickL
 			}
 		}
 
+		@Override
 		public void onError(Platform plat, int action, Throwable t) {
 			t.printStackTrace();
 		}
 
+		@Override
 		public boolean handleMessage(Message msg) {
 			if (msg.what < 0) {
 				((Activity) getContext()).finish();
@@ -337,6 +351,7 @@ public class FollowListPage extends FollowerListFakeActivity implements OnClickL
 			return false;
 		}
 
+		@Override
 		public void onReversed() {
 			super.onReversed();
 			llHeader.reverse();
@@ -362,7 +377,7 @@ public class FollowListPage extends FollowerListFakeActivity implements OnClickL
 
 			LinearLayout llInner = new LinearLayout(context);
 			LinearLayout.LayoutParams lpInner = new LinearLayout.LayoutParams(
-					LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+					android.view.ViewGroup.LayoutParams.WRAP_CONTENT, android.view.ViewGroup.LayoutParams.WRAP_CONTENT);
 			lpInner.gravity = Gravity.CENTER_HORIZONTAL;
 			addView(llInner, lpInner);
 
@@ -387,7 +402,7 @@ public class FollowListPage extends FollowerListFakeActivity implements OnClickL
 			tvHeader.setPadding(dp_10, dp_10, dp_10, dp_10);
 			tvHeader.setTextColor(0xff000000);
 			LayoutParams lpTv = new LayoutParams(
-					LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+					android.view.ViewGroup.LayoutParams.WRAP_CONTENT, android.view.ViewGroup.LayoutParams.WRAP_CONTENT);
 			lpTv.gravity = Gravity.CENTER_VERTICAL;
 			llInner.addView(tvHeader, lpTv);
 		}
@@ -448,6 +463,7 @@ public class FollowListPage extends FollowerListFakeActivity implements OnClickL
 			invalidate();
 		}
 
+		@Override
 		protected void onDraw(Canvas canvas) {
 			canvas.rotate(rotation, getWidth() / 2, getHeight() / 2);
 			super.onDraw(canvas);

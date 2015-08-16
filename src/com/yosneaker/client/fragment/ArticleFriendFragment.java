@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 
+import com.alibaba.fastjson.JSON;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.yosneaker.client.ArticleDetailActivity;
 import com.yosneaker.client.R;
@@ -122,7 +123,7 @@ public class ArticleFriendFragment extends BaseFragment implements IXListViewLis
 				try {
 					total = (Integer) response.get("total");
 					JSONArray list = response.getJSONArray("articles");
-					result  = com.alibaba.fastjson.JSONArray.parseArray(list.toString(),ArticleList.class);
+					result  = JSON.parseArray(list.toString(),ArticleList.class);
 					items.addAll(result);
 				} catch (JSONException e) {
 					// TODO Auto-generated catch block

@@ -34,7 +34,6 @@ import android.widget.ImageView;
 import android.widget.ImageView.ScaleType;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import cn.sharesdk.framework.CustomPlatform;
 import cn.sharesdk.framework.Platform;
 import cn.sharesdk.framework.ShareSDK;
 import cn.sharesdk.framework.utils.UIHandler;
@@ -85,11 +84,12 @@ public class PlatformGridView extends LinearLayout implements
 
 		pager = new ViewPagerClassic(context);
 		disableOverScrollMode(pager);
-		pager.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
+		pager.setLayoutParams(new LayoutParams(android.view.ViewGroup.LayoutParams.MATCH_PARENT, android.view.ViewGroup.LayoutParams.WRAP_CONTENT));
 		addView(pager);
 
 		// in order to have a better UI effect, opening a thread request the list of platforms
 		new Thread() {
+			@Override
 			public void run() {
 				platformList = ShareSDK.getPlatformList();
 				if (platformList == null) {
@@ -125,6 +125,7 @@ public class PlatformGridView extends LinearLayout implements
 		PAGE_SIZE = COLUMN_PER_LINE * LINE_PER_PAGE;
 	}
 
+	@Override
 	public boolean handleMessage(Message msg) {
 		switch (msg.what) {
 			case MSG_PLATFORM_LIST_GOT: {
@@ -161,7 +162,7 @@ public class PlatformGridView extends LinearLayout implements
 		// if the total number of pages exceeds 1, we set the page indicators
 		llPoints.setVisibility(pageCount > 1 ? View.VISIBLE: View.GONE);
 		LayoutParams lpLl = new LayoutParams(
-				LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+				android.view.ViewGroup.LayoutParams.WRAP_CONTENT, android.view.ViewGroup.LayoutParams.WRAP_CONTENT);
 		lpLl.gravity = Gravity.CENTER_HORIZONTAL;
 		llPoints.setLayoutParams(lpLl);
 		addView(llPoints);
@@ -223,6 +224,7 @@ public class PlatformGridView extends LinearLayout implements
 		this.parent = parent;
 	}
 
+	@Override
 	public void onClick(View v) {
 		long time = System.currentTimeMillis();
 		if (time - lastClickTime < MIN_CLICK_INTERVAL) {
@@ -299,10 +301,12 @@ public class PlatformGridView extends LinearLayout implements
 			}
 		}
 
+		@Override
 		public int getCount() {
 			return girds == null ? 0 : girds.length;
 		}
 
+		@Override
 		public View getView(int position, ViewGroup parent) {
 			if (girds[position] == null) {
 				int pageSize = platformGridView.PAGE_SIZE;
@@ -331,6 +335,7 @@ public class PlatformGridView extends LinearLayout implements
 		}
 
 		/** This method will be called after sliding the gridview */
+		@Override
 		public void onScreenChange(int currentScreen, int lastScreen) {
 			ImageView[] points = platformGridView.points;
 			for (int i = 0; i < points.length; i++) {
@@ -373,7 +378,7 @@ public class PlatformGridView extends LinearLayout implements
 				lineSize++;
 			}
 			LayoutParams lp = new LayoutParams(
-					LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
+					android.view.ViewGroup.LayoutParams.MATCH_PARENT, android.view.ViewGroup.LayoutParams.MATCH_PARENT);
 			lp.weight = 1;
 			for (int i = 0; i < lines; i++) {
 				LinearLayout llLine = new LinearLayout(getContext());
@@ -424,7 +429,7 @@ public class PlatformGridView extends LinearLayout implements
 			iv.setPadding(dp_5, dp_5, dp_5, dp_5);
 			iv.setScaleType(ScaleType.CENTER_INSIDE);
 			LayoutParams lpIv = new LayoutParams(
-					LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+					android.view.ViewGroup.LayoutParams.WRAP_CONTENT, android.view.ViewGroup.LayoutParams.WRAP_CONTENT);
 			lpIv.setMargins(dp_5, dp_5, dp_5, dp_5);
 			lpIv.gravity = Gravity.CENTER_HORIZONTAL;
 			iv.setLayoutParams(lpIv);
@@ -437,7 +442,7 @@ public class PlatformGridView extends LinearLayout implements
 			tv.setSingleLine();
 			tv.setIncludeFontPadding(false);
 			LayoutParams lpTv = new LayoutParams(
-					LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+					android.view.ViewGroup.LayoutParams.WRAP_CONTENT, android.view.ViewGroup.LayoutParams.WRAP_CONTENT);
 			lpTv.gravity = Gravity.CENTER_HORIZONTAL;
 			lpTv.weight = 1;
 			lpTv.setMargins(dp_5, 0, dp_5, dp_5);

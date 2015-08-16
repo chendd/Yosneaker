@@ -22,6 +22,12 @@ public interface Constants extends BaseColumns {
 	/** 编辑测评上方背景高/宽 比例, 9:16 */
 	public static final float BG_SCALE = 0.5625f;
 	
+	/** 测评列表加载 当前页 */
+	public static final int DEFAULT_PAGE = 1;
+	
+	/** 测评列表加载 每页条数 */
+	public static final int DEFAULT_ROWS = 5;
+	
 	//requestCode 10000+
 	public static final int COMMENT_TITLE_REQUEST = 10001;
 	public static final int COMMENT_INTRO_REQUEST = 10002;

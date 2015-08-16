@@ -5,8 +5,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import cn.sharesdk.framework.i;
-
 
 public class ArticleItem implements Serializable{
     private Integer itemId;

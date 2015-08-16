@@ -57,6 +57,9 @@ public class ArticleDetailActivity extends BaseActivity implements OnScrollListe
 	/**  位于顶部的购买布局 */
 	private LinearLayout mTopBuyLayout;
 	
+	/**  等待框布局 */
+	private LinearLayout mProgressDialog;
+	
 	private ImageView iv_want;
 	private ImageView iv_buy;
 	private LinearLayout ll_want_count;
@@ -105,6 +108,8 @@ public class ArticleDetailActivity extends BaseActivity implements OnScrollListe
 		mScrollView = (CustomScrollView) findViewById(R.id.scrollView);
 		mBuyLayout = (LinearLayout) findViewById(R.id.buy);
 		mTopBuyLayout = (LinearLayout) findViewById(R.id.top_buy_layout);
+		
+		mProgressDialog = (LinearLayout) findViewById(R.id.mProgressDialog);
 		
 		iv_want = (ImageView) mBuyLayout.findViewById(R.id.iv_top_want);
 		iv_buy = (ImageView) mBuyLayout.findViewById(R.id.iv_top_buy);
@@ -252,7 +257,7 @@ public class ArticleDetailActivity extends BaseActivity implements OnScrollListe
 						ll_detail_comment_item.addView(articleItemView);
 					}
 				}
-				
+				mProgressDialog.setVisibility(View.GONE);
 			}
 			
 		});

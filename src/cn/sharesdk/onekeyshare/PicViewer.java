@@ -29,6 +29,7 @@ public class PicViewer extends FakeActivity implements OnClickListener {
 		}
 	}
 
+	@Override
 	public void onCreate() {
 		ivViewer = new ImageView(activity);
 		ivViewer.setScaleType(ScaleType.CENTER_INSIDE);
@@ -40,6 +41,7 @@ public class PicViewer extends FakeActivity implements OnClickListener {
 		}
 	}
 
+	@Override
 	public void onClick(View v) {
 		finish();
 	}

@@ -3,8 +3,6 @@ package com.yosneaker.client;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
-import android.widget.CompoundButton;
-
 import com.gc.materialdesign.views.Switch;
 import com.gc.materialdesign.views.Switch.OnCheckListener;
 import com.yosneaker.client.util.SettingUtils;

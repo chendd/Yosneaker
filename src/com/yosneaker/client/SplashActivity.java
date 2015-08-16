@@ -8,10 +8,6 @@ import android.app.AlertDialog.Builder;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager.NameNotFoundException;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.animation.AlphaAnimation;
@@ -45,6 +41,7 @@ public class SplashActivity extends Activity {
 	
 	private class LoadMainTabTask implements Runnable{
 
+		@Override
 		public void run() {
 			Intent intent = new Intent(SplashActivity.this,HomeActivity.class);
 			startActivity(intent);
@@ -59,6 +56,7 @@ public class SplashActivity extends Activity {
 		builder.setMessage("网络错误请检查网络状态");
 		builder.setPositiveButton("设置网络", new OnClickListener() {
 			
+			@Override
 			public void onClick(DialogInterface dialog, int which) {
 				Intent intent = new Intent("android.settings.WIRELESS_SETTINGS");
 				startActivity(intent);
@@ -67,6 +65,7 @@ public class SplashActivity extends Activity {
 		});
 		builder.setNegativeButton("取消", new OnClickListener() {
 			
+			@Override
 			public void onClick(DialogInterface dialog, int which) {
 				finish();
 			}

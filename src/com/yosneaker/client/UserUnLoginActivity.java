@@ -197,6 +197,7 @@ public class UserUnLoginActivity extends BaseActivity implements  Callback,Platf
 
 
 
+	@Override
 	public void onComplete(Platform platform, int action,
 			HashMap<String, Object> res) {
 		Log.i(TAG, "onComplete执行了");
@@ -207,6 +208,7 @@ public class UserUnLoginActivity extends BaseActivity implements  Callback,Platf
 		Log.i(TAG, res.toString());
 	}
 
+	@Override
 	public void onError(Platform platform, int action, Throwable t) {
 		Log.i(TAG, "onError执行了");
 		if (action == Platform.ACTION_USER_INFOR) {
@@ -215,6 +217,7 @@ public class UserUnLoginActivity extends BaseActivity implements  Callback,Platf
 		t.printStackTrace();
 	}
 
+	@Override
 	public void onCancel(Platform platform, int action) {
 		Log.i(TAG, "onCancel执行了");
 		if (action == Platform.ACTION_USER_INFOR) {

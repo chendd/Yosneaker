@@ -90,6 +90,7 @@ public class EditPage extends EditPageFakeActivity implements OnClickListener, T
 
 	private Platform[] platformList;
 
+	@Override
 	public void setActivity(Activity activity) {
 		super.setActivity(activity);
 		Window win = activity.getWindow();
@@ -103,6 +104,7 @@ public class EditPage extends EditPageFakeActivity implements OnClickListener, T
 		}
 	}
 
+	@Override
 	public void onCreate() {
 		if (shareParamMap == null || platforms == null || platforms.size() < 1) {
 			finish();
@@ -116,6 +118,7 @@ public class EditPage extends EditPageFakeActivity implements OnClickListener, T
 
 		// requests platform list and remove platforms share in their clients
 		new Thread(){
+			@Override
 			public void run() {
 				platformList = ShareSDK.getPlatformList();
 				if (platformList == null) {
@@ -137,6 +140,7 @@ public class EditPage extends EditPageFakeActivity implements OnClickListener, T
 				}
 
 				UIHandler.sendEmptyMessage(1, new Callback() {
+					@Override
 					public boolean handleMessage(Message msg) {
 						afterPlatformListGot();
 						return false;
@@ -155,7 +159,7 @@ public class EditPage extends EditPageFakeActivity implements OnClickListener, T
 			int dp_8 = dipToPx(getContext(), 8);
 			int width = getScreenWidth(getContext()) - dp_8 * 2;
 			RelativeLayout.LayoutParams lpDialog = new RelativeLayout.LayoutParams(
-					width, LayoutParams.WRAP_CONTENT);
+					width, android.view.ViewGroup.LayoutParams.WRAP_CONTENT);
 			lpDialog.topMargin = dp_8;
 			lpDialog.bottomMargin = dp_8;
 			lpDialog.addRule(RelativeLayout.CENTER_IN_PARENT);
@@ -193,7 +197,7 @@ public class EditPage extends EditPageFakeActivity implements OnClickListener, T
 		}
 		llTitle.getBtnRight().setOnClickListener(this);
 		RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(
-				LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+				android.view.ViewGroup.LayoutParams.WRAP_CONTENT, android.view.ViewGroup.LayoutParams.WRAP_CONTENT);
 		lp.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
 		lp.addRule(RelativeLayout.ALIGN_PARENT_TOP);
 		lp.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
@@ -212,7 +216,7 @@ public class EditPage extends EditPageFakeActivity implements OnClickListener, T
 		}
 		llBody.setOrientation(LinearLayout.VERTICAL);
 		RelativeLayout.LayoutParams lpBody = new RelativeLayout.LayoutParams(
-				LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+				android.view.ViewGroup.LayoutParams.WRAP_CONTENT, android.view.ViewGroup.LayoutParams.WRAP_CONTENT);
 		lpBody.addRule(RelativeLayout.ALIGN_LEFT, llTitle.getId());
 		lpBody.addRule(RelativeLayout.BELOW, llTitle.getId());
 		lpBody.addRule(RelativeLayout.ALIGN_RIGHT, llTitle.getId());
@@ -234,7 +238,7 @@ public class EditPage extends EditPageFakeActivity implements OnClickListener, T
 		LinearLayout llMainBody = new LinearLayout(getContext());
 		llMainBody.setOrientation(LinearLayout.VERTICAL);
 		LayoutParams lpMain = new LayoutParams(
-				LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
+				android.view.ViewGroup.LayoutParams.MATCH_PARENT, android.view.ViewGroup.LayoutParams.WRAP_CONTENT);
 		lpMain.weight = 1;
 		int dp_4 = dipToPx(getContext(), 4);
 		lpMain.setMargins(dp_4, dp_4, dp_4, dp_4);
@@ -242,7 +246,7 @@ public class EditPage extends EditPageFakeActivity implements OnClickListener, T
 
 		LinearLayout llContent = new LinearLayout(getContext());
 		LayoutParams lpContent = new LayoutParams(
-				LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
+				android.view.ViewGroup.LayoutParams.MATCH_PARENT, android.view.ViewGroup.LayoutParams.WRAP_CONTENT);
 		lpContent.weight = 1;
 		llMainBody.addView(llContent, lpContent);
 
@@ -253,7 +257,7 @@ public class EditPage extends EditPageFakeActivity implements OnClickListener, T
 		etContent.setText(String.valueOf(shareParamMap.get("text")));
 		etContent.addTextChangedListener(this);
 		LayoutParams lpEt = new LayoutParams(
-				LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+				android.view.ViewGroup.LayoutParams.WRAP_CONTENT, android.view.ViewGroup.LayoutParams.WRAP_CONTENT);
 		lpEt.weight = 1;
 		etContent.setLayoutParams(lpEt);
 		llContent.addView(etContent);
@@ -292,6 +296,7 @@ public class EditPage extends EditPageFakeActivity implements OnClickListener, T
 		lpImage.setMargins(0, dp_16, dp_8, 0);
 		ivImage.setLayoutParams(lpImage);
 		ivImage.setOnClickListener(new OnClickListener() {
+			@Override
 			public void onClick(View v) {
 				if (image != null && !image.isRecycled()) {
 					PicViewer pv = new PicViewer();
@@ -304,6 +309,7 @@ public class EditPage extends EditPageFakeActivity implements OnClickListener, T
 
 		Button btn = new Button(getContext());
 		btn.setOnClickListener(new OnClickListener() {
+			@Override
 			public void onClick(View v) {
 				// remove the photo to share
 				rlThumb.setVisibility(View.GONE);
@@ -346,7 +352,7 @@ public class EditPage extends EditPageFakeActivity implements OnClickListener, T
 	private LinearLayout getBodyBottom() {
 		LinearLayout llBottom = new LinearLayout(getContext());
 		llBottom.setLayoutParams(new LayoutParams(
-				LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
+				android.view.ViewGroup.LayoutParams.MATCH_PARENT, android.view.ViewGroup.LayoutParams.WRAP_CONTENT));
 
 		LinearLayout line = getAtLine(platforms.get(0).getName());
 		if (line != null) {
@@ -360,7 +366,7 @@ public class EditPage extends EditPageFakeActivity implements OnClickListener, T
 		tvCounter.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 18);
 		tvCounter.setTypeface(Typeface.DEFAULT_BOLD);
 		LayoutParams lpCounter = new LayoutParams(
-				LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+				android.view.ViewGroup.LayoutParams.WRAP_CONTENT, android.view.ViewGroup.LayoutParams.WRAP_CONTENT);
 		lpCounter.gravity = Gravity.CENTER_VERTICAL;
 		tvCounter.setLayoutParams(lpCounter);
 		llBottom.addView(tvCounter);
@@ -377,12 +383,13 @@ public class EditPage extends EditPageFakeActivity implements OnClickListener, T
 		}
 		LinearLayout llAt = new LinearLayout(getContext());
 		LayoutParams lpAt = new LayoutParams(
-				LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+				android.view.ViewGroup.LayoutParams.WRAP_CONTENT, android.view.ViewGroup.LayoutParams.WRAP_CONTENT);
 		lpAt.rightMargin = dipToPx(getContext(), 4);
 		lpAt.gravity = Gravity.LEFT | Gravity.BOTTOM;
 		lpAt.weight = 1;
 		llAt.setLayoutParams(lpAt);
 		llAt.setOnClickListener(new OnClickListener() {
+			@Override
 			public void onClick(View v) {
 				FollowListPage subPage = new FollowListPage();
 				subPage.setPlatform(platforms.get(0));
@@ -413,7 +420,7 @@ public class EditPage extends EditPageFakeActivity implements OnClickListener, T
 		String text = getContext().getString(resId, getName(platform));
 		tvName.setText(text);
 		LayoutParams lpName = new LayoutParams(
-				LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+				android.view.ViewGroup.LayoutParams.WRAP_CONTENT, android.view.ViewGroup.LayoutParams.WRAP_CONTENT);
 		lpName.gravity = Gravity.CENTER_VERTICAL;
 		tvName.setLayoutParams(lpName);
 		llAt.addView(tvName);
@@ -426,7 +433,7 @@ public class EditPage extends EditPageFakeActivity implements OnClickListener, T
 		vSep.setBackgroundColor(0xff000000);
 		int dp_1 = dipToPx(getContext(), 1);
 		LayoutParams lpSep = new LayoutParams(
-				LayoutParams.MATCH_PARENT, dp_1);
+				android.view.ViewGroup.LayoutParams.MATCH_PARENT, dp_1);
 		vSep.setLayoutParams(lpSep);
 		return vSep;
 	}
@@ -435,7 +442,7 @@ public class EditPage extends EditPageFakeActivity implements OnClickListener, T
 	private LinearLayout getPlatformList() {
 		LinearLayout llToolBar = new LinearLayout(getContext());
 		LayoutParams lpTb = new LayoutParams(
-				LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
+				android.view.ViewGroup.LayoutParams.MATCH_PARENT, android.view.ViewGroup.LayoutParams.WRAP_CONTENT);
 		llToolBar.setLayoutParams(lpTb);
 
 		TextView tvShareTo = new TextView(getContext());
@@ -447,7 +454,7 @@ public class EditPage extends EditPageFakeActivity implements OnClickListener, T
 		tvShareTo.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 18);
 		int dp_9 = dipToPx(getContext(), 9);
 		LayoutParams lpShareTo = new LayoutParams(
-				LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+				android.view.ViewGroup.LayoutParams.WRAP_CONTENT, android.view.ViewGroup.LayoutParams.WRAP_CONTENT);
 		lpShareTo.gravity = Gravity.CENTER_VERTICAL;
 		lpShareTo.setMargins(dp_9, 0, 0, 0);
 		tvShareTo.setLayoutParams(lpShareTo);
@@ -457,14 +464,14 @@ public class EditPage extends EditPageFakeActivity implements OnClickListener, T
 		sv.setHorizontalScrollBarEnabled(false);
 		sv.setHorizontalFadingEdgeEnabled(false);
 		LayoutParams lpSv = new LayoutParams(
-				LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+				android.view.ViewGroup.LayoutParams.WRAP_CONTENT, android.view.ViewGroup.LayoutParams.WRAP_CONTENT);
 		lpSv.setMargins(dp_9, dp_9, dp_9, dp_9);
 		sv.setLayoutParams(lpSv);
 		llToolBar.addView(sv);
 
 		llPlat = new LinearLayout(getContext());
 		llPlat.setLayoutParams(new HorizontalScrollView.LayoutParams(
-				LayoutParams.WRAP_CONTENT, LayoutParams.MATCH_PARENT));
+				android.view.ViewGroup.LayoutParams.WRAP_CONTENT, android.view.ViewGroup.LayoutParams.MATCH_PARENT));
 		sv.addView(llPlat);
 
 		return llToolBar;
@@ -513,6 +520,7 @@ public class EditPage extends EditPageFakeActivity implements OnClickListener, T
 		return getContext().getString(resId);
 	}
 
+	@Override
 	public void onClick(View v) {
 		if (v.equals(llTitle.getBtnBack())) {
 			Platform plat = null;
@@ -575,7 +583,7 @@ public class EditPage extends EditPageFakeActivity implements OnClickListener, T
 		final int dp_9 = dipToPx(getContext(), 9);
 		lpItem.setMargins(0, 0, dp_9, 0);
 		FrameLayout.LayoutParams lpMask = new FrameLayout.LayoutParams(
-				LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
+				android.view.ViewGroup.LayoutParams.MATCH_PARENT, android.view.ViewGroup.LayoutParams.MATCH_PARENT);
 		lpMask.gravity = Gravity.LEFT | Gravity.TOP;
 		int selection = 0;
 		for (int i = 0; i < size; i++) {
@@ -591,7 +599,7 @@ public class EditPage extends EditPageFakeActivity implements OnClickListener, T
 			iv.setScaleType(ScaleType.CENTER_INSIDE);
 			iv.setImageBitmap(getPlatLogo(platformList[i]));
 			iv.setLayoutParams(new FrameLayout.LayoutParams(
-					LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
+					android.view.ViewGroup.LayoutParams.MATCH_PARENT, android.view.ViewGroup.LayoutParams.MATCH_PARENT));
 			fl.addView(iv);
 
 			views[i] = new View(getContext());
@@ -610,6 +618,7 @@ public class EditPage extends EditPageFakeActivity implements OnClickListener, T
 
 		final int postSel = selection;
 		UIHandler.sendEmptyMessageDelayed(0, 333, new Callback() {
+			@Override
 			public boolean handleMessage(Message msg) {
 				HorizontalScrollView hsv = (HorizontalScrollView)llPlat.getParent();
 				hsv.scrollTo(postSel * (dp_24 + dp_9), 0);
@@ -636,21 +645,25 @@ public class EditPage extends EditPageFakeActivity implements OnClickListener, T
 		return null;
 	}
 
+	@Override
 	public void beforeTextChanged(CharSequence s, int start, int count,
 			int after) {
 
 	}
 
+	@Override
 	public void onTextChanged(CharSequence s, int start, int before, int count) {
 		int remain = MAX_TEXT_COUNT - etContent.length();
 		tvCounter.setText(String.valueOf(remain));
 		tvCounter.setTextColor(remain > 0 ? 0xffcfcfcf : 0xffff0000);
 	}
 
+	@Override
 	public void afterTextChanged(Editable s) {
 
 	}
 
+	@Override
 	public void onResult(HashMap<String, Object> data) {
 		String atText = getJoinSelectedUser(data);
 		if(atText != null) {
@@ -668,11 +681,13 @@ public class EditPage extends EditPageFakeActivity implements OnClickListener, T
 		}
 	}
 
+	@Override
 	public boolean onFinish() {
 		hideSoftInput();
 		return super.onFinish();
 	}
 
+	@Override
 	public void onConfigurationChanged(Configuration newConfig) {
 		int orientation = activity.getResources().getConfiguration().orientation;
 		if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
@@ -682,6 +697,7 @@ public class EditPage extends EditPageFakeActivity implements OnClickListener, T
 					| WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
 			rlPage.setBackgroundColor(DIM_COLOR);
 			rlPage.postDelayed(new Runnable() {
+				@Override
 				public void run() {
 					genBackground();
 					rlPage.setBackgroundDrawable(background);
@@ -694,6 +710,7 @@ public class EditPage extends EditPageFakeActivity implements OnClickListener, T
 					| WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
 			rlPage.setBackgroundColor(DIM_COLOR);
 			rlPage.postDelayed(new Runnable() {
+				@Override
 				public void run() {
 					genBackground();
 					rlPage.setBackgroundDrawable(background);

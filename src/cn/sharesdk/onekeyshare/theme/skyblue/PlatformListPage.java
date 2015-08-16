@@ -25,6 +25,7 @@ import static cn.sharesdk.framework.utils.R.getStringRes;
 public class PlatformListPage extends PlatformListFakeActivity implements View.OnClickListener {
 	private PlatformGridViewAdapter gridViewAdapter;
 
+	@Override
 	public void onCreate() {
 		super.onCreate();
 		activity.setContentView(getLayoutRes(activity, "skyblue_share_platform_list"));
@@ -61,6 +62,7 @@ public class PlatformListPage extends PlatformListFakeActivity implements View.O
 		}.execute();
 	}
 
+	@Override
 	public void onClick(View v) {
 		Object tag = v.getTag();
 		if(tag == null || !(tag instanceof Integer))

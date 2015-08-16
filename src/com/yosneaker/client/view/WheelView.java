@@ -2,8 +2,6 @@ package com.yosneaker.client.view;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Logger;
-
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Canvas;
@@ -115,7 +113,8 @@ public class WheelView extends ScrollView {
 
         scrollerTask = new Runnable() {
 
-            public void run() {
+            @Override
+			public void run() {
 
                 int newY = getScrollY();
                 if (initialY - newY == 0) { // stopped

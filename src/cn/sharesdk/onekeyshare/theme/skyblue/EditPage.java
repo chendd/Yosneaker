@@ -13,6 +13,7 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup.LayoutParams;
 import android.widget.EditText;
 import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
@@ -41,6 +42,7 @@ public class EditPage extends EditPageFakeActivity implements OnClickListener, T
 	private EditText titleEditText;
 	private EditText textEditText;
 
+	@Override
 	public void onCreate() {
 		if (shareParamMap == null || platforms == null) {
 			finish();
@@ -56,7 +58,7 @@ public class EditPage extends EditPageFakeActivity implements OnClickListener, T
 			RelativeLayout mainRelLayout = (RelativeLayout)findViewByResName("mainRelLayout");
 			RelativeLayout.LayoutParams lp = (RelativeLayout.LayoutParams) mainRelLayout.getLayoutParams();
 			lp.setMargins(0,0,0,0);
-			lp.height = RelativeLayout.LayoutParams.MATCH_PARENT;
+			lp.height = LayoutParams.MATCH_PARENT;
 			mainRelLayout.setLayoutParams(lp);
 		}
 		initTitleView();
@@ -104,6 +106,7 @@ public class EditPage extends EditPageFakeActivity implements OnClickListener, T
 				TextView atTextView = (TextView) view.findViewById(getIdRes(activity, "atTextView"));
 
 				OnClickListener atBtnClickListener = new OnClickListener() {
+					@Override
 					public void onClick(View v) {
 						FollowListPage subPage = new FollowListPage();
 						subPage.setPlatform((Platform) v.getTag());
@@ -173,6 +176,7 @@ public class EditPage extends EditPageFakeActivity implements OnClickListener, T
 		return view;
 	}
 
+	@Override
 	public void onClick(View v) {
 		if(v.getTag() == null)
 			return;
@@ -204,21 +208,25 @@ public class EditPage extends EditPageFakeActivity implements OnClickListener, T
 		setResultAndFinish();
 	}
 
+	@Override
 	public void beforeTextChanged(CharSequence s, int start, int count,
 			int after) {
 
 	}
 
+	@Override
 	public void onTextChanged(CharSequence s, int start, int before, int count) {
 		int remain = MAX_TEXT_COUNT - textEditText.length();
 		textCounterTextView.setText(String.valueOf(remain));
 		textCounterTextView.setTextColor(remain > 0 ? 0xffcfcfcf : 0xffff0000);
 	}
 
+	@Override
 	public void afterTextChanged(Editable s) {
 
 	}
 
+	@Override
 	public void onResult(HashMap<String, Object> data) {
 		String atText = getJoinSelectedUser(data);
 		if(atText != null) {
@@ -226,6 +234,7 @@ public class EditPage extends EditPageFakeActivity implements OnClickListener, T
 		}
 	}
 
+	@Override
 	public boolean onFinish() {
 		textCounterTextView = null;
 		textEditText = null;

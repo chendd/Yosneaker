@@ -7,14 +7,11 @@ import java.util.regex.Pattern;
 
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
-import android.text.Editable;
 import android.text.Selection;
-import android.text.Spannable;
 import android.text.SpannableStringBuilder;
-import android.text.TextUtils;
+import android.text.Spanned;
 import android.text.style.ImageSpan;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -259,7 +256,7 @@ public class ArticleCommentListActivity extends BaseActivity{
 					new ImageSpan(ArticleCommentListActivity.this, BitmapFactory
 							.decodeStream(getAssets().open(png))), sb.length()
 							- tempText.length(), sb.length(),
-					Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+					Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -275,10 +272,10 @@ public class ArticleCommentListActivity extends BaseActivity{
 		int iCursorStart = Selection.getSelectionStart((input.getText()));
 		int iCursorEnd = Selection.getSelectionEnd((input.getText()));
 		if (iCursorStart != iCursorEnd) {
-			((Editable) input.getText()).replace(iCursorStart, iCursorEnd, "");
+			input.getText().replace(iCursorStart, iCursorEnd, "");
 		}
 		int iCursor = Selection.getSelectionEnd((input.getText()));
-		((Editable) input.getText()).insert(iCursor, text);
+		input.getText().insert(iCursor, text);
 	}
 
 	/**
@@ -293,14 +290,14 @@ public class ArticleCommentListActivity extends BaseActivity{
 				if (iCursorEnd == iCursorStart) {
 					if (isDeletePng(iCursorEnd)) {
 						String st = "#[face/png/f_static_000.png]#";
-						((Editable) input.getText()).delete(
+						input.getText().delete(
 								iCursorEnd - st.length(), iCursorEnd);
 					} else {
-						((Editable) input.getText()).delete(iCursorEnd - 1,
+						input.getText().delete(iCursorEnd - 1,
 								iCursorEnd);
 					}
 				} else {
-					((Editable) input.getText()).delete(iCursorStart,
+					input.getText().delete(iCursorStart,
 							iCursorEnd);
 				}
 			}

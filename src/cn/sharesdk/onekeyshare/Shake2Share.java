@@ -41,6 +41,7 @@ public class Shake2Share extends FakeActivity implements SensorEventListener {
 		this.listener = listener;
 	}
 
+	@Override
 	public void setActivity(Activity activity) {
 		super.setActivity(activity);
 		int resId = getBitmapRes(activity, "ssdk_oks_shake_to_share_back");
@@ -52,6 +53,7 @@ public class Shake2Share extends FakeActivity implements SensorEventListener {
 		}
 	}
 
+	@Override
 	public void onCreate() {
 		startSensor();
 
@@ -84,6 +86,7 @@ public class Shake2Share extends FakeActivity implements SensorEventListener {
 		}
 	}
 
+	@Override
 	public void onDestroy() {
 		stopSensor();
 	}
@@ -95,6 +98,7 @@ public class Shake2Share extends FakeActivity implements SensorEventListener {
 		}
 	}
 
+	@Override
 	public void onSensorChanged(SensorEvent event) {
 		long currentTime = System.currentTimeMillis();
 		long diffTime = currentTime - mLastUpdateTime;
@@ -125,6 +129,7 @@ public class Shake2Share extends FakeActivity implements SensorEventListener {
 		}
 	}
 
+	@Override
 	public void onAccuracyChanged(Sensor sensor, int accuracy) {
 
 	}

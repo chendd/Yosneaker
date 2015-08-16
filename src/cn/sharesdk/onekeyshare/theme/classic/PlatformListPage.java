@@ -19,6 +19,7 @@ import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup.LayoutParams;
 import android.view.animation.Animation;
 import android.view.animation.TranslateAnimation;
 import android.widget.Button;
@@ -40,6 +41,7 @@ public class PlatformListPage extends PlatformListFakeActivity implements View.O
 	private boolean finishing;
 	private LinearLayout llPage;
 
+	@Override
 	public void onCreate() {
 		super.onCreate();
 
@@ -67,6 +69,7 @@ public class PlatformListPage extends PlatformListFakeActivity implements View.O
 
 		// container of the platform gridview
 		llPage = new LinearLayout(getContext()) {
+			@Override
 			public boolean onTouchEvent(MotionEvent event) {
 				return true;
 			}
@@ -74,7 +77,7 @@ public class PlatformListPage extends PlatformListFakeActivity implements View.O
 		llPage.setOrientation(LinearLayout.VERTICAL);
 		llPage.setBackgroundDrawable(new ColorDrawable(0xffffffff));
 		FrameLayout.LayoutParams lpLl = new FrameLayout.LayoutParams(
-				FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.WRAP_CONTENT);
+				LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
 		lpLl.gravity = Gravity.BOTTOM;
 		llPage.setLayoutParams(lpLl);
 		flPage.addView(llPage);
@@ -83,7 +86,7 @@ public class PlatformListPage extends PlatformListFakeActivity implements View.O
 		grid = new PlatformGridView(getContext());
 		grid.setEditPageBackground(getBackgroundView());
 		LinearLayout.LayoutParams lpWg = new LinearLayout.LayoutParams(
-				LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+				LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
 		grid.setLayoutParams(lpWg);
 		llPage.addView(grid);
 
@@ -105,7 +108,7 @@ public class PlatformListPage extends PlatformListFakeActivity implements View.O
 		}
 
 		LinearLayout.LayoutParams lpBtn = new LinearLayout.LayoutParams(
-				LinearLayout.LayoutParams.MATCH_PARENT, cn.sharesdk.framework.utils.R.dipToPx(getContext(), 45));
+				LayoutParams.MATCH_PARENT, cn.sharesdk.framework.utils.R.dipToPx(getContext(), 45));
 		int dp_10 = cn.sharesdk.framework.utils.R.dipToPx(getContext(), 10);
 		lpBtn.setMargins(dp_10, dp_10, dp_10, dp_10);
 		btnCancel.setLayoutParams(lpBtn);
@@ -128,12 +131,14 @@ public class PlatformListPage extends PlatformListFakeActivity implements View.O
 		animHide.setDuration(300);
 	}
 
+	@Override
 	public void onConfigurationChanged(Configuration newConfig) {
 		if (grid != null) {
 			grid.onConfigurationChanged();
 		}
 	}
 
+	@Override
 	public boolean onFinish() {
 		if (finishing) {
 			return super.onFinish();
@@ -146,14 +151,17 @@ public class PlatformListPage extends PlatformListFakeActivity implements View.O
 
 		finishing = true;
 		animHide.setAnimationListener(new Animation.AnimationListener() {
+			@Override
 			public void onAnimationStart(Animation animation) {
 
 			}
 
+			@Override
 			public void onAnimationRepeat(Animation animation) {
 
 			}
 
+			@Override
 			public void onAnimationEnd(Animation animation) {
 				flPage.setVisibility(View.GONE);
 				finish();

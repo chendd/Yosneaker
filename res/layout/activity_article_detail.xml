@@ -5,10 +5,15 @@
     android:background="@color/white"
     android:orientation="vertical" >
 
+
     <include
         android:id="@+id/mTitleBar"
         layout="@layout/title_bar" />
 
+    <include
+        android:id="@+id/mProgressDialog"
+        layout="@layout/progress_dialog_layout" />
+    
     <com.yosneaker.client.view.CustomScrollView
         android:id="@+id/scrollView"
         android:layout_width="wrap_content"

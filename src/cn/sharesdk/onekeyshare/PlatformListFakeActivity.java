@@ -29,6 +29,7 @@ public class PlatformListFakeActivity extends FakeActivity {
 		void onClick(View v, List<Object> checkPlatforms);
 	}
 
+	@Override
 	public void onCreate() {
 		super.onCreate();
 
@@ -39,6 +40,7 @@ public class PlatformListFakeActivity extends FakeActivity {
 		}
 	}
 
+	@Override
 	public boolean onKeyEvent(int keyCode, KeyEvent event) {
 		if (keyCode == KeyEvent.KEYCODE_BACK) {
 			canceled = true;
@@ -50,6 +52,7 @@ public class PlatformListFakeActivity extends FakeActivity {
 		this.canceled = canceled;
 	}
 
+	@Override
 	public boolean onFinish() {
 
 		// 取消分享菜单的统计
@@ -198,6 +201,7 @@ public class PlatformListFakeActivity extends FakeActivity {
 			editPageFakeActivity.setDialogMode();
 		}
 		editPageFakeActivity.showForResult(context, null, new FakeActivity() {
+			@Override
 			public void onResult(HashMap<String, Object> data) {
 				if(data == null)
 					return;

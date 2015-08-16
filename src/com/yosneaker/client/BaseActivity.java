@@ -1,9 +1,8 @@
 package com.yosneaker.client;
 
-import com.yosneaker.client.app.YosneakerAppState;
-
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -193,7 +192,7 @@ public abstract class BaseActivity extends FragmentActivity implements OnClickLi
      * 隐藏软键盘
      */
     public void hideSoftInputView() {
-		InputMethodManager manager = ((InputMethodManager) this.getSystemService(Activity.INPUT_METHOD_SERVICE));
+		InputMethodManager manager = ((InputMethodManager) this.getSystemService(Context.INPUT_METHOD_SERVICE));
 		if (getWindow().getAttributes().softInputMode != WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN) {
 			if (getCurrentFocus() != null)
 				manager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);

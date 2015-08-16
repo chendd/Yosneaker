@@ -11,8 +11,6 @@ import android.os.Build;
 import android.os.Environment;
 import android.util.Log;
 import cn.sharesdk.framework.Platform;
-import cn.sharesdk.sina.weibo.SinaWeibo;
-
 import com.nostra13.universalimageloader.cache.disc.impl.UnlimitedDiscCache;
 import com.nostra13.universalimageloader.cache.memory.MemoryCacheAware;
 import com.nostra13.universalimageloader.cache.memory.impl.LRULimitedMemoryCache;
@@ -21,7 +19,7 @@ import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
-import com.yosneaker.client.db.DatabaseHelper;
+import com.yosneaker.client.db.YosneakerDB;
 import com.yosneaker.client.util.Constants;
 
 /**
@@ -36,7 +34,7 @@ public class YosneakerAppState {
 	public float mScreenDensity;//屏幕密度
 	public int mWidth;//屏幕宽度
 	public int mHeigh;//屏幕宽度
-	public static DatabaseHelper db;
+	public static YosneakerDB db;
 	public final static  Map<String,Platform> PLATFORMS = new ConcurrentHashMap<String,Platform>();
 	
 	public static int user_id = -1;// 当前用户id
@@ -56,9 +54,7 @@ public class YosneakerAppState {
 		if (mContext != null) {
 			Log.w(Constants.TAG,"setApplicationContext called twice!");
 		}
-		// 数据库初始化
-		db = new DatabaseHelper(context,1);
-		db.getWritableDatabase();
+		db = YosneakerDB.getInstance(context);
 		
 		mContext = context.getApplicationContext();
 	}

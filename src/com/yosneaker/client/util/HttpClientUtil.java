@@ -3,7 +3,6 @@ package com.yosneaker.client.util;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -54,7 +53,7 @@ public class HttpClientUtil {
 	 * 判断网络状态
 	 */
 	public static boolean isNetWorkConnected(Context context){
-		ConnectivityManager manager = (ConnectivityManager) context.getSystemService(context.CONNECTIVITY_SERVICE);
+		ConnectivityManager manager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
 		NetworkInfo info = manager.getActiveNetworkInfo();
 	
 		return (info!=null&&info.isConnected());

@@ -2,7 +2,6 @@ package com.yosneaker.client.view;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.res.TypedArray;
 import android.util.AttributeSet;
 import android.view.ContextMenu;
 import android.view.MenuItem;
