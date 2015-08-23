@@ -4,7 +4,10 @@ package com.yosneaker.client.model;
 import java.util.List;
 
 public class IntentionInfo {
-	 private int wantCount;
+	 
+	private int articleId;
+
+	private int wantCount;
 	 
 	 private int buyCount;
 	 
@@ -43,4 +46,13 @@ public class IntentionInfo {
 	public void setBuyAccounts(List<Account> buyAccounts) {
 		this.buyAccounts = buyAccounts;
 	}
+		
+	public int getArticleId() {
+		return articleId;
+	}
+
+	public void setArticleId(int articleId) {
+		this.articleId = articleId;
+	}
+	
 }

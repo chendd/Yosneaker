@@ -19,6 +19,7 @@ import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
+import com.nostra13.universalimageloader.core.download.BaseImageDownloader;
 import com.yosneaker.client.db.YosneakerDB;
 import com.yosneaker.client.util.Constants;
 
@@ -93,9 +94,12 @@ public class YosneakerAppState {
 		// ImageLoaderConfiguration.createDefault(this);
 		// method.
 		ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(mContext).defaultDisplayImageOptions(mNormalImageOptions)
+				.memoryCacheExtraOptions(540, 1080)// max width, max height，即保存的每个缓存文件的最大长宽  
 				.denyCacheImageMultipleSizesInMemory().discCache(new UnlimitedDiscCache(new File(IMAGES_FOLDER)))
 				// .discCacheFileNameGenerator(new Md5FileNameGenerator())
 				.memoryCache(memoryCache)
+				.discCacheFileCount(100) //缓存的文件数量 
+				.imageDownloader(new BaseImageDownloader(mContext, 5 * 1000, 30 * 1000)) // connectTimeout (5 s), readTimeout (30 s)超时时间
 				// .memoryCacheSize(memoryCacheSize)
 				.tasksProcessingOrder(QueueProcessingType.LIFO).threadPriority(Thread.NORM_PRIORITY - 2).threadPoolSize(3).build();
 

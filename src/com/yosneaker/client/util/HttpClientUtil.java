@@ -102,6 +102,25 @@ public class HttpClientUtil {
     }
     
     /**
+     * 获取朋友测评
+     * @param page 当前页
+     * @param rows 返回条数,默认十条
+     * @param accountId 用户id
+     * @param responseHandler
+     */
+    public static void getFriendArticle(int page,int rows,int accountId,JsonHttpResponseHandler responseHandler) {
+    	String httpUrl = getAbsoluteUrl("store/articles/public"+"/"+accountId);
+    	if (page == 0 || rows == 0) {
+			client.get(httpUrl, responseHandler);
+		}else {
+			RequestParams params = new RequestParams();
+			params.put("page", page);
+			params.put("rows", rows);
+			client.get(httpUrl, params, responseHandler);
+		}
+    }
+    
+    /**
      * 获取测评详情
      * @param articleid 测评id
      * @param responseHandler

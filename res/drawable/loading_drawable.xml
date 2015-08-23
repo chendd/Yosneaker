@@ -4,7 +4,7 @@
     <item>
         <rotate
             android:drawable="@drawable/webview_loading"
-            android:duration="1000"
+            android:duration="100"
             android:fromDegrees="0.0"
             android:interpolator="@android:anim/linear_interpolator"
             android:pivotX="50.0%"

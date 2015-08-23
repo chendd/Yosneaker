@@ -56,9 +56,10 @@ public class DateUtil {
      * @return
      */
     public static String getLocalDate(Date d1) {
-    	//去年以前显示 年-月-日
+        if (d1 == null) {
+			d1 = new Date();
+		}
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");  
-
         return sdf.format(d1);
     }
     

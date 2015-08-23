@@ -212,4 +212,10 @@
     
     <string name="toast_mine_settings_check_newversoin">已是最新版本</string>
     
+    <string name="toast_network_error">亲，连不上网，请检查下网络啦~</string>
+    <string name="dialog_network_error_title">网络异常</string>
+    <string name="dialog_network_error_content">找不到内容呦，检查网络再试试</string>
+    <string name="dialog_network_error_positive">检查网络</string>
+    <string name="dialog_network_error_negative">取消</string>
+    
 </resources>
