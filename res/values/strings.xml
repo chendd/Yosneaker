@@ -134,6 +134,7 @@
     <string name="toast_draft_delete_failure">删除该测评失败！</string>
     
     <string name="see_more_comment">查看更多评论</string>
+    <string name="no_comment">还没有评论，赶快来抢沙发吧~</string>
     <string name="title_comments">评论</string>
     <string name="title_comments_input">没事写两句</string>
     

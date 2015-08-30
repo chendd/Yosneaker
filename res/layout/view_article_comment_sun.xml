@@ -3,6 +3,11 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content" >
 
+    <RelativeLayout
+        android:id="@+id/rl_comment"
+    	android:layout_width="match_parent"
+    	android:layout_height="wrap_content" >
+    
         <com.yosneaker.client.view.RoundImageView
             android:id="@+id/riv_user_portrait"
             android:layout_width="30dp"
@@ -68,11 +73,11 @@
             android:textSize="10sp" />
 
         <TextView
-            android:id="@+id/textView3"
+            android:id="@+id/tv_comment_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_toRightOf="@id/riv_user_portrait"
-            android:layout_below="@+id/tv_user_name"
+            android:layout_below="@id/tv_user_name"
             android:textSize="10sp"
             android:text="8分钟前" />
 
@@ -81,5 +86,15 @@
         	android:layout_height="2px"
         	android:layout_below="@id/tv_comment_content"
         	android:background="?android:attr/listDivider" />
-
+	</RelativeLayout>
+    <TextView
+            android:id="@+id/tv_no_comment"
+            android:visibility="gone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/rl_comment"
+            android:textSize="12sp"
+            android:layout_margin="8dp"
+             />
+    
 </RelativeLayout>

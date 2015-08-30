@@ -7,6 +7,7 @@ import java.util.Locale;
 import org.apache.http.Header;
 import org.json.JSONObject;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -27,6 +28,7 @@ import com.yosneaker.client.model.Brand;
 import com.yosneaker.client.model.Comment;
 import com.yosneaker.client.model.IntentionInfo;
 import com.yosneaker.client.model.Model;
+import com.yosneaker.client.util.DateUtil;
 import com.yosneaker.client.util.DialogUtil;
 import com.yosneaker.client.util.HttpClientUtil;
 import com.yosneaker.client.view.ArticleHeadView;
@@ -76,7 +78,6 @@ public class ArticleDetailActivity extends BaseActivity implements OnScrollListe
 	private TextView tv_detail_intro_content;
 	
 	private LinearLayout ll_detail_comment_item;
-	private TextView tv_see_more;
 	
 	private ArticleHeadView ahv_article_detail_head;
 	
@@ -127,7 +128,6 @@ public class ArticleDetailActivity extends BaseActivity implements OnScrollListe
 		tv_detail_intro_content = (TextView) findViewById(R.id.tv_detail_intro_content);
 		
 		ll_detail_comment_item = (LinearLayout) findViewById(R.id.ll_detail_comment_item);
-		tv_see_more = (TextView) findViewById(R.id.tv_see_more);
 		
 		ahv_article_detail_head = (ArticleHeadView) findViewById(R.id.ahv_article_detail_head);
 		
@@ -139,8 +139,10 @@ public class ArticleDetailActivity extends BaseActivity implements OnScrollListe
 		showTextViewLeft(true);
 		showTextViewRight1(true);
 		showTextViewRight2(true);
-		getTextViewRight1().setBackgroundResource(R.drawable.ic_share);
-		getTextViewRight2().setBackgroundResource(R.drawable.ic_unstar);
+		showTextViewRight3(true);
+		getTextViewRight1().setBackgroundResource(R.drawable.ic_notice);
+		getTextViewRight2().setBackgroundResource(R.drawable.ic_share);
+		getTextViewRight3().setBackgroundResource(R.drawable.ic_unstar);
 	}
 
 	@Override
@@ -149,6 +151,7 @@ public class ArticleDetailActivity extends BaseActivity implements OnScrollListe
 		getTextViewLeft().setOnClickListener(this);		
 		getTextViewRight1().setOnClickListener(this);		
 		getTextViewRight2().setOnClickListener(this);
+		getTextViewRight3().setOnClickListener(this);
 		
 		mScrollView.setOnScrollListener(this);
 		mLayout.getViewTreeObserver()
@@ -166,7 +169,6 @@ public class ArticleDetailActivity extends BaseActivity implements OnScrollListe
 		iv_buy.setOnClickListener(this);
 		iv_top_want.setOnClickListener(this);
 		iv_top_buy.setOnClickListener(this);
-		tv_see_more.setOnClickListener(this);
 	}
 
 	@Override
@@ -268,17 +270,24 @@ public class ArticleDetailActivity extends BaseActivity implements OnScrollListe
 			}
 		}
 		
+		
+		
 		List<Comment> hotCommonts = detail.getHotCommonts();
-		if(hotCommonts!= null) {
-			CommentItemView commentItemView = new CommentItemView(ArticleDetailActivity.this);
+		CommentItemView commentItemView = new CommentItemView(ArticleDetailActivity.this);
+		if(hotCommonts.size()!=0) {
 			for (Comment comment : hotCommonts) {
 				commentItemView.setCommentContent(comment.getArticleCommentContent());
 				commentItemView.setUserName(comment.getAccount().getAccountUsername());
+				commentItemView.setCommentTime(DateUtil.getIntervalDate(comment.getArticleCommentPublishTime()));
 				commentItemView.setUserPortrait(comment.getAccount().getAccountImages());
 				commentItemView.setPraiseCount(comment.getArticleCommentTopNumber()+"");
 				ll_hot_comments.addView(commentItemView);
 			}
+		}else {
+			commentItemView.setNoComment();
+			ll_hot_comments.addView(commentItemView);
 		}
+		
 		mProgressDialog.setVisibility(View.GONE);
 	}
 	
@@ -286,18 +295,29 @@ public class ArticleDetailActivity extends BaseActivity implements OnScrollListe
 	@Override
 	public void onClick(View v) {
 		// TODO Auto-generated method stub
-		if (v == getTextViewLeft()) {
-			onBackPressed();
-		}else if (v == getTextViewRight1()) {
+		switch (v.getId()) {
+		case R.id.mTextViewLeft:
+			finish();
+			break;
+		case R.id.mTextviewRight1:
+			Bundle bundle = new Bundle();
+			bundle.putInt("articleId",articleId);
+			gotoExistActivity(ArticleCommentListActivity.class, bundle);
+			break;
+		case R.id.mTextviewRight2:
 			showToast("分享");
-		}else if (v == getTextViewRight2()) {
+			break;
+		case R.id.mTextviewRight3:
 			showToast("收藏");
-		}else if(v == tv_see_more) {
-			gotoExistActivity(ArticleCommentListActivity.class, new Bundle());
-		}else if(v == iv_top_want || v == iv_want) {
-			showToast("想入");
-		}else if(v == iv_top_buy || v == iv_buy) {
+			break;	
+		case R.id.iv_top_want:
 			showToast("已入");
+			break;
+		case R.id.iv_top_buy:
+			showToast("想入");
+			break;
+		default:
+			break;
 		}
 	}
 

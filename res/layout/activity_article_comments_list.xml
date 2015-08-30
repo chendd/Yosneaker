@@ -1,6 +1,6 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     android:background="@color/white"
     android:orientation="vertical" >
 
@@ -8,13 +8,17 @@
         android:id="@+id/mTitleBar"
         layout="@layout/title_bar" />
 
+    <include
+        android:id="@+id/mProgressDialog"
+        layout="@layout/progress_dialog_layout" />
+    
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1" >
 
         <com.yosneaker.client.view.CustomScrollView
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content" >
 
             <LinearLayout
@@ -34,8 +38,9 @@
                     android:id="@+id/tv_see_more"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:visibility="gone"
                     android:gravity="center"
-                    android:padding="5dp"
+                    android:layout_margin="5dp"
                     android:text="@string/see_more_comment"
                     android:textColor="@color/gray"
                     android:textSize="15sp" />

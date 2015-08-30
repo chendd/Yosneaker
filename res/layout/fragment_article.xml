@@ -8,6 +8,7 @@
 
 	<com.yosneaker.client.view.PagerSlidingTabStrip
         android:id="@+id/tabs"
+        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="40dp" />
 

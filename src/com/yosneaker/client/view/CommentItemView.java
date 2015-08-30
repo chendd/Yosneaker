@@ -22,9 +22,12 @@ public class CommentItemView extends RelativeLayout {
 
 	private RoundImageView riv_user_portrait;
 	private TextView tv_user_name;
+	private TextView tv_comment_time;
 	private TextView tv_comment_content;
 	private TextView tv_praise_count;
 	private TextView tv_location;
+	private RelativeLayout rl_comment;
+	private TextView tv_no_comment;
 	
 	public CommentItemView(Context context) {
 		super(context);
@@ -47,9 +50,12 @@ public class CommentItemView extends RelativeLayout {
 		inflater.inflate(R.layout.view_article_comment_sun, this, true);
 		riv_user_portrait = (RoundImageView) findViewById(R.id.riv_user_portrait);
 		tv_user_name = (TextView) findViewById(R.id.tv_user_name);
+		tv_comment_time = (TextView) findViewById(R.id.tv_comment_time);
 		tv_comment_content = (TextView) findViewById(R.id.tv_comment_content);
 		tv_praise_count = (TextView) findViewById(R.id.tv_praise_count);
 		tv_location = (TextView) findViewById(R.id.tv_location);
+		rl_comment = (RelativeLayout) findViewById(R.id.rl_comment);
+		tv_no_comment = (TextView) findViewById(R.id.tv_no_comment);
 	}
 	
 	/**
@@ -66,6 +72,14 @@ public class CommentItemView extends RelativeLayout {
 	 */
 	public void setUserName(String userName) {
 		tv_user_name.setText(userName);
+	}
+	
+	/**
+	 * 设置评论时间
+	 * @param userName
+	 */
+	public void setCommentTime(String time) {
+		tv_comment_time.setText(time);
 	}
 	
 	/**
@@ -91,6 +105,16 @@ public class CommentItemView extends RelativeLayout {
 	 */
 	public void setPraiseCount(String praiseCount) {
 		tv_praise_count.setText(praiseCount);
+	}
+	
+	/**
+	 * 设置没评论时显示的内容
+	 * @param commentContent
+	 */
+	public void setNoComment() {
+		rl_comment.setVisibility(View.GONE);
+		tv_no_comment.setVisibility(View.VISIBLE);
+		tv_no_comment.setText(R.string.no_comment);
 	}
 	
 }

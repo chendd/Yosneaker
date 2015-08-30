@@ -5,6 +5,11 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.apache.http.Header;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
@@ -24,8 +29,16 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.alibaba.fastjson.JSON;
+import com.loopj.android.http.JsonHttpResponseHandler;
 import com.yosneaker.client.adapter.FaceGVAdapter;
 import com.yosneaker.client.adapter.FaceVPAdapter;
+import com.yosneaker.client.app.YosneakerAppState;
+import com.yosneaker.client.model.ArticleList;
+import com.yosneaker.client.model.Comment;
+import com.yosneaker.client.util.Constants;
+import com.yosneaker.client.util.DateUtil;
+import com.yosneaker.client.util.HttpClientUtil;
 import com.yosneaker.client.view.CommentItemView;
 import com.yosneaker.client.view.CustomEditText;
 
@@ -46,6 +59,11 @@ public class ArticleCommentListActivity extends BaseActivity{
 	private CustomEditText input;
 	private Button send;
 	private ImageView image_face;//表情图标
+	
+	/**  等待框布局 */
+	private LinearLayout mProgressDialog;
+	
+	private int articleId = 0;
 	
 	// 7列3行
 	private int columns = 6;
@@ -69,6 +87,8 @@ public class ArticleCommentListActivity extends BaseActivity{
 		initStaticFaces();
 		ll_hot_comments_list = (LinearLayout) findViewById(R.id.ll_hot_comments_list);
 		ll_all_comments_list = (LinearLayout) findViewById(R.id.ll_all_comments_list);
+		
+		mProgressDialog = (LinearLayout) findViewById(R.id.mProgressDialog);
 		
 		mViewPager = (ViewPager) findViewById(R.id.face_viewpager);
 		//表情布局
@@ -100,69 +120,112 @@ public class ArticleCommentListActivity extends BaseActivity{
 	@Override
 	public void fillDatas() {
 
-		CommentItemView commentItemView = new CommentItemView(this);
-		commentItemView.setCommentContent("我是评论");
-		commentItemView.setUserName("可爱大二狗");
-		commentItemView.setUserPortrait("drawable://" + R.drawable.list_user_head);
-		commentItemView.setPraiseCount("22");
+		articleId = getIntent().getExtras().getInt("articleId");
 		
-		CommentItemView commentItemView2 = new CommentItemView(this);
-		commentItemView2.setCommentContent("阿萨德撒旦撒旦的撒啊是的撒大大大撒旦的撒大啊是的撒啊三大啊啊打算");
-		commentItemView2.setUserName("可爱大三狗");
-		commentItemView2.setUserPortrait("drawable://" + R.drawable.list_user_head2);
-		commentItemView2.setPraiseCount("33");
+		HttpClientUtil.getCommentsByArticleID(articleId, Constants.DEFAULT_PAGE, Constants.DEFAULT_ROWS,new JsonHttpResponseHandler(){
+
+			@Override
+			public void onFailure(int statusCode, Header[] headers,
+					Throwable throwable, JSONObject errorResponse) {
+				mProgressDialog.setVisibility(View.GONE);
+			}
+
+			@Override
+			public void onSuccess(int statusCode, Header[] headers,
+					JSONObject response) {
+				int total = 0;
+				List<Comment> result = null;
+				try {
+					total = (Integer) response.get("total");
+					JSONArray list = response.getJSONArray("comments");
+					result  = JSON.parseArray(list.toString(),Comment.class);
+					CommentItemView commentItemView = new CommentItemView(ArticleCommentListActivity.this);
+					if(total!=0) {
+						for (Comment comment : result) {
+							commentItemView.setCommentContent(comment.getArticleCommentContent());
+							commentItemView.setUserName(comment.getAccount().getAccountUsername());
+							commentItemView.setCommentTime(DateUtil.getIntervalDate(comment.getArticleCommentPublishTime()));
+							commentItemView.setUserPortrait(comment.getAccount().getAccountImages());
+							commentItemView.setPraiseCount(comment.getArticleCommentTopNumber()+"");
+							ll_all_comments_list.addView(commentItemView);
+						}
+					}else {
+						commentItemView.setNoComment();
+						ll_all_comments_list.addView(commentItemView);
+					}
+					
+				} catch (JSONException e) {
+					e.printStackTrace();
+				}
+				mProgressDialog.setVisibility(View.GONE);
+			}
+			
+		});
 		
-		ll_hot_comments_list.addView(commentItemView);	
-		ll_hot_comments_list.addView(commentItemView2);
-				
-		CommentItemView commentItemView3 = new CommentItemView(this);
-		commentItemView3.setCommentContent("我是评论");
-		commentItemView3.setUserName("可爱大二狗");
-		commentItemView3.setLocation("1楼");
-		commentItemView3.setUserPortrait("drawable://" + R.drawable.list_user_head);
-		commentItemView3.setPraiseCount("1");
-		
-		CommentItemView commentItemView4 = new CommentItemView(this);
-		commentItemView4.setCommentContent("阿萨德撒旦撒旦的撒啊是的撒大大大撒旦的撒大啊是的撒啊三大啊啊打算");
-		commentItemView4.setUserName("可爱大三狗");
-		commentItemView4.setLocation("2楼");
-		commentItemView4.setUserPortrait("drawable://" + R.drawable.list_user_head);
-		commentItemView4.setPraiseCount("3");	
-		
-		CommentItemView commentItemView5 = new CommentItemView(this);
-		commentItemView5.setCommentContent("我是评论");
-		commentItemView5.setUserName("可爱大二狗");
-		commentItemView5.setLocation("3楼");
-		commentItemView5.setUserPortrait("drawable://" + R.drawable.list_user_head);
-		commentItemView5.setPraiseCount("1");
-		
-		CommentItemView commentItemView6 = new CommentItemView(this);
-		commentItemView6.setCommentContent("阿萨德撒旦撒旦的撒啊是的撒大大大撒旦的撒大啊是的撒啊三大啊啊打算");
-		commentItemView6.setUserName("可爱大三狗");
-		commentItemView6.setLocation("4楼");
-		commentItemView6.setUserPortrait("drawable://" + R.drawable.list_user_head);
-		commentItemView6.setPraiseCount("3");
-		
-		CommentItemView commentItemView7 = new CommentItemView(this);
-		commentItemView7.setCommentContent("我是评论");
-		commentItemView7.setUserName("可爱大二狗");
-		commentItemView7.setLocation("5楼");
-		commentItemView7.setUserPortrait("drawable://" + R.drawable.list_user_head);
-		commentItemView7.setPraiseCount("1");
-		
-		CommentItemView commentItemView8 = new CommentItemView(this);
-		commentItemView8.setCommentContent("阿萨德撒旦撒旦的撒啊是的撒大大大撒旦的撒大啊是的撒啊三大啊啊打算");
-		commentItemView8.setUserName("可爱大三狗");
-		commentItemView8.setLocation("6楼");
-		commentItemView8.setUserPortrait("drawable://" + R.drawable.list_user_head);
-		commentItemView8.setPraiseCount("3");
-		
-		ll_all_comments_list.addView(commentItemView3);
-		ll_all_comments_list.addView(commentItemView4);
-		ll_all_comments_list.addView(commentItemView5);
-		ll_all_comments_list.addView(commentItemView6);
-		ll_all_comments_list.addView(commentItemView7);
-		ll_all_comments_list.addView(commentItemView8);
+//		CommentItemView commentItemView = new CommentItemView(this);
+//		commentItemView.setCommentContent("我是评论");
+//		commentItemView.setUserName("可爱大二狗");
+//		commentItemView.setUserPortrait("drawable://" + R.drawable.list_user_head);
+//		commentItemView.setPraiseCount("22");
+//		
+//		CommentItemView commentItemView2 = new CommentItemView(this);
+//		commentItemView2.setCommentContent("阿萨德撒旦撒旦的撒啊是的撒大大大撒旦的撒大啊是的撒啊三大啊啊打算");
+//		commentItemView2.setUserName("可爱大三狗");
+//		commentItemView2.setUserPortrait("drawable://" + R.drawable.list_user_head2);
+//		commentItemView2.setPraiseCount("33");
+//		
+//		ll_hot_comments_list.addView(commentItemView);	
+//		ll_hot_comments_list.addView(commentItemView2);
+//				
+//		CommentItemView commentItemView3 = new CommentItemView(this);
+//		commentItemView3.setCommentContent("我是评论");
+//		commentItemView3.setUserName("可爱大二狗");
+//		commentItemView3.setLocation("1楼");
+//		commentItemView3.setUserPortrait("drawable://" + R.drawable.list_user_head);
+//		commentItemView3.setPraiseCount("1");
+//		
+//		CommentItemView commentItemView4 = new CommentItemView(this);
+//		commentItemView4.setCommentContent("阿萨德撒旦撒旦的撒啊是的撒大大大撒旦的撒大啊是的撒啊三大啊啊打算");
+//		commentItemView4.setUserName("可爱大三狗");
+//		commentItemView4.setLocation("2楼");
+//		commentItemView4.setUserPortrait("drawable://" + R.drawable.list_user_head);
+//		commentItemView4.setPraiseCount("3");	
+//		
+//		CommentItemView commentItemView5 = new CommentItemView(this);
+//		commentItemView5.setCommentContent("我是评论");
+//		commentItemView5.setUserName("可爱大二狗");
+//		commentItemView5.setLocation("3楼");
+//		commentItemView5.setUserPortrait("drawable://" + R.drawable.list_user_head);
+//		commentItemView5.setPraiseCount("1");
+//		
+//		CommentItemView commentItemView6 = new CommentItemView(this);
+//		commentItemView6.setCommentContent("阿萨德撒旦撒旦的撒啊是的撒大大大撒旦的撒大啊是的撒啊三大啊啊打算");
+//		commentItemView6.setUserName("可爱大三狗");
+//		commentItemView6.setLocation("4楼");
+//		commentItemView6.setUserPortrait("drawable://" + R.drawable.list_user_head);
+//		commentItemView6.setPraiseCount("3");
+//		
+//		CommentItemView commentItemView7 = new CommentItemView(this);
+//		commentItemView7.setCommentContent("我是评论");
+//		commentItemView7.setUserName("可爱大二狗");
+//		commentItemView7.setLocation("5楼");
+//		commentItemView7.setUserPortrait("drawable://" + R.drawable.list_user_head);
+//		commentItemView7.setPraiseCount("1");
+//		
+//		CommentItemView commentItemView8 = new CommentItemView(this);
+//		commentItemView8.setCommentContent("阿萨德撒旦撒旦的撒啊是的撒大大大撒旦的撒大啊是的撒啊三大啊啊打算");
+//		commentItemView8.setUserName("可爱大三狗");
+//		commentItemView8.setLocation("6楼");
+//		commentItemView8.setUserPortrait("drawable://" + R.drawable.list_user_head);
+//		commentItemView8.setPraiseCount("3");
+//		
+//		ll_all_comments_list.addView(commentItemView3);
+//		ll_all_comments_list.addView(commentItemView4);
+//		ll_all_comments_list.addView(commentItemView5);
+//		ll_all_comments_list.addView(commentItemView6);
+//		ll_all_comments_list.addView(commentItemView7);
+//		ll_all_comments_list.addView(commentItemView8);
+
 	}
 
 	
@@ -171,6 +234,25 @@ public class ArticleCommentListActivity extends BaseActivity{
 		// TODO Auto-generated method stub
 		if (v == getTextViewLeft()) {
 			onBackPressed();
+		}else if(v == send) {
+			Comment comment = new Comment();
+			comment.setArticleCommentContent(input.getText().toString());
+			comment.setArticleCommentArticleId(articleId);
+			HttpClientUtil.addComment(comment, new JsonHttpResponseHandler(){
+
+				@Override
+				public void onFailure(int statusCode, Header[] headers,
+						Throwable throwable, JSONObject errorResponse) {
+					System.out.print("onFailure");
+				}
+
+				@Override
+				public void onSuccess(int statusCode, Header[] headers,
+						JSONObject response) {
+					System.out.print("onSuccess");
+				}
+				
+			});
 		}else if(v == input) {
 			if(chat_face_container.getVisibility()==View.VISIBLE){
 				chat_face_container.setVisibility(View.GONE);
