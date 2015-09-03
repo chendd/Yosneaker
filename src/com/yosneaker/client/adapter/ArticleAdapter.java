@@ -55,7 +55,7 @@ public class ArticleAdapter extends ArrayAdapter<ArticleList> {
             holder.tv_comment_readers = (TextView) convertView.findViewById(R.id.tv_comment_readers);
             holder.iv_comment_cover = (ImageView) convertView.findViewById(R.id.iv_comment_cover);
             holder.riv_comment_head = (RoundImageView) convertView.findViewById(R.id.riv_comment_head);
-            holder.asv_comment_assess_star = (AssessStarView) convertView.findViewById(R.id.asv_comment_assess_star);
+//            holder.asv_comment_assess_star = (AssessStarView) convertView.findViewById(R.id.asv_comment_assess_star);
             convertView.setTag(holder);
         }else{
             holder = (ViewHolder)convertView.getTag();
@@ -68,7 +68,7 @@ public class ArticleAdapter extends ArrayAdapter<ArticleList> {
         holder.tv_comment_title.setText(c.getArticleTitle());
         holder.tv_comment_readers.setText(""+(c.getArticleReadCount()==null?0:c.getArticleReadCount()));
         holder.tv_comment_date.setText(""+DateUtil.getIntervalDate(c.getArticleCreateTime()));
-        holder.asv_comment_assess_star.setStarNumber(c.getArticleLevel()==null?0:c.getArticleLevel());
+//        holder.asv_comment_assess_star.setStarNumber(c.getArticleLevel()==null?0:c.getArticleLevel());
         //TODO iv_comment_cover,riv_comment_head
         ImageLoader.getInstance().displayImage(c.getArticleImages(), holder.iv_comment_cover,options);
         ImageLoader.getInstance().displayImage(c.getAccount().getAccountImages(), holder.riv_comment_head);

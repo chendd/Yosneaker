@@ -1,43 +1,76 @@
 package com.yosneaker.client;
 
+import com.yosneaker.client.util.SettingUtils;
+
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
-import android.view.animation.AlphaAnimation;
-import android.widget.RelativeLayout;
+import android.os.Message;
 
+/**
+ * 启动画面 (1)判断是否是首次加载应用--采取读取SharedPreferences的方法
+ *       (2)是，则进入GudeActivity；否，则进入MainActivity (3)3s后执行(2)操作
+ */
 public class SplashActivity extends Activity {
-	private RelativeLayout rl_splash;
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		// TODO Auto-generated method stub
-		super.onCreate(savedInstanceState);
-		//requestWindowFeature(Window.FEATURE_NO_TITLE);
-		
-		setContentView(R.layout.activity_splash);
-		rl_splash = (RelativeLayout) this.findViewById(R.id.rl_splash);
+	boolean isFirstIn = false;
 
-		
-		    //splash 做一个动画,进入主界面
-			AlphaAnimation aa = new AlphaAnimation(0.5f, 1.0f);
-			aa.setDuration(2000);
-			rl_splash.setAnimation(aa);
-			rl_splash.startAnimation(aa);
-			//通过handler 延时2秒 执行r任务 
-			new Handler().postDelayed(new LoadMainTabTask(), 2500);
-	}
-	
-	private class LoadMainTabTask implements Runnable{
+	private static final int GO_HOME = 1000;
+	private static final int GO_GUIDE = 1001;
+	// 延迟2.5秒
+	private static final long SPLASH_DELAY_MILLIS = 2500;
+
+	/**
+	 * Handler:跳转到不同界面
+	 */
+	private Handler mHandler = new Handler() {
 
 		@Override
-		public void run() {
-			Intent intent = new Intent(SplashActivity.this,HomeActivity.class);
-			startActivity(intent);
-			finish();
-			
+		public void handleMessage(Message msg) {
+			switch (msg.what) {
+			case GO_HOME:
+				goHome();
+				break;
+			case GO_GUIDE:
+				goGuide();
+				break;
+			}
+			super.handleMessage(msg);
 		}
-		
+	};
+
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.splash);
+
+		init();
 	}
 
+	private void init() {
+		// 取得相应的值，如果没有该值，说明还未写入，用true作为默认值
+		isFirstIn = SettingUtils.get(this, SettingUtils.IS_FIRST_LAUNCHER, true);
+
+		// 判断程序与第几次运行，如果是第一次运行则跳转到引导界面，否则跳转到主界面
+		if (!isFirstIn) {
+			// 使用Handler的postDelayed方法，3秒后执行跳转到MainActivity
+			mHandler.sendEmptyMessageDelayed(GO_HOME, SPLASH_DELAY_MILLIS);
+		} else {
+			mHandler.sendEmptyMessageDelayed(GO_GUIDE, SPLASH_DELAY_MILLIS);
+		}
+
+	}
+
+	private void goHome() {
+		Intent intent = new Intent(SplashActivity.this, HomeActivity.class);
+		SplashActivity.this.startActivity(intent);
+		SplashActivity.this.finish();
+	}
+
+	private void goGuide() {
+		Intent intent = new Intent(SplashActivity.this, GuideActivity.class);
+		SplashActivity.this.startActivity(intent);
+		SplashActivity.this.finish();
+	}
 }

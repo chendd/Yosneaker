@@ -95,6 +95,10 @@
     <string name="xlistview_footer_hint_normal">查看更多</string>
     <string name="xlistview_footer_hint_ready">松开载入更多</string>
     
+    <string name="label_comment_hot_vaule">热度:</string>
+    <string name="label_comment_appraise">总评:</string>
+    <string name="label_item_assess">分</string>
+    
     <!-- setError string -->
     <string name="error_comment_title_no_null">o(╯□╰)o标题不可为空哦！</string>
     <string name="error_comment_brand_no_null">o(╯□╰)o请选择球鞋品牌！</string>

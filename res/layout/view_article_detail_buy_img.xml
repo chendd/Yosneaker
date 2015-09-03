@@ -25,64 +25,17 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_marginRight="5dp"
-            android:text="12" />
+            android:text="0" />
     </RelativeLayout>
 
-    <LinearLayout
+    <com.yosneaker.client.view.FlowLayout
         android:id="@+id/ll_want_count"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="horizontal"
-        android:padding="5dp" >
+        android:layout_height="wrap_content"
+        android:layout_margin="12dp" >
 
-        <com.yosneaker.client.view.RoundImageView
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_weight="1"
-            android:src="@drawable/list_user_head" />
-
-        <com.yosneaker.client.view.RoundImageView
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_weight="1"
-            android:src="@drawable/list_user_head" />
-
-        <com.yosneaker.client.view.RoundImageView
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_weight="1"
-            android:src="@drawable/list_user_head" />
-
-        <com.yosneaker.client.view.RoundImageView
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_weight="1"
-            android:src="@drawable/list_user_head" />
-
-        <com.yosneaker.client.view.RoundImageView
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_weight="1"
-            android:src="@drawable/list_user_head" />
-
-        <com.yosneaker.client.view.RoundImageView
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_weight="1"
-            android:src="@drawable/list_user_head" />
-
-        <com.yosneaker.client.view.RoundImageView
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_weight="1"
-            android:src="@drawable/list_user_head" />
-
-        <com.yosneaker.client.view.RoundImageView
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_weight="1"
-            android:src="@drawable/list_user_head" />
-    </LinearLayout>
+        
+    </com.yosneaker.client.view.FlowLayout>
     
     <RelativeLayout
         android:layout_width="match_parent"
@@ -102,64 +55,17 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_marginRight="5dp"
-            android:text="12" />
+            android:text="0" />
     </RelativeLayout>
 
-    <LinearLayout
+    <com.yosneaker.client.view.FlowLayout
         android:id="@+id/ll_buy_count"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="horizontal"
-        android:padding="5dp" >
-
-        <com.yosneaker.client.view.RoundImageView
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_weight="1"
-            android:src="@drawable/list_user_head" />
-
-        <com.yosneaker.client.view.RoundImageView
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_weight="1"
-            android:src="@drawable/list_user_head" />
-
-        <com.yosneaker.client.view.RoundImageView
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_weight="1"
-            android:src="@drawable/list_user_head" />
-
-        <com.yosneaker.client.view.RoundImageView
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_weight="1"
-            android:src="@drawable/list_user_head" />
-
-        <com.yosneaker.client.view.RoundImageView
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_weight="1"
-            android:src="@drawable/list_user_head" />
-
-        <com.yosneaker.client.view.RoundImageView
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_weight="1"
-            android:src="@drawable/list_user_head" />
-
-        <com.yosneaker.client.view.RoundImageView
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_weight="1"
-            android:src="@drawable/list_user_head" />
-
-        <com.yosneaker.client.view.RoundImageView
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_weight="1"
-            android:src="@drawable/list_user_head" />
-    </LinearLayout>
+        android:layout_height="wrap_content"
+        android:layout_margin="12dp" >
+ 
+        
+    </com.yosneaker.client.view.FlowLayout>
 
     <!-- 想买人和已经买人头像 end -->
 

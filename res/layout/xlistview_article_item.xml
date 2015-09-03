@@ -4,94 +4,124 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:orientation="vertical"
+    android:background="@color/white"
     android:paddingBottom="@dimen/list_comment_tb_padding"
     android:paddingLeft="@dimen/list_comment_lr_padding"
     android:paddingRight="@dimen/list_comment_lr_padding"
     android:paddingTop="@dimen/list_comment_tb_padding" >
 
+    <com.yosneaker.client.view.RoundImageView
+            android:id="@+id/riv_comment_head"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_alignParentLeft="true"
+            android:layout_margin="10dp"
+            android:src="@drawable/list_user_head" />
+
+    <TextView
+                android:id="@+id/tv_comment_author"
+                android:layout_width="wrap_content"
+                android:layout_height="20dp"
+                android:layout_alignTop="@id/riv_comment_head"
+                android:layout_toRightOf="@+id/riv_comment_head"
+                android:textColor="@color/black"
+                android:gravity="center"
+                android:text="樱木花道"
+                android:textSize="12sp" />
+    
+    <TextView
+                android:id="@+id/tv_comment_date"
+                android:layout_width="wrap_content"
+                android:layout_height="20dp"
+                android:layout_toRightOf="@+id/riv_comment_head"
+                android:layout_below="@id/tv_comment_author"
+                android:textColor="@color/gray"
+                android:gravity="center"
+                android:text="5分钟前"
+                android:textSize="8sp" />
+    
+    <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" 
+            android:orientation="horizontal"
+            android:layout_marginRight="24dp"
+            android:layout_alignTop="@id/tv_comment_author"
+            android:layout_alignParentRight="true"
+            android:gravity="center_vertical">
+    
+        <TextView
+                android:gravity="center"
+                android:layout_width="wrap_content"
+                android:layout_height="16dp"
+                android:textColor="@color/gray"
+                android:text="@string/label_comment_hot_vaule"
+                android:textSize="10sp" />
+        
+    	<TextView
+                android:id="@+id/tv_comment_readers"
+                android:gravity="center"
+                android:layout_width="wrap_content"
+                android:layout_height="16dp"
+                android:textColor="@color/gray"
+                android:text="1000"
+                android:textSize="10sp" />
+    
+    </LinearLayout>
+    
     <ImageView
         android:id="@+id/iv_comment_cover"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@id/riv_comment_head"
+        android:background="@drawable/list_bg2"
         android:scaleType="fitXY" />
-		
-    <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="50dp" 
-            android:background="@drawable/list_shade"
-            android:orientation="vertical">    
     
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" 
-            android:gravity="center_vertical">
-
-            <TextView
+    <TextView
             	android:id="@+id/tv_comment_title"
             	android:layout_width="match_parent"
-            	android:layout_height="30dp"
-            	android:layout_alignParentTop="true"
+            	android:layout_height="wrap_content"
+            	android:layout_below="@id/iv_comment_cover"
             	android:gravity="center_vertical"
-            	android:layout_marginLeft="12dp"
+            	android:padding="8dp"
+            	android:paddingLeft="16dp"
             	android:text="标题就是标题啦"
-            	android:textColor="@color/white"
+            	android:textColor="@color/black"
             	 />
-
-            <TextView
-                android:id="@+id/tv_comment_date"
-                android:layout_width="wrap_content"
-                android:layout_height="20dp"
-                android:layout_marginRight="12dp"
-                android:layout_marginTop="6dp"
-                android:layout_alignParentRight="true"
-                android:textColor="@color/white"
-                android:text="5分钟前"
-                android:textSize="8sp" />
-
-        </RelativeLayout>
-        
-        
-
-        <LinearLayout
+    
+    <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content" 
+            android:orientation="horizontal"
+            android:paddingLeft="12dp"
+            android:layout_marginBottom="8dp"
+            android:layout_below="@id/tv_comment_title"
             android:gravity="center_vertical">
-
-            <ImageView
-                android:layout_width="16dp"
-                android:layout_height="16dp"
+    
+    <ImageView
+                android:layout_width="8dp"
+                android:layout_height="8dp"
                 android:layout_marginLeft="12dp"
-                android:src="@drawable/list_see" />
-
-            <TextView
+                android:src="@drawable/dark_dot" />
+    
+    <TextView
+                android:gravity="center"
+                android:layout_width="wrap_content"
+                android:layout_height="16dp"
+                android:layout_marginLeft="5dp"
+                android:textColor="@color/gray"
+                android:text="@string/label_comment_appraise"
+                android:textSize="12sp" />
+    
+    <TextView
                 android:id="@+id/tv_comment_readers"
                 android:gravity="center"
                 android:layout_width="wrap_content"
                 android:layout_height="16dp"
                 android:layout_marginLeft="5dp"
-                android:textColor="@color/white"
+                android:textColor="@color/gray"
                 android:text="1000"
                 android:textSize="12sp" />
-
-            <com.yosneaker.client.view.AssessStarView
-                android:id="@+id/asv_comment_assess_star"
-                myspace:starNumber="5"
-            	android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-            	/>
-            
-            
-        </LinearLayout>
-
-        </LinearLayout>
-        
-        <com.yosneaker.client.view.RoundImageView
-            android:id="@+id/riv_comment_head"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_alignBottom="@id/iv_comment_cover"
-            android:layout_alignParentLeft="true"
-            android:layout_margin="10dp"
-            android:src="@drawable/list_user_head" />
-
+    
+    </LinearLayout>
+    
 </RelativeLayout>

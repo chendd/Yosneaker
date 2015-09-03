@@ -52,14 +52,14 @@ public class MineSettingsNetActivity extends BaseActivity{
 			
 			@Override
 			public void onCheck(boolean check) {
-				SettingUtils.set(MineSettingsNetActivity.this, SettingUtils.settings_net_bind_weibo, check);
+				SettingUtils.set(MineSettingsNetActivity.this, SettingUtils.SETTINGS_NET_BIND_WEIBO, check);
 			}
 		});
 		tb_net_bind_qzone.setOncheckListener(new OnCheckListener() {
 			
 			@Override
 			public void onCheck(boolean check) {
-				SettingUtils.set(MineSettingsNetActivity.this, SettingUtils.settings_net_bind_qzone, check);
+				SettingUtils.set(MineSettingsNetActivity.this, SettingUtils.SETTINGS_NET_BIND_QZONE, check);
 			}
 		});
 	
@@ -67,8 +67,8 @@ public class MineSettingsNetActivity extends BaseActivity{
 
 	@Override
 	public void fillDatas() {
-		tb_net_bind_weibo.setChecked(SettingUtils.get(this, SettingUtils.settings_net_bind_weibo, false));
-		tb_net_bind_qzone.setChecked(SettingUtils.get(this, SettingUtils.settings_net_bind_qzone, false));
+		tb_net_bind_weibo.setChecked(SettingUtils.get(this, SettingUtils.SETTINGS_NET_BIND_WEIBO, false));
+		tb_net_bind_qzone.setChecked(SettingUtils.get(this, SettingUtils.SETTINGS_NET_BIND_QZONE, false));
 	}
 
 	

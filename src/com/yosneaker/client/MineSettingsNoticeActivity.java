@@ -54,28 +54,28 @@ public class MineSettingsNoticeActivity extends BaseActivity{
 			
 			@Override
 			public void onCheck(boolean check) {
-				SettingUtils.set(MineSettingsNoticeActivity.this, SettingUtils.settings_notice_handpick, check);
+				SettingUtils.set(MineSettingsNoticeActivity.this, SettingUtils.SETTINGS_NOTICE_HANDPICK, check);
 			}
 		});
 		tb_notice_collect.setOncheckListener(new OnCheckListener() {
 			
 			@Override
 			public void onCheck(boolean check) {
-				SettingUtils.set(MineSettingsNoticeActivity.this, SettingUtils.settings_notice_collect, check);
+				SettingUtils.set(MineSettingsNoticeActivity.this, SettingUtils.SETTINGS_NOTICE_COLLECT, check);
 			}
 		});
 		tb_notice_wish.setOncheckListener(new OnCheckListener() {
 			
 			@Override
 			public void onCheck(boolean check) {
-				SettingUtils.set(MineSettingsNoticeActivity.this, SettingUtils.settings_notice_wish, check);
+				SettingUtils.set(MineSettingsNoticeActivity.this, SettingUtils.SETTINGS_NOTICE_WISH, check);
 			}
 		});
 		tb_notice_comment.setOncheckListener(new OnCheckListener() {
 			
 			@Override
 			public void onCheck(boolean check) {
-				SettingUtils.set(MineSettingsNoticeActivity.this, SettingUtils.settings_notice_comment, check);
+				SettingUtils.set(MineSettingsNoticeActivity.this, SettingUtils.SETTINGS_NOTICE_COMMENT, check);
 			}
 		});
 		
@@ -83,10 +83,10 @@ public class MineSettingsNoticeActivity extends BaseActivity{
 
 	@Override
 	public void fillDatas() {
-		tb_notice_handpick.setChecked(SettingUtils.get(this, SettingUtils.settings_notice_handpick, false));
-		tb_notice_collect.setChecked(SettingUtils.get(this, SettingUtils.settings_notice_collect, false));
-		tb_notice_wish.setChecked(SettingUtils.get(this, SettingUtils.settings_notice_wish, false));
-		tb_notice_comment.setChecked(SettingUtils.get(this, SettingUtils.settings_notice_comment, false));
+		tb_notice_handpick.setChecked(SettingUtils.get(this, SettingUtils.SETTINGS_NOTICE_HANDPICK, false));
+		tb_notice_collect.setChecked(SettingUtils.get(this, SettingUtils.SETTINGS_NOTICE_COLLECT, false));
+		tb_notice_wish.setChecked(SettingUtils.get(this, SettingUtils.SETTINGS_NOTICE_WISH, false));
+		tb_notice_comment.setChecked(SettingUtils.get(this, SettingUtils.SETTINGS_NOTICE_COMMENT, false));
 	}
 
 	

@@ -252,9 +252,9 @@ public class EditArticleItemActivity extends BaseActivity{
 				imageUri = data.getData();
 				Intent intent = new Intent("com.android.camera.action.CROP");
 				intent.setDataAndType(imageUri, "image/*");
-				intent.putExtra("scale", false);
-				intent.putExtra("aspectX", 16);//裁剪框比例  
-		        intent.putExtra("aspectY", 9);
+				intent.putExtra("scale", true);
+//				intent.putExtra("aspectX", 16);//裁剪框比例  
+//		        intent.putExtra("aspectY", 9);
 				intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
 				startActivityForResult(intent, Constants.PHOTO_CROP_REQUEST);
 				break;

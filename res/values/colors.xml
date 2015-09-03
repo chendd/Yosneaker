@@ -30,6 +30,9 @@
     <!-- 自定义标题栏背景色 -->
     <color name="layout_selected_bg">#dddddd</color>
     
+    <!-- listview分割线颜色 -->
+    <color name="divider_color">#eeeeee</color>
+    
     <!-- 自定义mine tab背景色 -->
     <color name="mine_tab_bg">#282828</color>
     

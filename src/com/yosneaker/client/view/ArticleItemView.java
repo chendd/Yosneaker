@@ -34,7 +34,8 @@ public class ArticleItemView extends LinearLayout {
 	private ImageView iv_remove_item;
 	private ImageView iv_delete;
 //	private List<ImageView> iv_deletes;
-	private AssessStarView asv_item_assess;
+//	private AssessStarView asv_item_assess;
+	private TextView tv_item_assess;
 	private LinearLayout fl_item_image;
 	
 	private Callbacks callbacks;
@@ -70,7 +71,7 @@ public class ArticleItemView extends LinearLayout {
 				}				
 			}
 		});
-		asv_item_assess = (AssessStarView) findViewById(R.id.asv_item_assess);
+		tv_item_assess = (TextView) findViewById(R.id.tv_item_assess);
 		fl_item_image = (LinearLayout) findViewById(R.id.fl_item_image);
 	}
 	
@@ -87,7 +88,7 @@ public class ArticleItemView extends LinearLayout {
 	}
 	
 	public void setItemAssess(int assessStarNum) {
-		asv_item_assess.setStarNumber(assessStarNum);
+		tv_item_assess.setText(assessStarNum+"");
 	}
 	
 	public void setDeleteVisible(int visible) {

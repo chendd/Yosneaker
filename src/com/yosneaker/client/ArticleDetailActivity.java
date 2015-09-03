@@ -7,7 +7,6 @@ import java.util.Locale;
 import org.apache.http.Header;
 import org.json.JSONObject;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -36,7 +35,9 @@ import com.yosneaker.client.view.ArticleItemView;
 import com.yosneaker.client.view.CommentItemView;
 import com.yosneaker.client.view.CustomScrollView;
 import com.yosneaker.client.view.CustomScrollView.OnScrollListener;
+import com.yosneaker.client.view.FlowLayout;
 import com.yosneaker.client.view.PersonalDataView;
+import com.yosneaker.client.view.RoundImageView;
 
 /**
  * 测评详情
@@ -61,8 +62,8 @@ public class ArticleDetailActivity extends BaseActivity implements OnScrollListe
 	
 	private ImageView iv_want;
 	private ImageView iv_buy;
-	private LinearLayout ll_want_count;
-	private LinearLayout ll_buy_count;
+	private FlowLayout ll_want_count;
+	private FlowLayout ll_buy_count;
 	private TextView tv_want_count;
 	private TextView tv_buy_count;
 	
@@ -111,8 +112,8 @@ public class ArticleDetailActivity extends BaseActivity implements OnScrollListe
 		
 		iv_want = (ImageView) mBuyLayout.findViewById(R.id.iv_top_want);
 		iv_buy = (ImageView) mBuyLayout.findViewById(R.id.iv_top_buy);
-		ll_want_count = (LinearLayout) findViewById(R.id.ll_want_count);
-		ll_buy_count = (LinearLayout) findViewById(R.id.ll_buy_count);
+		ll_want_count = (FlowLayout) findViewById(R.id.ll_want_count);
+		ll_buy_count = (FlowLayout) findViewById(R.id.ll_buy_count);
 		tv_want_count = (TextView) findViewById(R.id.tv_want_count);
 		tv_buy_count = (TextView) findViewById(R.id.tv_buy_count);
 		
@@ -252,6 +253,23 @@ public class ArticleDetailActivity extends BaseActivity implements OnScrollListe
 			tv_top_buy_count.setText(""+intendInfo.getBuyCount());
 			tv_want_count.setText(""+intendInfo.getWantCount());
 			tv_buy_count.setText(""+intendInfo.getBuyCount());
+		}
+		
+		// 设置已入，想入头像布局
+		LinearLayout.LayoutParams l = new LinearLayout.LayoutParams(64, 64);
+		l.setMargins(8, 8, 8, 8);
+		
+		for (int i = 0; i < intendInfo.getBuyCount(); i++) {
+			RoundImageView r = new RoundImageView(this);
+			r.setLayoutParams(l);
+			r.setBackgroundResource(R.drawable.list_user_head);
+			ll_buy_count.addView(r);
+		}
+		for (int i = 0; i < intendInfo.getWantCount(); i++) {
+			RoundImageView r = new RoundImageView(this);
+			r.setLayoutParams(l);
+			r.setBackgroundResource(R.drawable.list_user_head2);
+			ll_want_count.addView(r);
 		}
 		
 		int i = 1;
