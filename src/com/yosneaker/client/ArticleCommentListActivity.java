@@ -1,6 +1,7 @@
 package com.yosneaker.client;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -17,6 +18,7 @@ import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.text.Selection;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
+import android.text.TextUtils;
 import android.text.style.ImageSpan;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -34,7 +36,7 @@ import com.loopj.android.http.JsonHttpResponseHandler;
 import com.yosneaker.client.adapter.FaceGVAdapter;
 import com.yosneaker.client.adapter.FaceVPAdapter;
 import com.yosneaker.client.app.YosneakerAppState;
-import com.yosneaker.client.model.ArticleList;
+import com.yosneaker.client.model.Account;
 import com.yosneaker.client.model.Comment;
 import com.yosneaker.client.util.Constants;
 import com.yosneaker.client.util.DateUtil;
@@ -64,12 +66,15 @@ public class ArticleCommentListActivity extends BaseActivity{
 	private LinearLayout mProgressDialog;
 	
 	private int articleId = 0;
-	
+	private List<Comment> result = null;
+	private int total = 0;
 	// 7列3行
 	private int columns = 6;
 	private int rows = 4;
 	private List<View> views = new ArrayList<View>();
 	private List<String> staticFacesList;
+	
+	private boolean isNoComment;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {		
@@ -122,6 +127,11 @@ public class ArticleCommentListActivity extends BaseActivity{
 
 		articleId = getIntent().getExtras().getInt("articleId");
 		
+		result =  YosneakerAppState.db.loadCommentList(articleId);
+		if (result!=null) {
+			refresh(result);
+		}
+		
 		HttpClientUtil.getCommentsByArticleID(articleId, Constants.DEFAULT_PAGE, Constants.DEFAULT_ROWS,new JsonHttpResponseHandler(){
 
 			@Override
@@ -133,31 +143,21 @@ public class ArticleCommentListActivity extends BaseActivity{
 			@Override
 			public void onSuccess(int statusCode, Header[] headers,
 					JSONObject response) {
-				int total = 0;
-				List<Comment> result = null;
 				try {
 					total = (Integer) response.get("total");
 					JSONArray list = response.getJSONArray("comments");
 					result  = JSON.parseArray(list.toString(),Comment.class);
-					CommentItemView commentItemView = new CommentItemView(ArticleCommentListActivity.this);
-					if(total!=0) {
-						for (Comment comment : result) {
-							commentItemView.setCommentContent(comment.getArticleCommentContent());
-							commentItemView.setUserName(comment.getAccount().getAccountUsername());
-							commentItemView.setCommentTime(DateUtil.getIntervalDate(comment.getArticleCommentPublishTime()));
-							commentItemView.setUserPortrait(comment.getAccount().getAccountImages());
-							commentItemView.setPraiseCount(comment.getArticleCommentTopNumber()+"");
-							ll_all_comments_list.addView(commentItemView);
-						}
-					}else {
-						commentItemView.setNoComment();
-						ll_all_comments_list.addView(commentItemView);
+					if (result!=null) {
+						refresh(result);
+					}
+					for (Comment item : result) {
+						YosneakerAppState.db.saveComment(item);
 					}
 					
 				} catch (JSONException e) {
 					e.printStackTrace();
 				}
-				mProgressDialog.setVisibility(View.GONE);
+				
 			}
 			
 		});
@@ -228,16 +228,60 @@ public class ArticleCommentListActivity extends BaseActivity{
 
 	}
 
+	public void refresh(List<Comment> result) {
+		ll_all_comments_list.removeAllViews();
+		CommentItemView commentItemView = new CommentItemView(ArticleCommentListActivity.this);
+		if(total!=0) {
+			isNoComment = false;
+			for (Comment comment : result) {
+				commentItemView.setCommentContent(comment.getArticleCommentContent());
+				commentItemView.setUserName(comment.getAccount().getAccountUsername());
+				commentItemView.setCommentTime(DateUtil.getIntervalDate(comment.getArticleCommentPublishTime()));
+				commentItemView.setUserPortrait(comment.getAccount().getAccountImages());
+				commentItemView.setPraiseCount(comment.getArticleCommentTopNumber()+"");
+				ll_all_comments_list.addView(commentItemView);
+//				if() { 判断是否属于热门评论 
+//					ll_hot_comments_list.addView(commentItemView);
+//				}
+			}
+		}else {
+			isNoComment = true;
+			commentItemView.setNoComment();
+			ll_all_comments_list.addView(commentItemView);
+		}
+		mProgressDialog.setVisibility(View.GONE);
+	}
+	
+	public void addComment(Comment comment) {
+		if(isNoComment) {
+			ll_all_comments_list.removeAllViews();
+		}
+		isNoComment = false;
+		CommentItemView commentItemView = new CommentItemView(ArticleCommentListActivity.this);
+		commentItemView.setCommentContent(comment.getArticleCommentContent());
+		commentItemView.setUserName(comment.getAccount().getAccountUsername());
+		commentItemView.setCommentTime(DateUtil.getIntervalDate(comment.getArticleCommentPublishTime()));
+		commentItemView.setUserPortrait(comment.getAccount().getAccountImages());
+		commentItemView.setPraiseCount(comment.getArticleCommentTopNumber()+"");
+		ll_all_comments_list.addView(commentItemView);
+	}
 	
 	@Override
 	public void onClick(View v) {
 		// TODO Auto-generated method stub
 		if (v == getTextViewLeft()) {
 			onBackPressed();
-		}else if(v == send) {
+		}else if(v == send&&!TextUtils.isEmpty(input.getText().toString())) {
 			Comment comment = new Comment();
 			comment.setArticleCommentContent(input.getText().toString());
 			comment.setArticleCommentArticleId(articleId);
+			comment.setArticleCommentPublishTime(new Date());
+			comment.setArticleCommentTopNumber(0);
+			Account account = new Account();
+			account.setAccountUsername("游客");
+			account.setAccountImages("drawable://" + R.drawable.list_user_head);
+			comment.setAccount(account);
+			addComment(comment);
 			HttpClientUtil.addComment(comment, new JsonHttpResponseHandler(){
 
 				@Override
@@ -253,6 +297,9 @@ public class ArticleCommentListActivity extends BaseActivity{
 				}
 				
 			});
+			
+			
+			input.setText("");
 		}else if(v == input) {
 			if(chat_face_container.getVisibility()==View.VISIBLE){
 				chat_face_container.setVisibility(View.GONE);

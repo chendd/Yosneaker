@@ -27,9 +27,6 @@ import android.widget.Toast;
  */
 public abstract class BaseActivity extends FragmentActivity implements OnClickListener{
 
-
-	private NetworkChangeReceiver networkChangeReceiver;
-	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -37,12 +34,6 @@ public abstract class BaseActivity extends FragmentActivity implements OnClickLi
 		initViews();
 		addListnners() ;
 		fillDatas();
-		
-		// 注册网络状态监听广播
-		IntentFilter intentFilter = new IntentFilter();
-		intentFilter.addAction("android.net.conn.CONNECTIVITY_CHANGE");
-		networkChangeReceiver = new NetworkChangeReceiver();
-		registerReceiver(networkChangeReceiver, intentFilter);
 		
 		hideSoftInputView();
 	}
@@ -258,24 +249,5 @@ public abstract class BaseActivity extends FragmentActivity implements OnClickLi
 		});
     	dialog.show();
     }
-    
-	
-	
-	@Override
-	protected void onDestroy() {
-		super.onDestroy();
-		unregisterReceiver(networkChangeReceiver);
-	}
-
-	class NetworkChangeReceiver extends BroadcastReceiver {
-
-		@Override
-		public void onReceive(Context context, Intent arg1) {
-			if (!HttpClientUtil.isNetWorkConnected(context)) {
-				Toast.makeText(context, R.string.toast_network_error, Toast.LENGTH_SHORT).show();
-			}
-		}
-		
-	}
     
 }

@@ -103,7 +103,7 @@ public class Slider extends CustomView {
 		    Canvas temp = new Canvas(bitmap);
 		    Paint paint = new Paint();
 			paint.setColor(Color.parseColor("#B0B0B0"));
-			paint.setStrokeWidth(Utils.dpToPx(2, getResources()));
+			paint.setStrokeWidth(Utils.dpToPx(4, getResources()));
 			temp.drawLine(getHeight()/2, getHeight()/2, getWidth()-getHeight()/2, getHeight()/2, paint);
 		    Paint transparentPaint = new Paint();
 		    transparentPaint.setColor(getResources().getColor(android.R.color.transparent));
@@ -114,7 +114,7 @@ public class Slider extends CustomView {
 		}else{
 			Paint paint = new Paint();
 			paint.setColor(Color.parseColor("#B0B0B0"));
-			paint.setStrokeWidth(Utils.dpToPx(2, getResources()));
+			paint.setStrokeWidth(Utils.dpToPx(4, getResources()));
 			canvas.drawLine(getHeight()/2, getHeight()/2, getWidth()-getHeight()/2, getHeight()/2, paint);
 			paint.setColor(backgroundColor);
 			float division = (ball.xFin - ball.xIni) / max;

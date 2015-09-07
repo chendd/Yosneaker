@@ -1,5 +1,7 @@
 package com.yosneaker.client;
 
+import com.gc.materialdesign.views.Slider;
+import com.gc.materialdesign.views.Slider.OnValueChangedListener;
 import com.yosneaker.client.model.Article;
 
 import android.app.AlertDialog.Builder;
@@ -26,11 +28,13 @@ public class EditArticleSummarizeActivity extends BaseActivity{
 
 	private EditText edit_text;
 	private TextView text_view;
-	private RatingBar rating_bar;
+	private Slider rating_bar;
 	private int BigIndex;
 	
 	private String sumText;
 	private int sumStar;
+	
+	private boolean rb_flag = false;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {		
@@ -49,7 +53,7 @@ public class EditArticleSummarizeActivity extends BaseActivity{
 		
 		edit_text = (EditText)findViewById(R.id.edit_text);
 		text_view = (TextView)findViewById(R.id.text_view);
-		rating_bar = (RatingBar)findViewById(R.id.rating_bar);
+		rating_bar = (Slider)findViewById(R.id.rating_bar);
 		
 		
 		setTitleBarText(null);
@@ -63,6 +67,13 @@ public class EditArticleSummarizeActivity extends BaseActivity{
 		getTextViewLeft().setOnClickListener(this);	
 		getTextViewRight1().setOnClickListener(this);
 		edit_text.addTextChangedListener(new EditTextWatcher());
+		rating_bar.setOnValueChangedListener(new OnValueChangedListener() {
+			
+			@Override
+			public void onValueChanged(int value) {
+				rb_flag = true;
+			}
+		});
 	}
 
 	@Override
@@ -70,7 +81,7 @@ public class EditArticleSummarizeActivity extends BaseActivity{
 		Intent intent = getIntent();
 		Article commentDraft = (Article) intent.getExtras().getSerializable("CommentDraft");
 		edit_text.setText(commentDraft.getArticleComment());
-		rating_bar.setRating(commentDraft.getArticleLevel());
+		rating_bar.setValue(commentDraft.getArticleLevel());
 	}
 
 	
@@ -81,8 +92,8 @@ public class EditArticleSummarizeActivity extends BaseActivity{
 			customBackPressed();
 		} else if (v == getTextViewRight1()) {
 			sumText = edit_text.getText().toString();
-			sumStar = (int) (rating_bar.getRating());
-			if (sumStar == 0) {
+			sumStar = (int) (rating_bar.getValue());
+			if (!rb_flag) {
 				showToast(getResources().getString(
 						R.string.error_comment_sumstar_no_null));
 			} else {
@@ -132,7 +143,7 @@ public class EditArticleSummarizeActivity extends BaseActivity{
 	
 	public void customBackPressed() {
 		sumText = edit_text.getText().toString();
-		sumStar = (int) (rating_bar.getRating());
+		sumStar = (int) (rating_bar.getValue());
 		if ((!TextUtils.isEmpty(sumText))) {
 			Builder builder = new Builder(EditArticleSummarizeActivity.this);
             final String[] items = {getResources().getString(R.string.dialog_comment_save_sum),getResources().getString(R.string.dialog_comment_drop_sum) };
@@ -158,8 +169,8 @@ public class EditArticleSummarizeActivity extends BaseActivity{
 	public void gotoEditComment(int sumStar,String sumText) {
 		Intent intent = new Intent();
 		Article commentDraft = new Article();
-		if (sumStar != 0) {
-			if (sumStar != 0) {
+		if (rb_flag) {
+			if (rb_flag) {
 				commentDraft.setArticleLevel(sumStar);
 			}
 			if (!TextUtils.isEmpty(sumText)) {

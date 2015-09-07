@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.ImageView.ScaleType;
 
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -64,7 +65,7 @@ public class ArticleAdapter extends ArrayAdapter<ArticleList> {
 
         // configure the view for this Article
         ArticleList c = getItem(position);
-
+        holder.iv_comment_cover.setScaleType(ScaleType.CENTER_CROP);
         holder.tv_comment_title.setText(c.getArticleTitle());
         holder.tv_comment_readers.setText(""+(c.getArticleReadCount()==null?0:c.getArticleReadCount()));
         holder.tv_comment_date.setText(""+DateUtil.getIntervalDate(c.getArticleCreateTime()));

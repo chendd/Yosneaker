@@ -86,7 +86,7 @@ public class EditArticleActivity extends BaseActivity implements ArticleItemView
 	// in_edit_summarize部分控件
 	private TextView tv_add_summarize;
 	private TextView tv_summarize_detail;
-	private AssessStarView asv_sum_assess;
+	private TextView asv_sum_assess;
 	private LinearLayout ll_summarize_detail;
 	
 	// ll_edit_item_detail部分控件
@@ -144,7 +144,7 @@ public class EditArticleActivity extends BaseActivity implements ArticleItemView
 		
 		tv_add_summarize = (TextView) findViewById(R.id.tv_add_summarize);
 		tv_summarize_detail = (TextView) findViewById(R.id.tv_summarize_detail);
-		asv_sum_assess = (AssessStarView) findViewById(R.id.asv_sum_assess);
+		asv_sum_assess = (TextView) findViewById(R.id.asv_sum_assess);
 		ll_summarize_detail = (LinearLayout) findViewById(R.id.ll_summarize_detail);
 		
 		setDefaultBg();
@@ -455,7 +455,7 @@ public class EditArticleActivity extends BaseActivity implements ArticleItemView
 					ll_summarize_detail.setVisibility(View.VISIBLE);
 					ll_edit_summarize.setVisibility(View.GONE);
 					tv_summarize_detail.setText(sumText);
-					asv_sum_assess.setStarNumber(sumStar);
+					asv_sum_assess.setText(sumStar+"");
 				}
 				// 保存数据到内存
 				commentDraft.setArticleLevel(sumStar);

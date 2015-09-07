@@ -2,6 +2,8 @@ package com.yosneaker.client;
 
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.List;
 
 import android.app.AlertDialog.Builder;
@@ -28,10 +30,12 @@ import android.widget.GridView;
 import android.widget.ImageButton;
 import android.widget.ImageView.ScaleType;
 import android.widget.LinearLayout;
-import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.gc.materialdesign.views.ButtonRectangle;
+import com.gc.materialdesign.views.NiceSpinner;
+import com.gc.materialdesign.views.Slider;
+import com.gc.materialdesign.views.Slider.OnValueChangedListener;
 import com.yosneaker.client.model.Article;
 import com.yosneaker.client.model.ArticleItem;
 import com.yosneaker.client.util.BitmapUtil;
@@ -67,8 +71,8 @@ public class EditArticleItemActivity extends BaseActivity{
 	
 	private EditText et_item_intro;
 	private TextView tv_item_intro;
-	private EditText et_item_title;
-	private RatingBar rb_item_star;
+	private NiceSpinner et_item_title;
+	private Slider rb_item_star;
 	private int BigIndex;
 	
 	private String itemTitleText;
@@ -78,6 +82,8 @@ public class EditArticleItemActivity extends BaseActivity{
 	private Uri imageUri;
 	private ArrayList<String> imageUris;
 	private Article commentDraft;
+	
+	private boolean rb_flag = false;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {		
@@ -97,8 +103,8 @@ public class EditArticleItemActivity extends BaseActivity{
 		
 		et_item_intro = (EditText)findViewById(R.id.et_item_intro);
 		tv_item_intro = (TextView)findViewById(R.id.tv_item_intro);
-		et_item_title = (EditText)findViewById(R.id.et_item_title);
-		rb_item_star = (RatingBar)findViewById(R.id.rb_item_star);
+		et_item_title = (NiceSpinner)findViewById(R.id.et_item_title);
+		rb_item_star = (Slider)findViewById(R.id.rb_item_star);
 		btn_add_goon = (ButtonRectangle)findViewById(R.id.btn_add_goon);
 		
 		// 图库照相机BMP业务
@@ -127,6 +133,13 @@ public class EditArticleItemActivity extends BaseActivity{
 		sendCamera.setOnClickListener(this);
 		btn_add_goon.setOnClickListener(this);
 		et_item_intro.addTextChangedListener(new EditTextWatcher());
+		rb_item_star.setOnValueChangedListener(new OnValueChangedListener() {
+			
+			@Override
+			public void onValueChanged(int value) {
+				rb_flag = true;
+			}
+		});
 	}
 
 	@Override
@@ -143,7 +156,7 @@ public class EditArticleItemActivity extends BaseActivity{
 			btn_add_goon.setVisibility(View.GONE);
 			ArticleItem commentItem = commentDraft.getItems().get(itemIndex);
 			et_item_title.setText(commentItem.getItemTitle());
-			rb_item_star.setRating(commentItem.getItemLevel());
+			rb_item_star.setValue(commentItem.getItemLevel());
 			et_item_intro.setText(commentItem.getItemContent());
 			imageUris = commentItem.getImagesList();
 			for (String uri : imageUris) {
@@ -154,11 +167,14 @@ public class EditArticleItemActivity extends BaseActivity{
 			commentDraft = new Article();
 		}
 		
+		List<String> dataset = new LinkedList<>(Arrays.asList("外观", "做工", "用料", "透气性", "支撑性"));
+		et_item_title.attachDataSource(dataset);
+		
 	}
 
 	public void resetDatas() {
 		et_item_title.setText(null);
-		rb_item_star.setRating(0);
+		rb_item_star.setValue(0);
 		et_item_intro.setText(null);
 		viewList = new ArrayList<Bitmap>();
 		imageUris = new ArrayList<String>();
@@ -176,14 +192,16 @@ public class EditArticleItemActivity extends BaseActivity{
 		}else if (v == getTextViewRight1()||v == btn_add_goon) {
 			itemTitleText = et_item_title.getText().toString();
 			itemIntroText = et_item_intro.getText().toString();
-			itemStar = (int) (rb_item_star.getRating());
+			itemStar = (int) (rb_item_star.getValue());
 			if (TextUtils.isEmpty(itemTitleText)) {
 				et_item_title.setError(getResources().getString(
 						R.string.error_comment_item_title_no_null));
-			}else if (itemStar == 0) {
+			}
+			else if (!rb_flag) {
 				showToast(getResources().getString(
 						R.string.error_comment_item_sumstar_no_null));
-			}else if (TextUtils.isEmpty(itemIntroText)) {
+			}
+			else if (TextUtils.isEmpty(itemIntroText)) {
 				et_item_intro.setError(getResources().getString(
 						R.string.error_comment_item_intro_no_null));
 			}else {
@@ -215,9 +233,9 @@ public class EditArticleItemActivity extends BaseActivity{
 		ArticleItem commentItem = new ArticleItem();
 		itemTitleText = et_item_title.getText().toString();
 		itemIntroText = et_item_intro.getText().toString();
-		itemStar = (int) (rb_item_star.getRating());
+		itemStar = (int) (rb_item_star.getValue());
 		if (itemStar != 0||!TextUtils.isEmpty(itemTitleText)||!TextUtils.isEmpty(itemIntroText)) {
-			if (itemStar != 0) {
+			if (rb_flag) {
 				commentItem.setItemLevel(itemStar);
 			}
 			if (!TextUtils.isEmpty(itemTitleText)) {
@@ -479,7 +497,7 @@ public class EditArticleItemActivity extends BaseActivity{
 	public void customBackPressed() {
 		itemTitleText = et_item_title.getText().toString();
 		itemIntroText = et_item_intro.getText().toString();
-		itemStar = (int) (rb_item_star.getRating());
+		itemStar = (int) (rb_item_star.getValue());
 		if (!TextUtils.isEmpty(itemTitleText)||!TextUtils.isEmpty(itemIntroText)) {
 			Builder builder = new Builder(EditArticleItemActivity.this);
             final String[] items = {getResources().getString(R.string.dialog_comment_save_item),getResources().getString(R.string.dialog_comment_drop_item) };

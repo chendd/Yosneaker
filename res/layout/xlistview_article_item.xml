@@ -71,9 +71,9 @@
     <ImageView
         android:id="@+id/iv_comment_cover"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="160dp"
         android:layout_below="@id/riv_comment_head"
-        android:background="@drawable/list_bg2"
+        android:background="@drawable/act_item_addpic_bg_monitor"
         android:scaleType="fitXY" />
     
     <TextView

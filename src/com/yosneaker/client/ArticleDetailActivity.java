@@ -174,6 +174,11 @@ public class ArticleDetailActivity extends BaseActivity implements OnScrollListe
 
 	@Override
 	public void fillDatas() {
+		// 先加载本地数据
+		detail = YosneakerAppState.db.loadArticleDetails(articleId);
+		if (detail!=null) {
+			refresh(detail);
+		}
 		
 		ahv_article_detail_head.setArticleEditVisibility(View.GONE);
 		// 判断当前网络状态是否可用
@@ -192,22 +197,14 @@ public class ArticleDetailActivity extends BaseActivity implements OnScrollListe
 						JSONObject response) {
 					System.out.println("*********"+response);
 					detail = JSON.parseObject(response.toString(), ArticleDetails.class);
-					
 					refresh(detail);
 					YosneakerAppState.db.saveArticleDetails(detail);
 					
 				}
 				
 			});
-		}else {
-			detail = YosneakerAppState.db.loadArticleDetails(articleId);
-			if (detail!=null) {
-				refresh(detail);
-			}else {
-				DialogUtil.showSetNetworkDialog(this);
-			}
 		}
-		
+
 	}
 
 	
@@ -258,13 +255,14 @@ public class ArticleDetailActivity extends BaseActivity implements OnScrollListe
 		// 设置已入，想入头像布局
 		LinearLayout.LayoutParams l = new LinearLayout.LayoutParams(64, 64);
 		l.setMargins(8, 8, 8, 8);
-		
+		ll_buy_count.removeAllViews();
 		for (int i = 0; i < intendInfo.getBuyCount(); i++) {
 			RoundImageView r = new RoundImageView(this);
 			r.setLayoutParams(l);
 			r.setBackgroundResource(R.drawable.list_user_head);
 			ll_buy_count.addView(r);
 		}
+		ll_want_count.removeAllViews();
 		for (int i = 0; i < intendInfo.getWantCount(); i++) {
 			RoundImageView r = new RoundImageView(this);
 			r.setLayoutParams(l);
@@ -274,6 +272,7 @@ public class ArticleDetailActivity extends BaseActivity implements OnScrollListe
 		
 		int i = 1;
 		List<ArticleItem> items = detail.getItems();
+		ll_detail_comment_item.removeAllViews();
 		if(items!= null) {
 			for(ArticleItem articleItem : items){
 				ArticleItemView articleItemView = new ArticleItemView(ArticleDetailActivity.this);
@@ -292,6 +291,7 @@ public class ArticleDetailActivity extends BaseActivity implements OnScrollListe
 		
 		List<Comment> hotCommonts = detail.getHotCommonts();
 		CommentItemView commentItemView = new CommentItemView(ArticleDetailActivity.this);
+		ll_hot_comments.removeAllViews();
 		if(hotCommonts.size()!=0) {
 			for (Comment comment : hotCommonts) {
 				commentItemView.setCommentContent(comment.getArticleCommentContent());
@@ -304,6 +304,7 @@ public class ArticleDetailActivity extends BaseActivity implements OnScrollListe
 		}else {
 			commentItemView.setNoComment();
 			ll_hot_comments.addView(commentItemView);
+			
 		}
 		
 		mProgressDialog.setVisibility(View.GONE);

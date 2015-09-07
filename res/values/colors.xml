@@ -36,4 +36,6 @@
     <!-- 自定义mine tab背景色 -->
     <color name="mine_tab_bg">#282828</color>
     
+    <color name="error_tip_bg">#F8EFB6</color>
+    
 </resources>

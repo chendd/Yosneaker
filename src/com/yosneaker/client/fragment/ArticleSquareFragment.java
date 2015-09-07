@@ -92,7 +92,6 @@ public class ArticleSquareFragment extends BaseFragment implements IXListViewLis
 		mHandler.postDelayed(new Runnable() {
 			@Override
 			public void run() {
-				items.clear();
 				geneItems(Constants.DEFAULT_PAGE,rows*page);
 				mAdapter = new ArticleAdapter(getActivity(),items);
 				xListView.setAdapter(mAdapter);
@@ -120,6 +119,7 @@ public class ArticleSquareFragment extends BaseFragment implements IXListViewLis
 			public void onFailure(int statusCode, Header[] headers,
 					Throwable throwable, JSONObject errorResponse) {
 				System.out.println("==========4"+errorResponse);
+				items.clear();
 				items.addAll(YosneakerAppState.db.loadArticleList(Constants.DEFAULT_PAGE, Constants.DEFAULT_ROWS));
 				mAdapter.notifyDataSetChanged();
 			}
@@ -136,6 +136,7 @@ public class ArticleSquareFragment extends BaseFragment implements IXListViewLis
 					for (ArticleList articleList : result) {
 						YosneakerAppState.db.saveArticleList(articleList);
 					}
+					items.clear();
 					items.addAll(result);
 				} catch (JSONException e) {
 					// TODO Auto-generated catch block

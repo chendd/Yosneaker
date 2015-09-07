@@ -1,16 +1,23 @@
 package com.yosneaker.client;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.Window;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import cn.sharesdk.framework.ShareSDK;
 
 import com.yosneaker.client.fragment.ArticleFragment;
 import com.yosneaker.client.fragment.MineFragment;
+import com.yosneaker.client.util.HttpClientUtil;
 
 /**
  * 
@@ -45,7 +52,11 @@ public class HomeActivity extends BaseActivity{
 	/** 用于对Fragment进行管理 */
 	private FragmentManager fragmentManager;
 
+	private RelativeLayout mNetworkErrorTip;
+	
 	private long firstTime = 0;
+	
+	private NetworkChangeReceiver networkChangeReceiver;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +64,12 @@ public class HomeActivity extends BaseActivity{
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.activity_main);
 
+		// 注册网络状态监听广播
+		IntentFilter intentFilter = new IntentFilter();
+		intentFilter.addAction("android.net.conn.CONNECTIVITY_CHANGE");
+		networkChangeReceiver = new NetworkChangeReceiver();
+		registerReceiver(networkChangeReceiver, intentFilter);
+		
 		super.onCreate(savedInstanceState);
 	}
 
@@ -65,7 +82,7 @@ public class HomeActivity extends BaseActivity{
 		mineView = findViewById(R.id.mine_layout);
 		commentImage = (ImageView) findViewById(R.id.comment_image);
 		mineImage = (ImageView) findViewById(R.id.mine_image);
-
+		mNetworkErrorTip = (RelativeLayout) findViewById(R.id.mNetworkErrorTip); 
 	}
 
 	private void setTitleBar(int index) {
@@ -95,6 +112,7 @@ public class HomeActivity extends BaseActivity{
 		commentView.setOnClickListener(this);
 		mineView.setOnClickListener(this);
 		addView.setOnClickListener(this);
+		mNetworkErrorTip.setOnClickListener(this);
 		getTextViewLeft().setOnClickListener(this);
 		getTextViewRight1().setOnClickListener(this);
 		getTextViewRight2().setOnClickListener(this);
@@ -113,14 +131,14 @@ public class HomeActivity extends BaseActivity{
 			setTabSelection(0);
 			break;
 		case R.id.add_layout:
-			if (isLogin()) {
+//			if (isLogin()) {
 				Bundle bundle = new Bundle();
 				bundle.putInt("action", 1);
 				HomeActivity.this.gotoExistActivity(
 						AddArticleTitleActivity.class, bundle);
-			} else {
-				showUnLoginDialog();
-			}
+//			} else {
+//				showUnLoginDialog();
+//			}
 			break;
 		case R.id.mine_layout:
 			setTabSelection(1);
@@ -133,6 +151,10 @@ public class HomeActivity extends BaseActivity{
 			break;
 		case R.id.mTextviewRight2:
 			gotoExistActivity(MineSearchActivity.class, new Bundle());
+			break;
+		case R.id.mNetworkErrorTip:
+			 Intent intent = new Intent(Settings.ACTION_WIRELESS_SETTINGS);
+			 startActivity(intent);
 			break;
 		default:
 			break;
@@ -226,5 +248,23 @@ public class HomeActivity extends BaseActivity{
 		return super.onKeyUp(keyCode, event);
 	}
 
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		unregisterReceiver(networkChangeReceiver);
+	}
 
+	class NetworkChangeReceiver extends BroadcastReceiver {
+
+		@Override
+		public void onReceive(Context context, Intent arg1) {
+			if (!HttpClientUtil.isNetWorkConnected(context)) {
+				mNetworkErrorTip.setVisibility(View.VISIBLE);
+			}else {
+				mNetworkErrorTip.setVisibility(View.GONE);
+			}
+		}
+		
+	}
+	
 }

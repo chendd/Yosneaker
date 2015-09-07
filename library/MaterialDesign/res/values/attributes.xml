@@ -8,7 +8,7 @@
 <!--        in progress view indicate min value of progress -->
        <attr name="min" format="integer" />
 <!--        in progress view indicate value of progress -->
-       <attr name="value" format="integer" />
+       <attr name="intvalue" format="integer" />
 <!--        in progress view indicate value of progress -->
        <attr name="progress" format="integer" />
 <!--        in switche's view indicate state of view -->
@@ -19,5 +19,9 @@
        <attr name="animate" format="boolean" />
    </declare-styleable>
    
-   
+   <declare-styleable name="NiceSpinner">
+        <attr name="arrowTint" format="color" />
+        <attr name="hideArrow" format="boolean" />
+    </declare-styleable>
+    
 </resources>

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="36dp"
+    android:background="@color/error_tip_bg" >
+
+    <TextView
+        android:id="@+id/mErrorViewLeft"
+		style="@style/title_bar_tv_style"
+		android:layout_alignParentLeft="true"
+        android:layout_marginLeft="@dimen/title_bar_tv_margin"
+        android:background="@drawable/error_tip"/>
+
+
+
+    <TextView
+        android:id="@+id/mErrorViewCenter"
+        android:layout_toRightOf="@id/mErrorViewLeft"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/tip_text_size"
+        android:text="@string/toast_network_error"
+        android:layout_centerVertical="true" />
+
+    <TextView
+        android:id="@+id/mTErrorViewRight"
+        style="@style/title_bar_tv_style"
+        android:layout_marginRight="@dimen/title_bar_tv_margin"
+        android:layout_alignParentRight="true"
+        android:background="@drawable/soardsdk_arrow"/>
+    
+</RelativeLayout>

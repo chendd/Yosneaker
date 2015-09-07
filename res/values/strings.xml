@@ -53,7 +53,7 @@
     
     <string name="comment_edit_intro_maxText">500</string>
     <string name="comment_edit_summarize_maxText">800</string>
-    <string name="comment_edit_summarize_evaluate">评价</string>
+    <string name="comment_edit_summarize_evaluate">评分</string>
     <string name="comment_edit_summarize_inpute">输入内容</string>
     <string name="comment_edit_summarize_tip">评价为必填项,为评测做个完美总结吧!</string>
     <string name="comment_edit_item_title">测评项标题</string>

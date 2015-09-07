@@ -1,6 +1,9 @@
 package com.yosneaker.client;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.List;
 
 import android.app.AlertDialog.Builder;
 import android.content.DialogInterface;
@@ -17,6 +20,7 @@ import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.TextView;
 
+import com.gc.materialdesign.views.NiceSpinner;
 import com.yosneaker.client.model.Article;
 import com.yosneaker.client.util.Constants;
 import com.yosneaker.client.view.RadioGroup;
@@ -39,7 +43,7 @@ public class EditArticleIntroActivity extends BaseActivity implements
 	private RadioButton rb_nick, rb_adidas, rb_lining, rb_reebok, rb_ua,
 			rb_pick, rb_anta, rb_361, rb_other;
 
-	private EditText et_model;
+	private NiceSpinner et_model;
 
 	private String modelText;
 	private String introText;
@@ -78,7 +82,7 @@ public class EditArticleIntroActivity extends BaseActivity implements
 		rb_361 = (RadioButton) findViewById(R.id.rb_361);
 		rb_other = (RadioButton) findViewById(R.id.rb_other);
 
-		et_model = (EditText) findViewById(R.id.et_model);
+		et_model = (NiceSpinner) findViewById(R.id.et_model);
 
 		setTitleBarText(null);
 		showTextViewLeft(true);
@@ -119,7 +123,9 @@ public class EditArticleIntroActivity extends BaseActivity implements
 		
 		Article commentDraft = (Article) intent.getExtras().getSerializable("CommentDraft");
 		et_intro.setText(commentDraft.getArticleDescription());
-		et_model.setText(""+commentDraft.getArticleModelId());
+//		et_model.setText(""+commentDraft.getArticleModelId());
+		List<String> dataset = new LinkedList<>(Arrays.asList("热门型号One", "热门型号Two", "热门型号Three", "热门型号Four", "热门型号Five"));
+		et_model.attachDataSource(dataset);
 		int brandId = brands.indexOf(commentDraft.getArticleTrademarkId());
 		checkIndex = brandId;
 		if (brandId!=-1&&brandId<brands.size()) {

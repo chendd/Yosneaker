@@ -6,6 +6,10 @@
     <include android:id="@+id/mTitleBar" 
             	 layout="@layout/title_bar"/>
     
+    <include android:id="@+id/mNetworkErrorTip" 
+        	 android:visibility="gone"
+            	 layout="@layout/network_error_tip"/>
+    
     <FrameLayout
         android:id="@+id/content"
         android:layout_width="match_parent"
