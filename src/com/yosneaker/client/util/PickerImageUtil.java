@@ -53,9 +53,9 @@ public class PickerImageUtil {
 		Intent intent = new Intent(Intent.ACTION_PICK);
 		intent.setType("image/*");
 		if (fragment != null) {
-			fragment.startActivityForResult(intent, Constants.PHOTO_GALLERY_REQUEST);
+			fragment.startActivityForResult(intent, AppConstants.PHOTO_GALLERY_REQUEST);
 		} else {
-			activity.startActivityForResult(intent, Constants.PHOTO_GALLERY_REQUEST);
+			activity.startActivityForResult(intent, AppConstants.PHOTO_GALLERY_REQUEST);
 		}
 	}
 
@@ -86,9 +86,9 @@ public class PickerImageUtil {
 			intent.putExtra(MediaStore.EXTRA_OUTPUT, uri);
 		}
 		if (fragment != null) {
-			fragment.startActivityForResult(intent, Constants.PHOTO_CAREMA_REQUEST);
+			fragment.startActivityForResult(intent, AppConstants.PHOTO_CAREMA_REQUEST);
 		} else {
-			activity.startActivityForResult(intent, Constants.PHOTO_CAREMA_REQUEST);
+			activity.startActivityForResult(intent, AppConstants.PHOTO_CAREMA_REQUEST);
 		}
 	}
 
@@ -100,7 +100,7 @@ public class PickerImageUtil {
 	 * @return
 	 */
 	public String getBitmapFilePath(int requestCode, int resultCode, Intent data) {
-		if (requestCode == Constants.PHOTO_GALLERY_REQUEST) {
+		if (requestCode == AppConstants.PHOTO_GALLERY_REQUEST) {
 			if (data != null) {
 				Uri uri = data.getData();
 				String[] filePathColumn = { MediaColumns.DATA };
@@ -118,7 +118,7 @@ public class PickerImageUtil {
 				cursor.close();
 				return picturePath;
 			}
-		} else if (requestCode == Constants.PHOTO_CAREMA_REQUEST) {
+		} else if (requestCode == AppConstants.PHOTO_CAREMA_REQUEST) {
 			if (hasSdcard()) {
 				return tempFile.getAbsolutePath();
 			} else {

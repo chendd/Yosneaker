@@ -22,7 +22,7 @@ import android.widget.TextView;
 
 import com.gc.materialdesign.views.NiceSpinner;
 import com.yosneaker.client.model.Article;
-import com.yosneaker.client.util.Constants;
+import com.yosneaker.client.util.AppConstants;
 import com.yosneaker.client.view.RadioGroup;
 import com.yosneaker.client.view.RadioGroup.OnCheckedChangeListener;
 
@@ -214,7 +214,7 @@ public class EditArticleIntroActivity extends BaseActivity implements
 			} else if (checkedId == rb_other.getId()) {
 				checkIndex = 8;
 			}
-			Log.d(Constants.TAG, "checkIndex:" + checkIndex);
+			Log.d(AppConstants.TAG, "checkIndex:" + checkIndex);
 		}
 	}
 	@Override  

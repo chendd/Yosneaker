@@ -6,10 +6,28 @@ import android.provider.BaseColumns;
  * 定义系统常量
  * 
  * @author chendd
- *
+ * @author crazymongo
  */
-public interface Constants extends BaseColumns {
+public interface AppConstants extends BaseColumns {
 
+	public static final String APP_KEY_WB="568898243";
+	public static final String APP_SECRET_WB="38a4f8204cc784f81f9f0daaf31e02e3";
+	public static final String REDIRECT_URL_WB = "http://www.sina.com";
+	public static final String SCOPE_WB= 
+            "email,direct_messages_read,direct_messages_write,"
+            + "friendships_groups_read,friendships_groups_write,statuses_to_me_read,"
+            + "follow_app_official_microblog," + "invitation_write";
+	
+	public static final String APP_ID_QQ="1104848658";
+	public static final String APP_KEY_QQ="SMxrHCfe3HyYR5H3";
+	public static final String SCOPE_QQ= "all";
+	
+	public static final String PREFERENCES_NAME_TOKEN="third_party_access_token";
+	public static final String KEY_UID_WB="uid_wb";
+	public static final String KEY_ACCESS_TOKEN_WB="access_token_wb";
+	public static final String KEY_REFRESH_TOKEN_WB="refresh_token_wb";
+	public static final String KEY_EXPIRE_TIME_WB="expire_time_wb";
+	
 	/** 服务器地址 */
 	public static final String HTTP_BASE_URL = "http://api.yosneaker.com/";  
 	

@@ -38,7 +38,7 @@ import com.yosneaker.client.adapter.FaceVPAdapter;
 import com.yosneaker.client.app.YosneakerAppState;
 import com.yosneaker.client.model.Account;
 import com.yosneaker.client.model.Comment;
-import com.yosneaker.client.util.Constants;
+import com.yosneaker.client.util.AppConstants;
 import com.yosneaker.client.util.DateUtil;
 import com.yosneaker.client.util.HttpClientUtil;
 import com.yosneaker.client.view.CommentItemView;
@@ -132,7 +132,7 @@ public class ArticleCommentListActivity extends BaseActivity{
 			refresh(result);
 		}
 		
-		HttpClientUtil.getCommentsByArticleID(articleId, Constants.DEFAULT_PAGE, Constants.DEFAULT_ROWS,new JsonHttpResponseHandler(){
+		HttpClientUtil.getCommentsByArticleID(articleId, AppConstants.DEFAULT_PAGE, AppConstants.DEFAULT_ROWS,new JsonHttpResponseHandler(){
 
 			@Override
 			public void onFailure(int statusCode, Header[] headers,

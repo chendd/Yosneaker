@@ -23,7 +23,7 @@ import com.yosneaker.client.R;
 import com.yosneaker.client.adapter.ArticleAdapter;
 import com.yosneaker.client.app.YosneakerAppState;
 import com.yosneaker.client.model.ArticleList;
-import com.yosneaker.client.util.Constants;
+import com.yosneaker.client.util.AppConstants;
 import com.yosneaker.client.util.DateUtil;
 import com.yosneaker.client.util.HttpClientUtil;
 import com.yosneaker.client.view.XListView;
@@ -54,8 +54,8 @@ public class ArticleSquareFragment extends BaseFragment implements IXListViewLis
 		viewFragment = inflater.inflate(R.layout.fragment_square_article,
 				container, false);
 		
-		page = Constants.DEFAULT_PAGE;
-		rows = Constants.DEFAULT_ROWS;
+		page = AppConstants.DEFAULT_PAGE;
+		rows = AppConstants.DEFAULT_ROWS;
 		lastRefreshDate = new Date();
 		
 		initViews();
@@ -92,7 +92,7 @@ public class ArticleSquareFragment extends BaseFragment implements IXListViewLis
 		mHandler.postDelayed(new Runnable() {
 			@Override
 			public void run() {
-				geneItems(Constants.DEFAULT_PAGE,rows*page);
+				geneItems(AppConstants.DEFAULT_PAGE,rows*page);
 				mAdapter = new ArticleAdapter(getActivity(),items);
 				xListView.setAdapter(mAdapter);
 				onLoad();
@@ -120,7 +120,7 @@ public class ArticleSquareFragment extends BaseFragment implements IXListViewLis
 					Throwable throwable, JSONObject errorResponse) {
 				System.out.println("==========4"+errorResponse);
 				items.clear();
-				items.addAll(YosneakerAppState.db.loadArticleList(Constants.DEFAULT_PAGE, Constants.DEFAULT_ROWS));
+				items.addAll(YosneakerAppState.db.loadArticleList(AppConstants.DEFAULT_PAGE, AppConstants.DEFAULT_ROWS));
 				mAdapter.notifyDataSetChanged();
 			}
 

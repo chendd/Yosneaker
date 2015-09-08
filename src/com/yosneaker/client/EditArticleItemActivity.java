@@ -39,7 +39,7 @@ import com.gc.materialdesign.views.Slider.OnValueChangedListener;
 import com.yosneaker.client.model.Article;
 import com.yosneaker.client.model.ArticleItem;
 import com.yosneaker.client.util.BitmapUtil;
-import com.yosneaker.client.util.Constants;
+import com.yosneaker.client.util.AppConstants;
 import com.yosneaker.client.util.PickerImageUtil;
 
 /**
@@ -151,7 +151,7 @@ public class EditArticleItemActivity extends BaseActivity{
 		Intent intent = getIntent();
 		commentDraft = (Article) intent.getExtras().getSerializable("CommentDraft");
 		itemIndex = commentDraft.getArticleItemIndex();
-		Log.d(Constants.TAG, "itemIndex:"+itemIndex);
+		Log.d(AppConstants.TAG, "itemIndex:"+itemIndex);
 		if (itemIndex!=-1) {
 			btn_add_goon.setVisibility(View.GONE);
 			ArticleItem commentItem = commentDraft.getItems().get(itemIndex);
@@ -265,8 +265,8 @@ public class EditArticleItemActivity extends BaseActivity{
 		
 		if (resultCode == RESULT_OK) {
 			switch (requestCode) {
-			case Constants.PHOTO_CAREMA_REQUEST:
-			case Constants.PHOTO_GALLERY_REQUEST:
+			case AppConstants.PHOTO_CAREMA_REQUEST:
+			case AppConstants.PHOTO_GALLERY_REQUEST:
 				imageUri = data.getData();
 				Intent intent = new Intent("com.android.camera.action.CROP");
 				intent.setDataAndType(imageUri, "image/*");
@@ -274,9 +274,9 @@ public class EditArticleItemActivity extends BaseActivity{
 //				intent.putExtra("aspectX", 16);//裁剪框比例  
 //		        intent.putExtra("aspectY", 9);
 				intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
-				startActivityForResult(intent, Constants.PHOTO_CROP_REQUEST);
+				startActivityForResult(intent, AppConstants.PHOTO_CROP_REQUEST);
 				break;
-			case Constants.PHOTO_CROP_REQUEST:
+			case AppConstants.PHOTO_CROP_REQUEST:
 //				String picPath = mPickerImageUtil.getBitmapFilePath(requestCode,
 //						resultCode, data);
 //				Log.d(Constants.TAG, "picPath:"+picPath);

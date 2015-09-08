@@ -17,7 +17,7 @@ import com.yosneaker.client.model.Brand;
 import com.yosneaker.client.model.Comment;
 import com.yosneaker.client.model.IntentionInfo;
 import com.yosneaker.client.model.Model;
-import com.yosneaker.client.util.Constants;
+import com.yosneaker.client.util.AppConstants;
 import com.yosneaker.client.util.DateUtil;
 
 public class YosneakerDB {
@@ -66,7 +66,7 @@ public class YosneakerDB {
 			
 			if (item.getAccount()!=null && !hasAccountById(item.getAccount().getAccountId())) {
 				saveAccount(item.getAccount());
-				Log.d(Constants.TAG, "saveAccount");
+				Log.d(AppConstants.TAG, "saveAccount");
 			}
 			db.insert("ArticleList", null, contentValues);
 		}
@@ -182,7 +182,7 @@ public class YosneakerDB {
 			contentValues.put("accountThridPartId", item.getAccountThridPartId());
 			
 			db.insert("Account", null, contentValues);
-			Log.d(Constants.TAG, "saveAccount "+item.getAccountId()+"=="+item.getAccountImages());
+			Log.d(AppConstants.TAG, "saveAccount "+item.getAccountId()+"=="+item.getAccountImages());
 		}
 	}
 	

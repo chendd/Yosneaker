@@ -21,7 +21,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.yosneaker.client.util.Constants;
+import com.yosneaker.client.util.AppConstants;
 import com.yosneaker.client.util.PickerImageUtil;
 import com.yosneaker.client.view.WheelView;
 
@@ -156,7 +156,7 @@ public class EditUserInfoActivity extends BaseActivity{
 			}).show();
 			break;
 		case R.id.rl_edit_nickname:
-			gotoExistActivityForResult(EditUserNicknameActivity.class, new Bundle(),Constants.USER_NICKNAME_REQUEST);
+			gotoExistActivityForResult(EditUserNicknameActivity.class, new Bundle(),AppConstants.USER_NICKNAME_REQUEST);
 			break;
 		case R.id.rl_edit_gender:
             wv.setOffset(1);
@@ -167,7 +167,7 @@ public class EditUserInfoActivity extends BaseActivity{
             wv.setOnWheelViewListener(new WheelView.OnWheelViewListener() {
                 @Override
                 public void onSelected(int selectedIndex, String item) {
-                    Log.d(Constants.TAG, "[Dialog]selectedIndex: " + selectedIndex + ", item: " + item);
+                    Log.d(AppConstants.TAG, "[Dialog]selectedIndex: " + selectedIndex + ", item: " + item);
                     Gender = item;
                 }
             });
@@ -186,7 +186,7 @@ public class EditUserInfoActivity extends BaseActivity{
                     .show();
 			break;
 		case R.id.rl_edit_signature:
-			gotoExistActivityForResult(EditUserSignatrueActivity.class, new Bundle(),Constants.USER_SIGNATURE_REQUEST);
+			gotoExistActivityForResult(EditUserSignatrueActivity.class, new Bundle(),AppConstants.USER_SIGNATURE_REQUEST);
 			break;
 		case R.id.rl_edit_height:
 			wv.setOffset(1);
@@ -200,7 +200,7 @@ public class EditUserInfoActivity extends BaseActivity{
             wv.setOnWheelViewListener(new WheelView.OnWheelViewListener() {
                 @Override
                 public void onSelected(int selectedIndex, String item) {
-                    Log.d(Constants.TAG, "[Dialog]selectedIndex: " + selectedIndex + ", item: " + item);
+                    Log.d(AppConstants.TAG, "[Dialog]selectedIndex: " + selectedIndex + ", item: " + item);
                     Height = item;
                 }
             });
@@ -230,7 +230,7 @@ public class EditUserInfoActivity extends BaseActivity{
             wv.setOnWheelViewListener(new WheelView.OnWheelViewListener() {
                 @Override
                 public void onSelected(int selectedIndex, String item) {
-                    Log.d(Constants.TAG, "[Dialog]selectedIndex: " + selectedIndex + ", item: " + item);
+                    Log.d(AppConstants.TAG, "[Dialog]selectedIndex: " + selectedIndex + ", item: " + item);
                     Weight = item;
                 }
             });
@@ -260,7 +260,7 @@ public class EditUserInfoActivity extends BaseActivity{
             wv.setOnWheelViewListener(new WheelView.OnWheelViewListener() {
                 @Override
                 public void onSelected(int selectedIndex, String item) {
-                    Log.d(Constants.TAG, "[Dialog]selectedIndex: " + selectedIndex + ", item: " + item);
+                    Log.d(AppConstants.TAG, "[Dialog]selectedIndex: " + selectedIndex + ", item: " + item);
                     Bounce = item;
                 }
             });
@@ -287,7 +287,7 @@ public class EditUserInfoActivity extends BaseActivity{
             wv.setOnWheelViewListener(new WheelView.OnWheelViewListener() {
                 @Override
                 public void onSelected(int selectedIndex, String item) {
-                    Log.d(Constants.TAG, "[Dialog]selectedIndex: " + selectedIndex + ", item: " + item);
+                    Log.d(AppConstants.TAG, "[Dialog]selectedIndex: " + selectedIndex + ", item: " + item);
                     Seat = item;
                 }
             });
@@ -306,7 +306,7 @@ public class EditUserInfoActivity extends BaseActivity{
                     .show();
 			break;
 		case R.id.rl_edit_play:
-			gotoExistActivityForResult(EditUserPlayActivity.class, new Bundle(),Constants.USER_PLAY_REQUEST);
+			gotoExistActivityForResult(EditUserPlayActivity.class, new Bundle(),AppConstants.USER_PLAY_REQUEST);
 			break;
 		default:
 			break;
@@ -316,26 +316,26 @@ public class EditUserInfoActivity extends BaseActivity{
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		switch (requestCode) {
-		case Constants.USER_NICKNAME_REQUEST:
+		case AppConstants.USER_NICKNAME_REQUEST:
 			if (resultCode == RESULT_OK) {
 				Nickname = data.getStringExtra("nickname_return");
 				tv_nickname.setText(Nickname);
 			}
 			break;
-		case Constants.USER_SIGNATURE_REQUEST:
+		case AppConstants.USER_SIGNATURE_REQUEST:
 			if (resultCode == RESULT_OK) {
 				Signature = data.getStringExtra("signature_return");
 				tv_signature.setText(Signature);
 			}
 			break;
-		case Constants.USER_PLAY_REQUEST:
+		case AppConstants.USER_PLAY_REQUEST:
 			if (resultCode == RESULT_OK) {
 				Play = data.getStringExtra("play_return");
 				tv_play.setText(Play);
 			}
 			break;
-		case Constants.PHOTO_CAREMA_REQUEST:
-		case Constants.PHOTO_GALLERY_REQUEST:
+		case AppConstants.PHOTO_CAREMA_REQUEST:
+		case AppConstants.PHOTO_GALLERY_REQUEST:
 			imageUri = data.getData();
 			Intent intent = new Intent("com.android.camera.action.CROP");
 			intent.setDataAndType(imageUri, "image/*");
@@ -343,9 +343,9 @@ public class EditUserInfoActivity extends BaseActivity{
 			intent.putExtra("aspectX", 1);//裁剪框比例  
 	        intent.putExtra("aspectY", 1);
 			intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
-			startActivityForResult(intent, Constants.PHOTO_CROP_REQUEST);
+			startActivityForResult(intent, AppConstants.PHOTO_CROP_REQUEST);
 			break;
-		case Constants.PHOTO_CROP_REQUEST:
+		case AppConstants.PHOTO_CROP_REQUEST:
 
 			Bitmap bmp;
 			try {

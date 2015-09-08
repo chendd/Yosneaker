@@ -21,7 +21,7 @@ import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
 import com.nostra13.universalimageloader.core.download.BaseImageDownloader;
 import com.yosneaker.client.db.YosneakerDB;
-import com.yosneaker.client.util.Constants;
+import com.yosneaker.client.util.AppConstants;
 
 /**
  * 单例模式，主要在启动的时候用，他初始化了一些对象
@@ -52,7 +52,7 @@ public class YosneakerAppState {
 	
 	public static void setApplicationContext(Context context) {
 		if (mContext != null) {
-			Log.w(Constants.TAG,"setApplicationContext called twice!");
+			Log.w(AppConstants.TAG,"setApplicationContext called twice!");
 		}
 		db = YosneakerDB.getInstance(context);
 		

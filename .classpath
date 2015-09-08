@@ -6,6 +6,8 @@
 	<classpathentry kind="lib" path="libs/android-async-http-1.4.5.jar"/>
 	<classpathentry kind="lib" path="libs/universal-image-loader-1.9.0.jar"/>
 	<classpathentry kind="lib" path="libs/litepal-1.2.0-src.jar"/>
+	<classpathentry kind="lib" path="libs/mta-sdk-1.6.2.jar"/>
+	<classpathentry kind="lib" path="libs/open_sdk_r5276_lite.jar"/>
 	<classpathentry kind="src" path=".apt_generated">
 		<attributes>
 			<attribute name="optional" value="true"/>

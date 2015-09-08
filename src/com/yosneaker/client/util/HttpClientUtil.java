@@ -45,7 +45,7 @@ public class HttpClientUtil {
     
     static
     {
-        client.setTimeout(Constants.HTTP_TIME_OUT);   //设置链接超时，如果不设置，默认为10s
+        client.setTimeout(AppConstants.HTTP_TIME_OUT);   //设置链接超时，如果不设置，默认为10s
     }
 
     /**
@@ -64,7 +64,7 @@ public class HttpClientUtil {
      * @return
      */
     public static String getAbsoluteUrl(String relativeUrl) {
-        return Constants.HTTP_BASE_URL + relativeUrl;
+        return AppConstants.HTTP_BASE_URL + relativeUrl;
     }
 
     /**

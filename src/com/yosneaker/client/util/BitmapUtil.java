@@ -28,7 +28,7 @@ public class BitmapUtil {
             bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);  
             baos.close();  
             byte[] buffer = baos.toByteArray();  
-            Log.d(Constants.TAG, "bitmap size:"+buffer.length);   
+            Log.d(AppConstants.TAG, "bitmap size:"+buffer.length);   
             //将图片的字节流数据加密成base64字符输出  
             String base64Str = Base64.encodeToString(buffer, 0, buffer.length,Base64.DEFAULT);
             return base64Str;

@@ -46,7 +46,7 @@ import com.yosneaker.client.app.YosneakerAppState;
 import com.yosneaker.client.model.Article;
 import com.yosneaker.client.model.ArticleItem;
 import com.yosneaker.client.util.BitmapUtil;
-import com.yosneaker.client.util.Constants;
+import com.yosneaker.client.util.AppConstants;
 import com.yosneaker.client.util.HttpClientUtil;
 import com.yosneaker.client.view.ArticleHeadView;
 import com.yosneaker.client.view.ArticleItemView;
@@ -189,22 +189,22 @@ public class EditArticleActivity extends BaseActivity implements ArticleItemView
 		}else if (v == ll_edit_intro||v == ll_intro_detail) {
 			Bundle bundle = new Bundle();
 			bundle.putSerializable("CommentDraft",commentDraft);
-			gotoExistActivityForResult(EditArticleIntroActivity.class, bundle,Constants.COMMENT_INTRO_REQUEST);
+			gotoExistActivityForResult(EditArticleIntroActivity.class, bundle,AppConstants.COMMENT_INTRO_REQUEST);
 		}else if (v == ll_edit_item||commentItemViews.contains(v)) {
 			Bundle bundle = new Bundle();
 			int index = commentItemViews.indexOf(v);
 			commentDraft.setArticleItemIndex(index);
-			Log.d(Constants.TAG, "index:"+index);
+			Log.d(AppConstants.TAG, "index:"+index);
 			bundle.putSerializable("CommentDraft",commentDraft);
-			gotoExistActivityForResult(EditArticleItemActivity.class, bundle,Constants.COMMENT_ITEM_REQUEST);
+			gotoExistActivityForResult(EditArticleItemActivity.class, bundle,AppConstants.COMMENT_ITEM_REQUEST);
 		}else if (v == ll_edit_summarize||v == ll_summarize_detail) {
 			Bundle bundle = new Bundle();
 			bundle.putSerializable("CommentDraft",commentDraft);
-			gotoExistActivityForResult(EditArticleSummarizeActivity.class, bundle,Constants.COMMENT_SUMMARIZE_REQUEST);
+			gotoExistActivityForResult(EditArticleSummarizeActivity.class, bundle,AppConstants.COMMENT_SUMMARIZE_REQUEST);
 		}else if (v == ahv_edit_article_head.getArticleEditView()) {
 			Bundle bundle = new Bundle();
 			bundle.putSerializable("CommentDraft",commentDraft);
-			gotoExistActivityForResult(AddArticleTitleActivity.class, bundle,Constants.COMMENT_TITLE_REQUEST);
+			gotoExistActivityForResult(AddArticleTitleActivity.class, bundle,AppConstants.COMMENT_TITLE_REQUEST);
 		}else if (v == btn_save_draft) {
 			saveDraft();
 		}else if (v == btn_publish_draft) {
@@ -267,7 +267,7 @@ public class EditArticleActivity extends BaseActivity implements ArticleItemView
 				final List<String> newImages = new ArrayList<String>();
 				if(item.getImagesList()!=null&&item.getImagesList().size()>0){
 					for(String image:item.getImagesList()){
-						Log.d(Constants.TAG, "=======start upload"+image);
+						Log.d(AppConstants.TAG, "=======start upload"+image);
 						// 测试post图片到服务器,使用
 	/*					HttpClientUtil.uploadResources(BitmapUtil.getBitmapFromUri(this, image), new AsyncHttpResponseHandler() {
 
@@ -303,7 +303,7 @@ public class EditArticleActivity extends BaseActivity implements ArticleItemView
 				                Log.i("SUCCESS", "请求服务器端成功");  
 				                JSONObject json = (JSONObject) JSON.parse(EntityUtils.toString(response.getEntity(), "utf-8"));
 				                Log.i("SUCCESS", (String) json.get("content"));  
-				                newImages.add(Constants.HTTP_IMAGE_BASE_URL+(String) json.get("content"));
+				                newImages.add(AppConstants.HTTP_IMAGE_BASE_URL+(String) json.get("content"));
 				                }else {  
 				                    Log.i("error", "请求服务器端失败");  
 				                } 
@@ -337,7 +337,7 @@ public class EditArticleActivity extends BaseActivity implements ArticleItemView
 				@Override
 				public void onSuccess(int statusCode, Header[] headers,
 						org.json.JSONObject response) {
-					L.i(Constants.TAG, response);
+					L.i(AppConstants.TAG, response);
 					super.onSuccess(statusCode, headers, response);
 					gotoExistActivity(HomeActivity.class, new Bundle());
 				}
@@ -390,7 +390,7 @@ public class EditArticleActivity extends BaseActivity implements ArticleItemView
 		Article tmpCommentDraft;
 		if (resultCode == RESULT_OK) {
 			switch (requestCode) {
-			case Constants.COMMENT_TITLE_REQUEST:
+			case AppConstants.COMMENT_TITLE_REQUEST:
 				tmpCommentDraft = (Article) data
 				.getSerializableExtra("CommentDraft");
 				ahv_edit_article_head.setArticleTitle(tmpCommentDraft.getArticleTitle());
@@ -400,7 +400,7 @@ public class EditArticleActivity extends BaseActivity implements ArticleItemView
 				commentDraft.setArticleTitle(tmpCommentDraft.getArticleTitle());
 				commentDraft.setArticleCreateTime(tmpCommentDraft.getArticleCreateTime());
 				break;
-			case Constants.COMMENT_INTRO_REQUEST:
+			case AppConstants.COMMENT_INTRO_REQUEST:
 				tmpCommentDraft = (Article) data
 						.getSerializableExtra("CommentDraft");
 				String brand = String.valueOf(tmpCommentDraft.getArticleTrademarkId());
@@ -423,11 +423,11 @@ public class EditArticleActivity extends BaseActivity implements ArticleItemView
 				commentDraft.setArticleModelId(modelText);
 				commentDraft.setArticleDescription(introText);
 				break;
-			case Constants.COMMENT_ITEM_REQUEST:
+			case AppConstants.COMMENT_ITEM_REQUEST:
 				tmpCommentDraft = (Article) data
 						.getSerializableExtra("CommentDraft");
 				List<ArticleItem> commentItems = tmpCommentDraft.getItems();
-				Log.d(Constants.TAG, "tmpCommentDraft.getComment_item_index():"+tmpCommentDraft.getArticleItemIndex());
+				Log.d(AppConstants.TAG, "tmpCommentDraft.getComment_item_index():"+tmpCommentDraft.getArticleItemIndex());
 				if (tmpCommentDraft.getArticleItemIndex() == -1) {
 					for (ArticleItem commentItem : commentItems) {
 						addCommentItem(commentItem);
@@ -443,7 +443,7 @@ public class EditArticleActivity extends BaseActivity implements ArticleItemView
 				setDefaultBg();
 				
 				break;
-			case Constants.COMMENT_SUMMARIZE_REQUEST:
+			case AppConstants.COMMENT_SUMMARIZE_REQUEST:
 				tmpCommentDraft = (Article) data
 				.getSerializableExtra("CommentDraft");
 				int sumStar = tmpCommentDraft.getArticleLevel();
@@ -492,7 +492,7 @@ public class EditArticleActivity extends BaseActivity implements ArticleItemView
 		if (imageUris.size() == 0) {
 			bgBitmaps.add(defaultBitmap);
 		}
-		Log.d(Constants.TAG, "imageUris.size():"+imageUris.size());
+		Log.d(AppConstants.TAG, "imageUris.size():"+imageUris.size());
 		cItemView.setOnClickListener(this);
 		commentItemViews.add(cItemView);
 		// 保存数据到内存
@@ -593,7 +593,7 @@ public class EditArticleActivity extends BaseActivity implements ArticleItemView
 		}
 		int width = YosneakerAppState.getInstance().mWidth;
 		try {
-			bitmap = BitmapUtil.getScaleBitmap(bitmap, width,Constants.BG_SCALE);
+			bitmap = BitmapUtil.getScaleBitmap(bitmap, width,AppConstants.BG_SCALE);
 			if (bitmap != null) {
 				ahv_edit_article_head.setArticleBg(bitmap);
 			}
