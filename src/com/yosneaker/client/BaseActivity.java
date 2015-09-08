@@ -235,7 +235,7 @@ public abstract class BaseActivity extends FragmentActivity implements OnClickLi
 			
 			@Override
 			public void onClick(DialogInterface arg0, int arg1) {
-				gotoExistActivity(UserUnLoginActivity.class, new Bundle());
+//				gotoExistActivity(UserUnLoginActivity.class, new Bundle());
 			}
 		});
     	dialog.setNegativeButton(R.string.dialog_user_cancle, new DialogInterface.OnClickListener() {

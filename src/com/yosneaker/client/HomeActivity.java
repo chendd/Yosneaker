@@ -13,7 +13,6 @@ import android.view.View;
 import android.view.Window;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
-import cn.sharesdk.framework.ShareSDK;
 
 import com.yosneaker.client.fragment.ArticleFragment;
 import com.yosneaker.client.fragment.MineFragment;
@@ -60,7 +59,6 @@ public class HomeActivity extends BaseActivity{
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		ShareSDK.initSDK(this);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.activity_main);
 

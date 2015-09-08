@@ -28,7 +28,6 @@ import android.net.NetworkInfo;
 import android.text.TextUtils;
 
 import com.alibaba.fastjson.JSON;
-import com.google.gson.Gson;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.JsonHttpResponseHandler;

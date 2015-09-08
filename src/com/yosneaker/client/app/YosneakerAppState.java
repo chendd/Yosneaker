@@ -10,7 +10,7 @@ import android.graphics.Bitmap.Config;
 import android.os.Build;
 import android.os.Environment;
 import android.util.Log;
-import cn.sharesdk.framework.Platform;
+
 import com.nostra13.universalimageloader.cache.disc.impl.UnlimitedDiscCache;
 import com.nostra13.universalimageloader.cache.memory.MemoryCacheAware;
 import com.nostra13.universalimageloader.cache.memory.impl.LRULimitedMemoryCache;
@@ -36,7 +36,6 @@ public class YosneakerAppState {
 	public int mWidth;//屏幕宽度
 	public int mHeigh;//屏幕宽度
 	public static YosneakerDB db;
-	public final static  Map<String,Platform> PLATFORMS = new ConcurrentHashMap<String,Platform>();
 	
 	public static int user_id = -1;// 当前用户id
 
