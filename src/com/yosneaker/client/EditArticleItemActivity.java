@@ -83,7 +83,7 @@ public class EditArticleItemActivity extends BaseActivity{
 	private ArrayList<String> imageUris;
 	private Article commentDraft;
 	
-	private boolean rb_flag = false;
+	private boolean rb_flag = true;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {		
@@ -133,13 +133,13 @@ public class EditArticleItemActivity extends BaseActivity{
 		sendCamera.setOnClickListener(this);
 		btn_add_goon.setOnClickListener(this);
 		et_item_intro.addTextChangedListener(new EditTextWatcher());
-		rb_item_star.setOnValueChangedListener(new OnValueChangedListener() {
-			
-			@Override
-			public void onValueChanged(int value) {
-				rb_flag = true;
-			}
-		});
+//		rb_item_star.setOnValueChangedListener(new OnValueChangedListener() {
+//			
+//			@Override
+//			public void onValueChanged(int value) {
+//				rb_flag = true;
+//			}
+//		});
 	}
 
 	@Override

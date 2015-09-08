@@ -16,19 +16,17 @@ import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v4.view.animation.LinearOutSlowInInterpolator;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.AttributeSet;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.PopupWindow;
-import android.widget.TextView;
 
 import com.gc.materialdesign.R;
 
@@ -53,7 +51,8 @@ public class NiceSpinner extends EditText {
     private AdapterView.OnItemClickListener mOnItemClickListener;
     private AdapterView.OnItemSelectedListener mOnItemSelectedListener;
     private boolean mHideArrow;
-
+    private Context context;
+    
     @SuppressWarnings("ConstantConditions")
     public NiceSpinner(Context context) {
         super(context);
@@ -115,6 +114,7 @@ public class NiceSpinner extends EditText {
     }
 
     private void init(Context context, AttributeSet attrs) {
+    	this.context = context;
         Resources resources = getResources();
         TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.NiceSpinner);
         int defaultPadding = resources.getDimensionPixelSize(R.dimen.one_and_a_half_grid_unit);
@@ -273,10 +273,6 @@ public class NiceSpinner extends EditText {
     public void showDropDown() {
         animateArrow(true);
         mPopup.showAsDropDown(this);
-        // 输入框继续得到焦点
-        setFocusable(true);   
-        setFocusableInTouchMode(true);   
-        requestFocus();  
     }
 
     public void setTintColor(@ColorRes int resId) {

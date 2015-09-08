@@ -34,7 +34,7 @@ public class EditArticleSummarizeActivity extends BaseActivity{
 	private String sumText;
 	private int sumStar;
 	
-	private boolean rb_flag = false;
+	private boolean rb_flag = true;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {		

@@ -113,7 +113,7 @@ public class ArticleSquareFragment extends BaseFragment implements IXListViewLis
 		}, 2000);
 	}
 	
-	private void geneItems(int page,int rows) {
+	private void geneItems(final int page,int rows) {
 		HttpClientUtil.getPublicArticle(page, rows, new JsonHttpResponseHandler(){
 			@Override
 			public void onFailure(int statusCode, Header[] headers,
@@ -136,7 +136,9 @@ public class ArticleSquareFragment extends BaseFragment implements IXListViewLis
 					for (ArticleList articleList : result) {
 						YosneakerAppState.db.saveArticleList(articleList);
 					}
-					items.clear();
+					if(page == 1) {
+						items.clear();
+					}
 					items.addAll(result);
 				} catch (JSONException e) {
 					// TODO Auto-generated catch block
