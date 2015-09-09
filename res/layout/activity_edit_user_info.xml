@@ -3,6 +3,7 @@
     xmlns:optionItemView="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#F2F2F2"
     android:orientation="vertical" >
 
     <com.yosneaker.client.view.CustomTitleBar 
@@ -12,34 +13,40 @@
         titleBar:show_back_view="true"
         titleBar:center_title="@string/edit_user_info"/>
     
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:layout_marginLeft="10dp"
-        android:textSize="18sp"
-        android:text="@string/user_info" />
-
-    <View
-        android:layout_width="fill_parent"
-        android:layout_height="1dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginTop="5dp"
-        android:background="@color/tab_text_selected" />
-    
-    <com.yosneaker.client.view.OptionItemView 
-        android:id="@+id/head_sculpture"
+    <LinearLayout 
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        optionItemView:icon="@drawable/list_user_head"
-        optionItemView:left_title="@string/user_edit_portrait"/>
+        android:layout_height="200dp"
+        android:gravity="center"
+        android:orientation="vertical">
+        
+        <com.yosneaker.client.view.RoundImageView 
+	        android:id="@+id/head_sculpture"
+	        android:layout_width="80dp"
+	        android:layout_height="80dp"
+	        android:scaleType="centerInside"
+	        android:layout_marginBottom="10dp"
+	        android:src="@drawable/list_user_head"/>
+        
+        <RelativeLayout 
+            android:id="@+id/nick_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            
+            <TextView 
+                android:id="@+id/tv_nick"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:text="一只爱睡觉的猫"/>
+            
+            <ImageView 
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_toLeftOf="@id/tv_nick"
+                android:src="@drawable/ic_next"/>
+        </RelativeLayout>
+    </LinearLayout>
     
-    <com.yosneaker.client.view.OptionItemView 
-        android:id="@+id/nick"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        optionItemView:left_title="@string/user_nickname"/>
     
     <com.yosneaker.client.view.OptionItemView 
         android:id="@+id/gender"
@@ -48,55 +55,45 @@
         optionItemView:left_title="@string/user_gender"/>
     
     <com.yosneaker.client.view.OptionItemView 
-        android:id="@+id/signature"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        optionItemView:left_title="@string/user_signature"/>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:layout_marginLeft="10dp"
-        android:textSize="18sp"
-        android:text="@string/user_personal" />
-
-    <View
-        android:layout_width="fill_parent"
-        android:layout_height="1dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginTop="5dp"
-        android:background="@color/tab_text_selected" />
-
-    <com.yosneaker.client.view.OptionItemView 
         android:id="@+id/height"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        optionItemView:left_title="@string/personal_item_height"/>
+        optionItemView:left_title="@string/personal_item_height"
+        optionItemView:right_title="cm"/>
    
     <com.yosneaker.client.view.OptionItemView 
         android:id="@+id/weight"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        optionItemView:left_title="@string/personal_item_weight"/>
+        optionItemView:left_title="@string/personal_item_weight"
+        optionItemView:right_title="kg"/>
     
     <com.yosneaker.client.view.OptionItemView 
         android:id="@+id/bounce"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        optionItemView:left_title="@string/personal_item_bounce"/>
+        optionItemView:left_title="@string/personal_item_bounce"
+        optionItemView:right_title="cm"/>
     
     <com.yosneaker.client.view.OptionItemView 
         android:id="@+id/seat"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        optionItemView:left_title="@string/user_personal_seat"/>
+        android:layout_marginTop="20dp"
+        optionItemView:left_title="@string/user_personal_seat"
+        optionItemView:right_icon="@drawable/tab_mine_normal"/>
     
     <com.yosneaker.client.view.OptionItemView 
         android:id="@+id/play"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        optionItemView:left_title="@string/user_personal_play"/>
+        optionItemView:left_title="@string/user_personal_play"
+        optionItemView:right_icon="@drawable/tab_mine_normal"/>
     
+    <com.yosneaker.client.view.OptionItemView 
+        android:id="@+id/signature"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        optionItemView:left_title="@string/user_signature"
+    	optionItemView:right_icon="@drawable/ic_right_arrow"/>
 </LinearLayout>

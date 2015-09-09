@@ -1,30 +1,38 @@
 package com.yosneaker.client;
 
-import java.io.FileNotFoundException;
+import java.io.File;
+import java.io.IOException;
 import java.util.Arrays;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.ViewGroup.LayoutParams;
 import android.widget.EditText;
+import android.widget.PopupWindow;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.yosneaker.client.util.AppConstants;
 import com.yosneaker.client.util.PickerImageUtil;
 import com.yosneaker.client.view.CustomTitleBar;
 import com.yosneaker.client.view.OptionItemView;
+import com.yosneaker.client.view.RoundImageView;
 import com.yosneaker.client.view.WheelView;
 import com.yosneaker.client.view.WheelView.OnWheelViewListener;
 
@@ -38,27 +46,45 @@ public class EditUserInfoActivity extends MyBaseActivity implements View.OnClick
 
 	private final String Tag=EditUserInfoActivity.class.getSimpleName();
 	private CustomTitleBar titleBar;
-	private OptionItemView head_sculpture, nick, gender, signature, height, weight, bounce, seat, play;
+	private RoundImageView head_sculpture;
+	private View nick_container;
+	private TextView tv_nick;
+	private OptionItemView gender, signature, height, weight, bounce, seat, play;
 	private PickerImageUtil mPickerImageUtil;
 	private Uri imageUri;
 	private SharedPreferences sp;
 	private String[] items=null;//WhelView项内容
 	private int mPosition;//WhelView当前滑动的位置
 	private boolean hasChanged;//用户资料是否被修改
+	private Uri mPhotoUri;//拍照图片路径
+	private Uri mExpUri;//头像路径
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		sp=getSharedPreferences("user_info", Context.MODE_PRIVATE);
-		mPickerImageUtil = new PickerImageUtil(this);
+		initData();
 		initUI();
+	}
+	
+	private void initData(){
+		sp=getSharedPreferences("user_info", Context.MODE_PRIVATE);
+		File file=new File(AppConstants.HEAD_SCULPTURE_PATH);
+		file.getParentFile().mkdirs();
+		try {
+			file.createNewFile();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		mExpUri=Uri.fromFile(file);
 	}
 	
 	private void initUI(){
 		setContentView(R.layout.activity_edit_user_info);
 		titleBar=(CustomTitleBar) findViewById(R.id.titleBar);
-		head_sculpture=(OptionItemView) findViewById(R.id.head_sculpture);
-		nick=(OptionItemView) findViewById(R.id.nick);
+		head_sculpture=(RoundImageView) findViewById(R.id.head_sculpture);
+		nick_container=findViewById(R.id.nick_container);
+		tv_nick=(TextView) findViewById(R.id.tv_nick);
 		gender=(OptionItemView) findViewById(R.id.gender);
 		signature=(OptionItemView) findViewById(R.id.signature);
 		height=(OptionItemView) findViewById(R.id.height);
@@ -75,16 +101,8 @@ public class EditUserInfoActivity extends MyBaseActivity implements View.OnClick
 			}
 		});
 		
-		titleBar.setOnClickFirstRightIconListener(new View.OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				Toast.makeText(mContext, "保存成功", Toast.LENGTH_SHORT).show();
-			}
-		});
-		
 		head_sculpture.setOnClickListener(this);
-		nick.setOnClickListener(this);
+		nick_container.setOnClickListener(this);
 		gender.setOnClickListener(this);
 		signature.setOnClickListener(this);
 		height.setOnClickListener(this);
@@ -93,7 +111,10 @@ public class EditUserInfoActivity extends MyBaseActivity implements View.OnClick
 		seat.setOnClickListener(this);
 		play.setOnClickListener(this);
 		
-		nick.setMiddleTitle(sp.getString("nick", null));
+		Bitmap bitmap=BitmapFactory.decodeFile(AppConstants.HEAD_SCULPTURE_PATH);
+		if(bitmap!=null){
+			head_sculpture.setImageBitmap(bitmap);
+		}
 		gender.setMiddleTitle(sp.getString("gender", null));
 		signature.setMiddleTitle(sp.getString("signature", null));
 		height.setMiddleTitle(sp.getString("height", null));
@@ -107,19 +128,9 @@ public class EditUserInfoActivity extends MyBaseActivity implements View.OnClick
 	public void onClick(View v) {
 		switch (v.getId()) {
 		case R.id.head_sculpture:
-			new AlertDialog.Builder(this).setItems(EditUserInfoActivity.this.getResources().getStringArray(R.array.edit_portrait_way), new OnClickListener() {
-				
-				@Override
-				public void onClick(DialogInterface dialog, int which) {
-					if (which == 0) {
-						mPickerImageUtil.OpenCamera();
-					}else {
-						mPickerImageUtil.OpenGallery();
-					}
-				}
-			}).show();
+			showSetHeadSculpturePopup();
 			break;
-		case R.id.nick:
+		case R.id.nick_container:
 		case R.id.signature:
 		case R.id.play:
 			showInputDialog(v.getId());
@@ -136,13 +147,55 @@ public class EditUserInfoActivity extends MyBaseActivity implements View.OnClick
 		}
 	}
 	
+	private void showSetHeadSculpturePopup() {
+		
+		final PopupWindow mPopupWindow=new PopupWindow(mContext);
+		View view=LayoutInflater.from(mContext).inflate(R.layout.dialog_set_head_sculpture, null);
+		OnClickListener clickListener=new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				mPopupWindow.dismiss();
+				Intent intent;
+				switch(v.getId()){
+				case R.id.btn_take_photo:
+					intent=new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+					File file=new File(AppConstants.TAKE_PHOTO_PATH+System.currentTimeMillis()+".jpg");
+					file.getParentFile().mkdirs();
+					mPhotoUri=Uri.fromFile(file);
+					intent.putExtra(MediaStore.EXTRA_OUTPUT, mPhotoUri);
+					startActivityForResult(intent, 1);
+					break;
+				case R.id.btn_album:
+					intent=new Intent(Intent.ACTION_PICK);
+					intent.setType(MediaStore.Images.Media.CONTENT_TYPE);
+					startActivityForResult(intent, 2);
+					break;
+				}
+			}
+		};
+		
+		view.findViewById(R.id.btn_take_photo).setOnClickListener(clickListener);
+		view.findViewById(R.id.btn_album).setOnClickListener(clickListener);
+		view.findViewById(R.id.btn_cancel).setOnClickListener(clickListener);
+		
+		mPopupWindow.setContentView(view);
+		mPopupWindow.setOutsideTouchable(true);
+		mPopupWindow.setWindowLayoutMode(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
+		mPopupWindow.setFocusable(true);
+		ColorDrawable background=new ColorDrawable(0Xa0000000);
+		mPopupWindow.setBackgroundDrawable(background);
+		
+		mPopupWindow.showAtLocation(titleBar, Gravity.BOTTOM|Gravity.CENTER_HORIZONTAL, 0, 0);
+	}
+	
 	private EditText et_content;
 	
 	private void showInputDialog(final int id){
 		int titleId=0;
 		 View view=null;
 		switch(id){
-		case R.id.nick:
+		case R.id.nick_container:
 			titleId=R.string.user_nickname;
 			view=LayoutInflater.from(mContext).inflate(R.layout.dialog_input_nick, null);
 			break;
@@ -173,9 +226,9 @@ public class EditUserInfoActivity extends MyBaseActivity implements View.OnClick
 				hasChanged=true;
 				Editor editor=sp.edit();
 				switch(id){
-				case R.id.nick:
+				case R.id.nick_container:
 					editor.putString("nick", content);
-					nick.setMiddleTitle(content);
+					tv_nick.setText(content);
 					break;
 				case R.id.signature:
 					editor.putString("signature", content);
@@ -286,52 +339,54 @@ public class EditUserInfoActivity extends MyBaseActivity implements View.OnClick
 
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		switch (requestCode) {
-		case AppConstants.USER_NICKNAME_REQUEST:
-			if (resultCode == RESULT_OK) {
-//				Nickname = data.getStringExtra("nickname_return");
-//				tv_nickname.setText(Nickname);
-			}
-			break;
-		case AppConstants.USER_SIGNATURE_REQUEST:
-			if (resultCode == RESULT_OK) {
-//				Signature = data.getStringExtra("signature_return");
-//				tv_signature.setText(Signature);
-			}
-			break;
-		case AppConstants.USER_PLAY_REQUEST:
-			if (resultCode == RESULT_OK) {
-//				Play = data.getStringExtra("play_return");
-//				tv_play.setText(Play);
-			}
-			break;
-		case AppConstants.PHOTO_CAREMA_REQUEST:
-		case AppConstants.PHOTO_GALLERY_REQUEST:
-			imageUri = data.getData();
-			Intent intent = new Intent("com.android.camera.action.CROP");
-			intent.setDataAndType(imageUri, "image/*");
-			intent.putExtra("scale", false);
-			intent.putExtra("aspectX", 1);//裁剪框比例  
-	        intent.putExtra("aspectY", 1);
-			intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
-			startActivityForResult(intent, AppConstants.PHOTO_CROP_REQUEST);
-			break;
-		case AppConstants.PHOTO_CROP_REQUEST:
-
-			Bitmap bmp;
-			try {
-				bmp = BitmapFactory.decodeStream(getContentResolver().openInputStream(imageUri));
-				if (bmp != null) {
-//					iv_portrait.setBackground(new BitmapDrawable(bmp));
+		Log.i(Tag, "requestCode="+requestCode+"; resultCode="+resultCode);
+		super.onActivityResult(requestCode, resultCode, data);
+		if (resultCode == Activity.RESULT_OK) {
+			switch (requestCode) {
+			case 1:
+				cropImage(mPhotoUri);
+//				new File(mPhotoUri.getPath()).delete();
+				break;
+			case 2:
+				cropImage(data.getData());
+				break;
+			case 3:
+				Uri tmpUri = data.getData();
+				String path;
+				if (tmpUri == null) {
+					path = mExpUri.getPath();
+				}else{
+					path = tmpUri.getPath();
 				}
-			} catch (FileNotFoundException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				Log.i(Tag, path);
+				Bitmap bitmap = BitmapFactory.decodeFile(path);
+				head_sculpture.setImageBitmap(bitmap);
+				break;
 			}
-			break;
-		default:
-			break;
 		}
+	}
+	
+	private void cropImage(Uri imageUri){
+		
+		if(imageUri==null){
+			return;
+		}
+		Log.i(Tag, imageUri.toString());
+		Intent intent = new Intent("com.android.camera.action.CROP");
+		intent.setDataAndType(imageUri, "image/*");
+		// 下面这个crop=true是设置在开启的Intent中设置显示的VIEW可裁剪
+		intent.putExtra("crop", "true");
+		// aspectX aspectY 是宽高的比例
+		intent.putExtra("aspectX", 1);
+		intent.putExtra("aspectY", 1);
+		intent.putExtra("scale", true);
+		// outputX outputY 是裁剪图片宽高
+		intent.putExtra("outputX", 200);
+		intent.putExtra("outputY", 200);
+		intent.putExtra("return-data", false);
+		intent.putExtra(MediaStore.EXTRA_OUTPUT, mExpUri);
+		intent.putExtra("outputFormat", Bitmap.CompressFormat.JPEG.toString());
+		startActivityForResult(intent, 3);
 	}
 
 }

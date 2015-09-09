@@ -38,7 +38,11 @@
     
     <color name="error_tip_bg">#F8EFB6</color>
     
-    <color name="option_item_view_left_title_color">#000000</color>
-    <color name="option_item_view_middle_title_color">#000000</color>
+    <color name="option_item_view_left_title_color">#AAAAAA</color>
+    <color name="option_item_view_middle_title_color">#1E90FF</color>
+    <color name="option_item_view_right_title_color">#AAAAAA</color>
     
+    <color name="blue_color_default">#31B8CC</color>
+	<color name="blue_color_pressed">#33ADBF</color>
+	
 </resources>

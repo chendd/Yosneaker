@@ -28,10 +28,10 @@
     </declare-styleable>
     
     <declare-styleable name="OptionItemView">
-        <attr name="icon" format="reference"/>
         <attr name="left_title" format="string"/>
         <attr name="middle_title" format="string"/>
         <attr name="right_title" format="string"/>
+        <attr name="right_icon" format="reference"/>
     </declare-styleable>
     
 </resources>

@@ -10,10 +10,13 @@
 
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    
 	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 	<uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
 	<uses-permission android:name="android.permission.INTERNET" />
-    
+	
+	<uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.FLASHLIGHT" />
     
     <application
         android:name="com.yosneaker.client.app.YosneakerApplication"
@@ -23,16 +26,13 @@
         android:theme="@style/AppTheme" >
         <!-- 起始加载页 -->
         <activity
-            android:name="com.yosneaker.client.ThirdPartyLoginActivity"
+            android:name="com.yosneaker.client.HomeActivity"
             android:label="@string/app_name" 
             android:launchMode="singleTask"
             android:screenOrientation="portrait">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+            
         </activity>
+        
         <!-- 引导页 -->
         <activity
             android:name="com.yosneaker.client.GuideActivity"
@@ -40,13 +40,13 @@
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.NoTitleBar.Fullscreen" />
         
-        <!-- 首页 -->
+        <!-- 首页 
         <activity
             android:name="com.yosneaker.client.HomeActivity"
             android:label="@string/app_name" 
             android:screenOrientation="portrait">
         </activity>
-        
+        -->
         <!-- 测评详情 -->
         <activity
             android:name="com.yosneaker.client.ArticleDetailActivity"
@@ -141,7 +141,13 @@
         <activity
             android:name="com.yosneaker.client.EditUserInfoActivity"
             android:screenOrientation="portrait"
-            android:label="@string/edit_user_info" >           
+            android:label="@string/edit_user_info" >  
+             
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
         <!-- 编辑昵称 -->
         <activity

@@ -161,13 +161,10 @@
     <string name="user_register">注册</string>
     <string name="user_star_yosneaker">开启Yosneaker之旅</string>
     
-    <string name="edit_user_info">完善资料</string>
-    <string name="user_info">基本资料</string>
-    <string name="user_personal">个人数据</string>
-    <string name="user_edit_portrait">更换头像</string>
+    <string name="edit_user_info">个人资料</string>
     <string name="user_nickname">昵称</string>
     <string name="user_gender">性别</string>
-    <string name="user_signature">签名</string>
+    <string name="user_signature">个性签名</string>
     <string name="user_personal_seat">位置</string>
     <string name="user_personal_play">打法</string>
     

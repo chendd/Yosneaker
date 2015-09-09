@@ -1,5 +1,6 @@
 package com.yosneaker.client.util;
 
+import android.os.Environment;
 import android.provider.BaseColumns;
 
 /**
@@ -8,7 +9,7 @@ import android.provider.BaseColumns;
  * @author chendd
  * @author crazymongo
  */
-public interface AppConstants extends BaseColumns {
+public class AppConstants {
 
 	public static final String APP_KEY_WB="568898243";
 	public static final String APP_SECRET_WB="38a4f8204cc784f81f9f0daaf31e02e3";
@@ -27,6 +28,26 @@ public interface AppConstants extends BaseColumns {
 	public static final String KEY_ACCESS_TOKEN_WB="access_token_wb";
 	public static final String KEY_REFRESH_TOKEN_WB="refresh_token_wb";
 	public static final String KEY_EXPIRE_TIME_WB="expire_time_wb";
+	
+	public static boolean HAS_EXTERNAL_STORAGE;//手机是否有外部存储
+	public static String APP_BASE_PATH;
+	public static String APK_UPDATE_PATH;//apk下载保存路径
+	public static String TAKE_PHOTO_PATH;
+	public static String LOG_PATH;
+	public static String HEAD_SCULPTURE_PATH;
+	
+	static{
+		if(Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)){
+			HAS_EXTERNAL_STORAGE=true;
+			APP_BASE_PATH=Environment.getExternalStorageDirectory().getAbsolutePath()+"/Yosneaker";
+			APK_UPDATE_PATH=APP_BASE_PATH+ "/update/";
+			TAKE_PHOTO_PATH=APP_BASE_PATH+"/cache/image/";
+			LOG_PATH=APP_BASE_PATH+"/log/";
+			HEAD_SCULPTURE_PATH=APP_BASE_PATH+"/cache/headsculpture";
+		}else{
+			HAS_EXTERNAL_STORAGE=false;
+		}
+	}
 	
 	/** 服务器地址 */
 	public static final String HTTP_BASE_URL = "http://api.yosneaker.com/";  

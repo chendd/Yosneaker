@@ -15,9 +15,8 @@ import android.widget.TextView;
 public class OptionItemView extends LinearLayout {
 
 	private RelativeLayout container;
-	private ImageView iv_icon;
-	private TextView tv_left_title;
-	private TextView tv_middle_title;
+	private TextView tv_left_title, tv_middle_title, tv_right_title;
+	private ImageView iv_right_icon;
 	
 	public OptionItemView(Context context) {
 		this(context, null);
@@ -33,18 +32,23 @@ public class OptionItemView extends LinearLayout {
 		super(context, attrs, defStyle);
 		LayoutInflater.from(context).inflate(R.layout.option_item_view, this);
 		container=(RelativeLayout) findViewById(R.id.container);
-		iv_icon=(ImageView) findViewById(R.id.iv_icon);
 		tv_left_title=(TextView) findViewById(R.id.tv_left_title);
 		tv_middle_title=(TextView) findViewById(R.id.tv_middle_title);
+		tv_right_title=(TextView) findViewById(R.id.tv_right_title);
+		iv_right_icon=(ImageView) findViewById(R.id.iv_right_icon);
 		
 		TypedArray mTypedArray=context.obtainStyledAttributes(attrs, R.styleable.OptionItemView);
-		if(mTypedArray.getDrawable(R.styleable.OptionItemView_icon)!=null){
-			iv_icon.setVisibility(View.VISIBLE);
-			iv_icon.setImageDrawable(mTypedArray.getDrawable(R.styleable.OptionItemView_icon));
+		
+		if(mTypedArray.getDrawable(R.styleable.OptionItemView_right_icon)!=null){
+			iv_right_icon.setVisibility(View.VISIBLE);
+			iv_right_icon.setImageDrawable(mTypedArray.getDrawable(R.styleable.OptionItemView_right_icon));
+			tv_right_title.setVisibility(View.GONE);
 		}
 		
 		tv_left_title.setText(mTypedArray.getString(R.styleable.OptionItemView_left_title));
-		tv_middle_title.setText(mTypedArray.getString(R.styleable.OptionItemView_middle_title));
+//		tv_middle_title.setText(mTypedArray.getString(R.styleable.OptionItemView_middle_title));
+		tv_right_title.setText(mTypedArray.getString(R.styleable.OptionItemView_right_title));
+		
 		mTypedArray.recycle();
 	}
 

@@ -27,6 +27,6 @@
         style="@style/title_bar_tv_style"
         android:layout_marginRight="@dimen/title_bar_tv_margin"
         android:layout_alignParentRight="true"
-        android:background="@drawable/soardsdk_arrow"/>
+        android:background="@drawable/ic_right_arrow"/>
     
 </RelativeLayout>
