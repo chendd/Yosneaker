@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/container"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/option_item_view_height" 
+    android:layout_marginLeft="10dp"
+    android:layout_marginRight="10dp"
+    android:background="@drawable/option_item_view_default_selector">
+    
+	<ImageView 
+	    android:id="@+id/iv_icon"
+	    android:layout_width="38dp"
+	    android:layout_height="38dp"
+	    android:layout_alignParentLeft="true"
+	    android:layout_centerVertical="true"
+	    android:layout_marginLeft="5dp"
+	    android:layout_marginRight="5dp"
+	    android:scaleType="fitXY"
+	    android:visibility="gone"/>
+	
+	<TextView 
+	    android:id="@+id/tv_left_title"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:layout_toRightOf="@id/iv_icon"
+	    android:layout_centerVertical="true"
+	    android:layout_marginLeft="5dp"
+	    android:layout_marginRight="20dp"
+	    android:singleLine="true"
+	    android:maxLength="10"
+	    android:textColor="@color/option_item_view_left_title_color"
+	    android:textSize="@dimen/option_item_view_left_title_size"/>
+	
+	<TextView 
+	    android:id="@+id/tv_middle_title"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:layout_toRightOf="@id/tv_left_title"
+	    android:layout_centerVertical="true"
+	    android:text="65kg"
+	    android:singleLine="true"
+	    android:maxLength="10"
+	    android:textColor="@color/option_item_view_left_title_color"
+	    android:textSize="@dimen/option_item_view_left_title_size"/>
+	
+	<ImageView
+        android:layout_width="20dp"
+        android:layout_height="28dp"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="5dp"
+        android:src="@drawable/soardsdk_arrow"
+        android:scaleType="fitXY"
+        android:contentDescription="@null" />
+	
+	<View
+	    android:id="@+id/view_divider"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_alignParentBottom="true"
+        android:background="?android:attr/listDivider" />
+</RelativeLayout>

@@ -154,6 +154,7 @@
     <string name="hint_username">用户(3-15位)</string>
     <string name="hint_password">密码(6-16位)</string>
     <string name="hint_re_password">确认密码</string>
+    <string name="hint_input_signature">请输入签名</string>
     <string name="user_find_password">找回密码</string>
     <string name="user_login">登录</string>
     <string name="user_logout">退出</string>

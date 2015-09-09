@@ -19,4 +19,19 @@
     	<attr name="starNumber" format="integer"/>
     </declare-styleable>
     
+    <declare-styleable name="CustomTitleBar">
+        <attr name="show_back_view"  format="boolean"/>
+        <attr name="left_icon" format="reference"/>
+        <attr name="center_title"  format="string"/>
+        <attr name="first_right_icon" format="reference"/>
+        <attr name="second_right_icon" format="reference"/>
+    </declare-styleable>
+    
+    <declare-styleable name="OptionItemView">
+        <attr name="icon" format="reference"/>
+        <attr name="left_title" format="string"/>
+        <attr name="middle_title" format="string"/>
+        <attr name="right_title" format="string"/>
+    </declare-styleable>
+    
 </resources>

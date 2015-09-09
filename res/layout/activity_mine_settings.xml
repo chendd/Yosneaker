@@ -1,268 +1,35 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:titleBar="http://schemas.android.com/apk/res-auto"
+    xmlns:optionItemView="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/comment_item__bg"
+    android:background="@color/comment_item_bg"
     android:orientation="vertical" >
 
-    <include
-        android:id="@+id/mTitleBar"
-        layout="@layout/title_bar" />
-
-    <TextView
-        android:id="@+id/tv_settings_personal"
-        android:layout_width="wrap_content"
+    <com.yosneaker.client.view.CustomTitleBar 
+        android:id="@+id/titleBar"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="8dp"
-        android:layout_marginTop="8dp"
-        android:text="@string/mine_settings_personal" />
+        titleBar:show_back_view="true"
+        titleBar:center_title="@string/title_settings"/>
 
-    <View
-        android:layout_width="fill_parent"
-        android:layout_height="1dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginTop="8dp"
-        android:background="@color/tab_text_selected" />
-
-    <RelativeLayout
-        android:id="@+id/rl_settings_net"
-        android:background="@drawable/user_info_item_style"
+    <com.yosneaker.client.view.OptionItemView 
+        android:id="@+id/clear_cache"
         android:layout_width="match_parent"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_height="48dp" >
-
-        <ImageView
-            android:layout_width="20dp"
-            android:layout_height="28dp"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="12dp"
-            android:background="@drawable/soardsdk_arrow"
-            android:contentDescription="@null" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="10dp"
-            android:text="@string/mine_settings_net" />
-
-        <TextView
-            android:id="@+id/tv_nickname"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="60dp"
-            android:layout_alignParentLeft="true"
-            android:layout_marginRight="40dp"
-            android:ellipsize="end"   
-            android:singleLine="true" />
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_alignParentBottom="true"
-            android:background="?android:attr/listDivider" />
-    </RelativeLayout>
-    
-    <RelativeLayout
-        android:id="@+id/rl_settings_notice"
-        android:background="@drawable/user_info_item_style"
-        android:layout_width="match_parent"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_height="48dp" >
-
-        <ImageView
-            android:layout_width="20dp"
-            android:layout_height="28dp"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="12dp"
-            android:background="@drawable/soardsdk_arrow"
-            android:contentDescription="@null" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="10dp"
-            android:text="@string/mine_settings_notice" />
-
-        <TextView
-            android:id="@+id/tv_gender"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="60dp"
-            android:layout_marginRight="40dp"
-            android:ellipsize="end"   
-            android:singleLine="true"  
-            android:layout_alignParentLeft="true"/>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_alignParentBottom="true"
-            android:background="?android:attr/listDivider" />
-    </RelativeLayout>
-    
-    <TextView
-        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:layout_marginLeft="8dp"
-        android:text="@string/mine_settings_other" />
-
-    <View
-        android:layout_width="fill_parent"
-        android:layout_height="1dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginTop="8dp"
-        android:background="@color/tab_text_selected" />
-
-    <RelativeLayout
-        android:id="@+id/rl_settings_clean_cache"
-        android:background="@drawable/user_info_item_style"
-        android:layout_width="match_parent"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_height="48dp" >
-
-        <ImageView
-            android:layout_width="20dp"
-            android:layout_height="28dp"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="12dp"
-            android:background="@drawable/soardsdk_arrow"
-            android:contentDescription="@null" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="10dp"
-            android:text="@string/mine_settings_clean_cache" />
-
-        <TextView
-            android:id="@+id/tv_height"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="40dp"
-            android:ellipsize="end"   
-            android:singleLine="true"  
-            android:layout_marginLeft="60dp"
-            android:layout_alignParentLeft="true"/>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_alignParentBottom="true"
-            android:background="?android:attr/listDivider" />
-    </RelativeLayout>
+        optionItemView:left_title="@string/mine_settings_clean_cache"/>
     
-    <RelativeLayout
-        android:id="@+id/rl_settings_check_newversoin"
-        android:background="@drawable/user_info_item_style"
+    <com.yosneaker.client.view.OptionItemView 
+        android:id="@+id/feedback"
         android:layout_width="match_parent"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_height="48dp" >
-
-        <ImageView
-            android:layout_width="20dp"
-            android:layout_height="28dp"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="12dp"
-            android:background="@drawable/soardsdk_arrow"
-            android:contentDescription="@null" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="10dp"
-            android:text="@string/mine_settings_check_newversoin" />
-
-        <TextView
-            android:id="@+id/tv_weight"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="60dp"
-            android:layout_marginRight="40dp"
-            android:ellipsize="end"   
-            android:singleLine="true"  
-            android:layout_alignParentLeft="true"/>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_alignParentBottom="true"
-            android:background="?android:attr/listDivider" />
-    </RelativeLayout>
+        android:layout_height="wrap_content"
+        optionItemView:left_title="@string/mine_settings_feedback"/>
     
-    <RelativeLayout
-        android:id="@+id/rl_settings_feedback"
-        android:background="@drawable/user_info_item_style"
+    <Button 
+        android:id="@+id/btn_logout"
         android:layout_width="match_parent"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_height="48dp" >
-
-        <ImageView
-            android:layout_width="20dp"
-            android:layout_height="28dp"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="12dp"
-            android:background="@drawable/soardsdk_arrow"
-            android:contentDescription="@null" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="10dp"
-            android:text="@string/mine_settings_feedback" />
-
-        <TextView
-            android:id="@+id/tv_bounce"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="60dp"
-            android:layout_marginRight="40dp"
-            android:ellipsize="end"   
-            android:singleLine="true"  
-            android:layout_alignParentLeft="true"/>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_alignParentBottom="true"
-            android:background="?android:attr/listDivider" />
-    </RelativeLayout>
-    
-    <com.gc.materialdesign.views.ButtonRectangle
-                android:id="@+id/btn_logout"
-                android:layout_width="match_parent"
-                android:layout_height="56dp"
-                android:layout_marginLeft="25dp"
-        		android:layout_marginRight="25dp"
-        		android:layout_marginTop="32dp"
-                android:background="@color/tab_text_selected"
-                android:textSize="@dimen/btn_text_size"
-                android:text="@string/user_logout" />
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="退出当前账号"/>
     
 </LinearLayout>

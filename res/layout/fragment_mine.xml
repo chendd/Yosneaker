@@ -1,12 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:titleBar="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
+
+    <com.yosneaker.client.view.CustomTitleBar
+        android:id="@+id/titleBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        titleBar:first_right_icon="@drawable/ic_setting"
+        titleBar:left_icon="@drawable/ic_notice" />
+"
 
     <RelativeLayout
         android:id="@+id/rl_mine_bg"
         android:layout_width="match_parent"
         android:layout_height="200dp"
+        android:layout_below="@id/titleBar"
         android:background="@drawable/user_center_bg" >
 
         <com.yosneaker.client.view.RoundImageView
@@ -19,8 +30,8 @@
 
         <ImageView
             android:id="@+id/iv_mine_edit_info"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_marginLeft="60dp"
             android:layout_marginTop="20dp"
             android:layout_toRightOf="@id/riv_mine_user_icon"
@@ -67,132 +78,73 @@
             android:id="@+id/ll_user_center_tab"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:background="@color/black" >
+            android:layout_alignParentBottom="true">
 
-            <TableLayout
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:id="@+id/ll_tab_wish"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:background="@color/white"
-                android:stretchColumns="*"
-                android:text="@string/hello_world" >
+                android:layout_weight="1"
+                android:background="@drawable/table_frame_gray"
+                android:gravity="center"
+                android:orientation="vertical" >
 
-                <TableRow>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="8dp"
+                    android:text="@string/tab_wish"
+                    android:textColor="@color/tab_text_normal" />
 
-                    <LinearLayout
-                        android:id="@+id/ll_tab_wish"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/table_frame_gray"
-                        android:gravity="center"
-                        android:orientation="vertical" >
+                <TextView
+                    android:id="@+id/tv_tab_wish_num"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="8dp"
+                    android:text="232"
+                    android:textColor="@color/tab_text_normal" />
+            </LinearLayout>
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:paddingTop="8dp"
-                            android:text="@string/tab_wish"
-                            android:textColor="@color/tab_text_normal" />
+            <LinearLayout
+                android:id="@+id/ll_tab_collect"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/table_frame_gray"
+                android:gravity="center"
+                android:orientation="vertical" >
 
-                        <TextView
-                            android:id="@+id/tv_tab_wish_num"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:paddingBottom="8dp"
-                            android:text="0"
-                            android:textColor="@color/tab_text_normal" />
-                    </LinearLayout>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="8dp"
+                    android:text="@string/tab_collect"
+                    android:textColor="@color/tab_text_normal" />
 
-                    <LinearLayout
-                        android:id="@+id/ll_tab_collect"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/table_frame_gray"
-                        android:gravity="center"
-                        android:orientation="vertical" >
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:paddingTop="8dp"
-                            android:text="@string/tab_collect"
-                            android:textColor="@color/tab_text_normal" />
-
-                        <TextView
-                            android:id="@+id/tv_tab_collect_num"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:paddingBottom="8dp"
-                            android:text="0"
-                            android:textColor="@color/tab_text_normal" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:id="@+id/ll_tab_attention"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/table_frame_gray"
-                        android:gravity="center"
-                        android:orientation="vertical" >
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:paddingTop="8dp"
-                            android:text="@string/tab_attention"
-                            android:textColor="@color/tab_text_normal" />
-
-                        <TextView
-                            android:id="@+id/tv_tab_attention_num"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:paddingBottom="8dp"
-                            android:text="0"
-                            android:textColor="@color/tab_text_normal" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:id="@+id/ll_tab_fans"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/table_frame_gray"
-                        android:gravity="center"
-                        android:orientation="vertical" >
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:paddingTop="8dp"
-                            android:text="@string/tab_fans"
-                            android:textColor="@color/tab_text_normal" />
-
-                        <TextView
-                            android:id="@+id/tv_tab_fans_num"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:paddingBottom="8dp"
-                            android:text="0"
-                            android:textColor="@color/tab_text_normal" />
-                    </LinearLayout>
-                </TableRow>
-            </TableLayout>
+                <TextView
+                    android:id="@+id/tv_tab_collect_num"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="8dp"
+                    android:text="232"
+                    android:textColor="@color/tab_text_normal" />
+            </LinearLayout>
         </LinearLayout>
     </RelativeLayout>
 
     <RelativeLayout
-        android:id="@+id/ll_mine_no_article"
+        android:id="@+id/rl_mine_no_article"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/rl_mine_bg"
-         >
+        android:layout_below="@id/rl_mine_bg" >
 
         <TextView
             android:id="@+id/tv_mine_share_article"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
             android:text="@string/mine_share_article_none"
             android:textColor="@color/gray"
-            android:layout_centerInParent="true"
             android:textSize="18sp" />
 
         <ImageView
@@ -214,15 +166,13 @@
             android:background="@drawable/ic_down" />
     </RelativeLayout>
 
-    <com.yosneaker.client.view.XListView 
-        	android:id="@+id/xlv_mine_articles"
-        	android:layout_width="match_parent"
-        	android:layout_height="match_parent" 
-        	android:layout_below="@id/rl_mine_bg"
-        	android:fastScrollEnabled="true"
-        	android:visibility="gone"
-        	android:cacheColorHint="@color/transparent" />
-    
-    
-    
+    <com.yosneaker.client.view.XListView
+        android:id="@+id/xlv_mine_articles"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/rl_mine_bg"
+        android:cacheColorHint="@color/transparent"
+        android:fastScrollEnabled="true"
+        android:visibility="gone" />
+
 </RelativeLayout>

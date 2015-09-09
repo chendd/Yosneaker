@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
-    android:background="@color/comment_item__bg"
+    android:background="@color/comment_item_bg"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent">
     
@@ -30,6 +30,7 @@
 					android:singleLine="true"
 		        	android:background="@drawable/search_frame"
 		        	android:paddingLeft="32dp"
+		        	android:paddingRight="0dp"
 		        	android:textSize="13sp"
 		        	android:hint="@string/mine_shearch"/>
             

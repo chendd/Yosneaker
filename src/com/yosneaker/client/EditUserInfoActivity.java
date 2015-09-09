@@ -4,145 +4,109 @@ import java.io.FileNotFoundException;
 import java.util.Arrays;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.Window;
-import android.widget.ImageView;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
+import android.widget.EditText;
+import android.widget.Toast;
 
 import com.yosneaker.client.util.AppConstants;
 import com.yosneaker.client.util.PickerImageUtil;
+import com.yosneaker.client.view.CustomTitleBar;
+import com.yosneaker.client.view.OptionItemView;
 import com.yosneaker.client.view.WheelView;
+import com.yosneaker.client.view.WheelView.OnWheelViewListener;
 
 /**
  * 编辑用户个人信息
  * 
- * @author chendd
+ * @author crazymongo
  * 
  */
-public class EditUserInfoActivity extends BaseActivity{
+public class EditUserInfoActivity extends MyBaseActivity implements View.OnClickListener{
 
-	private RelativeLayout rl_edit_portrait;
-	private RelativeLayout rl_edit_nickname;
-	private RelativeLayout rl_edit_gender;
-	private RelativeLayout rl_edit_signature;
-	private RelativeLayout rl_edit_height;
-	private RelativeLayout rl_edit_weight;
-	private RelativeLayout rl_edit_bounce;
-	private RelativeLayout rl_edit_seat;
-	private RelativeLayout rl_edit_play;
-	
-	private ImageView iv_portrait;
-	private TextView tv_nickname;
-	private TextView tv_gender;
-	private TextView tv_signature;
-	private TextView tv_height;
-	private TextView tv_weight;
-	private TextView tv_bounce;
-	private TextView tv_seat;
-	private TextView tv_play;
-	
-	private String Portrait;
-	private String Nickname;
-	private String Gender;
-	private String Signature;
-	private String Height;
-	private String Weight;
-	private String Bounce;
-	private String Seat;
-	private String Play;
-	
+	private final String Tag=EditUserInfoActivity.class.getSimpleName();
+	private CustomTitleBar titleBar;
+	private OptionItemView head_sculpture, nick, gender, signature, height, weight, bounce, seat, play;
 	private PickerImageUtil mPickerImageUtil;
 	private Uri imageUri;
+	private SharedPreferences sp;
+	private String[] items=null;//WhelView项内容
+	private int mPosition;//WhelView当前滑动的位置
+	private boolean hasChanged;//用户资料是否被修改
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-
-		requestWindowFeature(Window.FEATURE_NO_TITLE);
-		setContentView(R.layout.activity_edit_user_info);
-
 		super.onCreate(savedInstanceState);
-	}
-
-	@Override
-	public void initViews() {
-		setTitleBarText(null);
-		showTextViewLeft(true);
-		showTextViewRight1(true);
-		getTextViewRight1().setBackgroundResource(R.drawable.ic_ok);
-		
-		rl_edit_portrait = (RelativeLayout) findViewById(R.id.rl_edit_portrait);
-		rl_edit_nickname = (RelativeLayout) findViewById(R.id.rl_edit_nickname);
-		rl_edit_gender = (RelativeLayout) findViewById(R.id.rl_edit_gender);
-		rl_edit_signature = (RelativeLayout) findViewById(R.id.rl_edit_signature);
-		rl_edit_height = (RelativeLayout) findViewById(R.id.rl_edit_height);
-		rl_edit_weight = (RelativeLayout) findViewById(R.id.rl_edit_weight);
-		rl_edit_bounce = (RelativeLayout) findViewById(R.id.rl_edit_bounce);
-		rl_edit_seat = (RelativeLayout) findViewById(R.id.rl_edit_seat);
-		rl_edit_play = (RelativeLayout) findViewById(R.id.rl_edit_play);
-		
-		iv_portrait = (ImageView) findViewById(R.id.iv_portrait);
-		tv_nickname = (TextView) findViewById(R.id.tv_nickname);
-		tv_gender = (TextView) findViewById(R.id.tv_gender);
-		tv_signature = (TextView) findViewById(R.id.tv_signature);
-		tv_height = (TextView) findViewById(R.id.tv_height);
-		tv_weight = (TextView) findViewById(R.id.tv_weight);
-		tv_bounce = (TextView) findViewById(R.id.tv_bounce);
-		tv_seat = (TextView) findViewById(R.id.tv_seat);
-		tv_play = (TextView) findViewById(R.id.tv_play);
-		
+		sp=getSharedPreferences("user_info", Context.MODE_PRIVATE);
 		mPickerImageUtil = new PickerImageUtil(this);
+		initUI();
+	}
+	
+	private void initUI(){
+		setContentView(R.layout.activity_edit_user_info);
+		titleBar=(CustomTitleBar) findViewById(R.id.titleBar);
+		head_sculpture=(OptionItemView) findViewById(R.id.head_sculpture);
+		nick=(OptionItemView) findViewById(R.id.nick);
+		gender=(OptionItemView) findViewById(R.id.gender);
+		signature=(OptionItemView) findViewById(R.id.signature);
+		height=(OptionItemView) findViewById(R.id.height);
+		weight=(OptionItemView) findViewById(R.id.weight);
+		bounce=(OptionItemView) findViewById(R.id.bounce);
+		seat=(OptionItemView) findViewById(R.id.seat);
+		play=(OptionItemView) findViewById(R.id.play);
 		
-	}
-
-	@Override
-	public void addListnners() {
-		getTextViewLeft().setOnClickListener(this);
-		getTextViewRight1().setOnClickListener(this);
-		rl_edit_portrait.setOnClickListener(this);
-		rl_edit_nickname.setOnClickListener(this);
-		rl_edit_gender.setOnClickListener(this);
-		rl_edit_signature.setOnClickListener(this);
-		rl_edit_height.setOnClickListener(this);
-		rl_edit_weight.setOnClickListener(this);
-		rl_edit_bounce.setOnClickListener(this);
-		rl_edit_seat.setOnClickListener(this);
-		rl_edit_play.setOnClickListener(this);
-	}
-
-	@Override
-	public void fillDatas() {
-		// 选择项的初始数据
-		Gender = "男生";
-		Height = "170cm";
-		Weight = "55kg";
-		Bounce = "40cm";
-		Seat = "PG";
+		titleBar.setOnClickBackListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				finish();
+			}
+		});
+		
+		titleBar.setOnClickFirstRightIconListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				Toast.makeText(mContext, "保存成功", Toast.LENGTH_SHORT).show();
+			}
+		});
+		
+		head_sculpture.setOnClickListener(this);
+		nick.setOnClickListener(this);
+		gender.setOnClickListener(this);
+		signature.setOnClickListener(this);
+		height.setOnClickListener(this);
+		weight.setOnClickListener(this);
+		bounce.setOnClickListener(this);
+		seat.setOnClickListener(this);
+		play.setOnClickListener(this);
+		
+		nick.setMiddleTitle(sp.getString("nick", null));
+		gender.setMiddleTitle(sp.getString("gender", null));
+		signature.setMiddleTitle(sp.getString("signature", null));
+		height.setMiddleTitle(sp.getString("height", null));
+		weight.setMiddleTitle(sp.getString("weight", null));
+		bounce.setMiddleTitle(sp.getString("bounce", null));
+		seat.setMiddleTitle(sp.getString("seat", null));
+		play.setMiddleTitle(sp.getString("play", null));
 	}
 
 	@Override
 	public void onClick(View v) {
-		View outerView = LayoutInflater.from(this).inflate(R.layout.wheel_view, null);
-        WheelView wv = (WheelView) outerView.findViewById(R.id.wheel_view_wv);
 		switch (v.getId()) {
-		case R.id.mTextViewLeft:
-			finish();
-			break;
-		case R.id.mTextviewRight1:
-			showToast("提交保存个人信息");	
-			break;			
-		case R.id.rl_edit_portrait:
+		case R.id.head_sculpture:
 			new AlertDialog.Builder(this).setItems(EditUserInfoActivity.this.getResources().getStringArray(R.array.edit_portrait_way), new OnClickListener() {
 				
 				@Override
@@ -155,162 +119,169 @@ public class EditUserInfoActivity extends BaseActivity{
 				}
 			}).show();
 			break;
-		case R.id.rl_edit_nickname:
-			gotoExistActivityForResult(EditUserNicknameActivity.class, new Bundle(),AppConstants.USER_NICKNAME_REQUEST);
+		case R.id.nick:
+		case R.id.signature:
+		case R.id.play:
+			showInputDialog(v.getId());
 			break;
-		case R.id.rl_edit_gender:
-            wv.setOffset(1);
-            wv.setSeletion(0);
-            String[] genders = getResources().getStringArray(R.array.user_info_genders);
-            wv.setItems(Arrays.asList(genders));
-            
-            wv.setOnWheelViewListener(new WheelView.OnWheelViewListener() {
-                @Override
-                public void onSelected(int selectedIndex, String item) {
-                    Log.d(AppConstants.TAG, "[Dialog]selectedIndex: " + selectedIndex + ", item: " + item);
-                    Gender = item;
-                }
-            });
-
-            new AlertDialog.Builder(this)
-                    .setTitle(getResources().getString(R.string.user_gender))
-                    .setView(outerView)
-                    .setPositiveButton(getResources().getString(R.string.user_ok), new DialogInterface.OnClickListener() {
-						
-						@Override
-						public void onClick(DialogInterface arg0, int arg1) {
-							tv_gender.setText(Gender);
-						}
-					})
-                    .setNegativeButton(getResources().getString(R.string.user_cancle), null)
-                    .show();
-			break;
-		case R.id.rl_edit_signature:
-			gotoExistActivityForResult(EditUserSignatrueActivity.class, new Bundle(),AppConstants.USER_SIGNATURE_REQUEST);
-			break;
-		case R.id.rl_edit_height:
-			wv.setOffset(1);
-            wv.setSeletion(20);
-            String[] heights = new String[50];
-            for (int i = 0; i < heights.length; i++) {
-            	heights[i] = 150+i+"cm";
-			}
-            wv.setItems(Arrays.asList(heights));
-            
-            wv.setOnWheelViewListener(new WheelView.OnWheelViewListener() {
-                @Override
-                public void onSelected(int selectedIndex, String item) {
-                    Log.d(AppConstants.TAG, "[Dialog]selectedIndex: " + selectedIndex + ", item: " + item);
-                    Height = item;
-                }
-            });
-
-            new AlertDialog.Builder(this)
-                    .setTitle(getResources().getString(R.string.personal_item_height))
-                    .setView(outerView)
-                    .setPositiveButton(getResources().getString(R.string.user_ok),  new DialogInterface.OnClickListener() {
-						
-						@Override
-						public void onClick(DialogInterface arg0, int arg1) {
-							tv_height.setText(Height);
-						}
-					})
-                    .setNegativeButton(getResources().getString(R.string.user_cancle), null)
-                    .show();
-			break;
-		case R.id.rl_edit_weight:
-			wv.setOffset(1);
-            wv.setSeletion(20);
-            String[] weights = new String[50];
-            for (int i = 0; i < weights.length; i++) {
-            	weights[i] = 35+i+"kg";
-			}
-            wv.setItems(Arrays.asList(weights));
-            
-            wv.setOnWheelViewListener(new WheelView.OnWheelViewListener() {
-                @Override
-                public void onSelected(int selectedIndex, String item) {
-                    Log.d(AppConstants.TAG, "[Dialog]selectedIndex: " + selectedIndex + ", item: " + item);
-                    Weight = item;
-                }
-            });
-
-            new AlertDialog.Builder(this)
-                    .setTitle(getResources().getString(R.string.personal_item_weight))
-                    .setView(outerView)
-                    .setPositiveButton(getResources().getString(R.string.user_ok),  new DialogInterface.OnClickListener() {
-						
-						@Override
-						public void onClick(DialogInterface arg0, int arg1) {
-							tv_weight.setText(Weight);
-						}
-					})
-                    .setNegativeButton(getResources().getString(R.string.user_cancle), null)
-                    .show();
-			break;
-		case R.id.rl_edit_bounce:
-			wv.setOffset(1);
-            wv.setSeletion(20);
-            String[] bounces = new String[50];
-            for (int i = 0; i < bounces.length; i++) {
-            	bounces[i] = 20+i+"cm";
-			}
-            wv.setItems(Arrays.asList(bounces));
-            
-            wv.setOnWheelViewListener(new WheelView.OnWheelViewListener() {
-                @Override
-                public void onSelected(int selectedIndex, String item) {
-                    Log.d(AppConstants.TAG, "[Dialog]selectedIndex: " + selectedIndex + ", item: " + item);
-                    Bounce = item;
-                }
-            });
-
-            new AlertDialog.Builder(this)
-                    .setTitle(getResources().getString(R.string.personal_item_bounce))
-                    .setView(outerView)
-                    .setPositiveButton(getResources().getString(R.string.user_ok),  new DialogInterface.OnClickListener() {
-						
-						@Override
-						public void onClick(DialogInterface arg0, int arg1) {
-							tv_bounce.setText(Bounce);
-						}
-					})
-                    .setNegativeButton(getResources().getString(R.string.user_cancle), null)
-                    .show();
-			break;
-		case R.id.rl_edit_seat:
-			wv.setOffset(1);
-            wv.setSeletion(2);
-            String[] seats = getResources().getStringArray(R.array.user_info_seats);
-            wv.setItems(Arrays.asList(seats));
-            
-            wv.setOnWheelViewListener(new WheelView.OnWheelViewListener() {
-                @Override
-                public void onSelected(int selectedIndex, String item) {
-                    Log.d(AppConstants.TAG, "[Dialog]selectedIndex: " + selectedIndex + ", item: " + item);
-                    Seat = item;
-                }
-            });
-
-            new AlertDialog.Builder(this)
-                    .setTitle(getResources().getString(R.string.user_personal_seat))
-                    .setView(outerView)
-                    .setPositiveButton(getResources().getString(R.string.user_ok),  new DialogInterface.OnClickListener() {
-						
-						@Override
-						public void onClick(DialogInterface arg0, int arg1) {
-							tv_seat.setText(Seat);
-						}
-					})
-                    .setNegativeButton(getResources().getString(R.string.user_cancle), null)
-                    .show();
-			break;
-		case R.id.rl_edit_play:
-			gotoExistActivityForResult(EditUserPlayActivity.class, new Bundle(),AppConstants.USER_PLAY_REQUEST);
+		case R.id.gender:
+		case R.id.height:
+		case R.id.weight:
+		case R.id.bounce:
+		case R.id.seat:
+			showModifyInfoDialog(v.getId());
 			break;
 		default:
 			break;
 		}
+	}
+	
+	private EditText et_content;
+	
+	private void showInputDialog(final int id){
+		int titleId=0;
+		 View view=null;
+		switch(id){
+		case R.id.nick:
+			titleId=R.string.user_nickname;
+			view=LayoutInflater.from(mContext).inflate(R.layout.dialog_input_nick, null);
+			break;
+		case R.id.signature:
+			titleId=R.string.user_signature;
+			view=LayoutInflater.from(mContext).inflate(R.layout.dialog_input_signature, null);
+			break;
+		case R.id.play:
+			titleId=R.string.user_personal_play;
+			view=LayoutInflater.from(mContext).inflate(R.layout.dialog_input_play, null);
+			break;
+		default:
+			return;
+		}
+		et_content=(EditText) view.findViewById(R.id.et_content);
+		AlertDialog.Builder mBuilder=new AlertDialog.Builder(this);
+		mBuilder.setTitle(titleId);
+		mBuilder.setView(view);
+		mBuilder.setPositiveButton(getResources().getString(R.string.user_ok),  new DialogInterface.OnClickListener() {
+						
+			@Override
+			public void onClick(DialogInterface arg0, int arg1) {
+				if(et_content.getText()==null){
+					Toast.makeText(mContext, "内容不能为空", Toast.LENGTH_SHORT).show();
+					return;
+				}
+				String content=et_content.getText().toString().trim();
+				hasChanged=true;
+				Editor editor=sp.edit();
+				switch(id){
+				case R.id.nick:
+					editor.putString("nick", content);
+					nick.setMiddleTitle(content);
+					break;
+				case R.id.signature:
+					editor.putString("signature", content);
+					signature.setMiddleTitle(content);
+					break;
+				case R.id.play:
+					editor.putString("play", content);
+					play.setMiddleTitle(content);
+					break;
+				}
+				editor.commit();
+			}
+		});
+		mBuilder.setNegativeButton(getResources().getString(R.string.user_cancle), null);
+		mBuilder.create().show();
+	}
+	
+	private void showModifyInfoDialog(final int id){
+		items=null;
+		mPosition=0;
+		int titleId=0;
+		View view = LayoutInflater.from(this).inflate(R.layout.wheel_view, null);
+        WheelView wv = (WheelView) view.findViewById(R.id.wheel_view_wv);
+        wv.setOnWheelViewListener(new OnWheelViewListener(){
+
+			@Override
+			public void onSelected(int selectedIndex, String item) {
+				 Log.d(Tag, "selectedIndex: " + selectedIndex + ",  item: " + item);
+				mPosition=selectedIndex-1;
+			}
+        });
+//        wv.setOffset(1);
+//        wv.setSeletion(2);
+		switch(id){
+		case R.id.gender:
+			titleId=R.string.user_gender;
+			items=getResources().getStringArray(R.array.user_info_genders);
+			break;
+		case R.id.height:
+			titleId=R.string.personal_item_height;
+			items = new String[50];
+            for (int i = 0; i < items.length; i++) {
+            	items[i] = 150+i+"cm";
+			}
+            break;
+		case R.id.weight:
+			titleId=R.string.personal_item_weight;
+			items = new String[50];
+            for (int i = 0; i < items.length; i++) {
+            	items[i] = 35+i+"kg";
+			}
+			break;
+		case R.id.bounce:
+			titleId=R.string.personal_item_bounce;
+			items = new String[50];
+            for (int i = 0; i < items.length; i++) {
+            	items[i] = 20+i+"cm";
+			}
+			break;
+		case R.id.seat:
+			titleId=R.string.user_personal_seat;
+			items=getResources().getStringArray(R.array.user_info_seats);
+			break;
+		default:
+			return;
+		}
+		wv.setItems(Arrays.asList(items));
+		AlertDialog.Builder mBuilder=new AlertDialog.Builder(this);
+		mBuilder.setTitle(titleId);
+		mBuilder.setView(view);
+		mBuilder.setPositiveButton(getResources().getString(R.string.user_ok),  new DialogInterface.OnClickListener() {
+						
+			@Override
+			public void onClick(DialogInterface arg0, int arg1) {
+				if(items==null){
+					return;
+				}
+				hasChanged=true;
+				Editor editor=sp.edit();
+				switch(id){
+				case R.id.gender:
+					gender.setMiddleTitle(items[mPosition]);
+					editor.putString("gender", items[mPosition]);
+					break;
+				case R.id.height:
+					height.setMiddleTitle(items[mPosition]);
+					editor.putString("height", items[mPosition]);
+					break;
+				case R.id.weight:
+					weight.setMiddleTitle(items[mPosition]);
+					editor.putString("weight", items[mPosition]);
+					break;
+				case R.id.bounce:
+					bounce.setMiddleTitle(items[mPosition]);
+					editor.putString("bounce", items[mPosition]);
+					break;
+				case R.id.seat:
+					seat.setMiddleTitle(items[mPosition]);
+					editor.putString("seat", items[mPosition]);
+					break;
+				}
+				editor.commit();
+			}
+		});
+		mBuilder.setNegativeButton(getResources().getString(R.string.user_cancle), null);
+		mBuilder.create().show();
 	}
 
 	@Override
@@ -318,20 +289,20 @@ public class EditUserInfoActivity extends BaseActivity{
 		switch (requestCode) {
 		case AppConstants.USER_NICKNAME_REQUEST:
 			if (resultCode == RESULT_OK) {
-				Nickname = data.getStringExtra("nickname_return");
-				tv_nickname.setText(Nickname);
+//				Nickname = data.getStringExtra("nickname_return");
+//				tv_nickname.setText(Nickname);
 			}
 			break;
 		case AppConstants.USER_SIGNATURE_REQUEST:
 			if (resultCode == RESULT_OK) {
-				Signature = data.getStringExtra("signature_return");
-				tv_signature.setText(Signature);
+//				Signature = data.getStringExtra("signature_return");
+//				tv_signature.setText(Signature);
 			}
 			break;
 		case AppConstants.USER_PLAY_REQUEST:
 			if (resultCode == RESULT_OK) {
-				Play = data.getStringExtra("play_return");
-				tv_play.setText(Play);
+//				Play = data.getStringExtra("play_return");
+//				tv_play.setText(Play);
 			}
 			break;
 		case AppConstants.PHOTO_CAREMA_REQUEST:
@@ -351,7 +322,7 @@ public class EditUserInfoActivity extends BaseActivity{
 			try {
 				bmp = BitmapFactory.decodeStream(getContentResolver().openInputStream(imageUri));
 				if (bmp != null) {
-					iv_portrait.setBackground(new BitmapDrawable(bmp));
+//					iv_portrait.setBackground(new BitmapDrawable(bmp));
 				}
 			} catch (FileNotFoundException e) {
 				// TODO Auto-generated catch block

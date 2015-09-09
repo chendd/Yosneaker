@@ -25,7 +25,7 @@
     <color name="tab_divise_bg">#F0F0F0</color>    
     <color name="tab_pressed_bg">#6633B5E5</color>
     
-    <color name="comment_item__bg">#fbfbfb</color>
+    <color name="comment_item_bg">#fbfbfb</color>
     
     <!-- 自定义标题栏背景色 -->
     <color name="layout_selected_bg">#dddddd</color>
@@ -37,5 +37,8 @@
     <color name="mine_tab_bg">#282828</color>
     
     <color name="error_tip_bg">#F8EFB6</color>
+    
+    <color name="option_item_view_left_title_color">#000000</color>
+    <color name="option_item_view_middle_title_color">#000000</color>
     
 </resources>
