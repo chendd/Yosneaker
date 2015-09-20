@@ -222,7 +222,7 @@ public class NiceSpinner extends EditText {
     }
 
     public <T> void attachDataSource(@NonNull List<T> dataset) {
-        mAdapter = new NiceSpinnerAdapter<>(getContext(), dataset);
+        mAdapter = new NiceSpinnerAdapter<T>(getContext(), dataset);
         setAdapterInternal(mAdapter);
     }
 

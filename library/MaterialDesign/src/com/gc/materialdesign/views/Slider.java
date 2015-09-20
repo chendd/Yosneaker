@@ -6,6 +6,7 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Paint.Cap;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.drawable.GradientDrawable;
@@ -102,10 +103,12 @@ public class Slider extends CustomView {
 			Bitmap bitmap = Bitmap.createBitmap(canvas.getWidth(), canvas.getHeight(), Bitmap.Config.ARGB_8888);
 		    Canvas temp = new Canvas(bitmap);
 		    Paint paint = new Paint();
+		    // paint.setStrokeCap(Cap.ROUND);
 			paint.setColor(Color.parseColor("#B0B0B0"));
 			paint.setStrokeWidth(Utils.dpToPx(8, getResources()));
 			temp.drawLine(getHeight()/2, getHeight()/2, getWidth()-getHeight()/2, getHeight()/2, paint);
 		    Paint transparentPaint = new Paint();
+//		    transparentpaint.setStrokeCap(Cap.ROUND);
 		    transparentPaint.setColor(getResources().getColor(android.R.color.transparent));
 		    transparentPaint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.CLEAR));
 		    temp.drawCircle(ViewHelper.getX(ball)+ball.getWidth()/2, ViewHelper.getY(ball)+ball.getHeight()/2, ball.getWidth()/2, transparentPaint);
@@ -113,6 +116,7 @@ public class Slider extends CustomView {
 		    canvas.drawBitmap(bitmap, 0, 0, new Paint());
 		}else{
 			Paint paint = new Paint();
+			// paint.setStrokeCap(Cap.ROUND);
 			paint.setColor(Color.parseColor("#B0B0B0"));
 			paint.setStrokeWidth(Utils.dpToPx(8, getResources()));
 			canvas.drawLine(getHeight()/2, getHeight()/2, getWidth()-getHeight()/2, getHeight()/2, paint);
@@ -124,6 +128,7 @@ public class Slider extends CustomView {
 	    
 	    if(press && !showNumberIndicator){
 	    	Paint paint = new Paint();
+	    	// paint.setStrokeCap(Cap.ROUND);
 			paint.setColor(backgroundColor);
 			paint.setAntiAlias(true);
 			canvas.drawCircle(ViewHelper.getX(ball)+ball.getWidth()/2, getHeight()/2, getHeight()/3, paint);

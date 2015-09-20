@@ -167,7 +167,7 @@ public class EditArticleItemActivity extends BaseActivity{
 			commentDraft = new Article();
 		}
 		
-		List<String> dataset = new LinkedList<>(Arrays.asList("外观", "做工", "用料", "透气性", "支撑性"));
+		List<String> dataset = new LinkedList<String>(Arrays.asList("外观", "做工", "用料", "透气性", "支撑性"));
 		et_item_title.attachDataSource(dataset);
 		
 	}

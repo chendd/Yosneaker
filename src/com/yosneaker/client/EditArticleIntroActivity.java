@@ -124,7 +124,7 @@ public class EditArticleIntroActivity extends BaseActivity implements
 		Article commentDraft = (Article) intent.getExtras().getSerializable("CommentDraft");
 		et_intro.setText(commentDraft.getArticleDescription());
 //		et_model.setText(""+commentDraft.getArticleModelId());
-		List<String> dataset = new LinkedList<>(Arrays.asList("热门型号One", "热门型号Two", "热门型号Three", "热门型号Four", "热门型号Five"));
+		List<String> dataset = new LinkedList<String>(Arrays.asList("热门型号One", "热门型号Two", "热门型号Three", "热门型号Four", "热门型号Five"));
 		et_model.attachDataSource(dataset);
 		int brandId = brands.indexOf(commentDraft.getArticleTrademarkId());
 		checkIndex = brandId;

@@ -63,7 +63,7 @@ public class SplashActivity extends Activity {
 	}
 
 	private void goHome() {
-		Intent intent = new Intent(SplashActivity.this, HomeActivity.class);
+		Intent intent = new Intent(SplashActivity.this, EditUserInfoActivity.class);
 		SplashActivity.this.startActivity(intent);
 		SplashActivity.this.finish();
 	}

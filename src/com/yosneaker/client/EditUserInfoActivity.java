@@ -101,6 +101,18 @@ public class EditUserInfoActivity extends MyBaseActivity implements View.OnClick
 			}
 		});
 		
+		titleBar.setOnClickFirstRightIconListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View arg0) {
+				Intent intent = new Intent();   
+				intent.setClass(EditUserInfoActivity.this, HomeActivity.class);  
+				intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);  //注意本行的FLAG设置  
+				startActivity(intent);  
+				finish();//关掉自己
+			}
+		});
+		
 		head_sculpture.setOnClickListener(this);
 		nick_container.setOnClickListener(this);
 		gender.setOnClickListener(this);

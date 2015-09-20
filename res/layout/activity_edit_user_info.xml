@@ -11,6 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         titleBar:show_back_view="true"
+        titleBar:first_right_icon="@drawable/ic_ok"
         titleBar:center_title="@string/edit_user_info"/>
     
     <LinearLayout 

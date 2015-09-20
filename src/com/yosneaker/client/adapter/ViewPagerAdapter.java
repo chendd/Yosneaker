@@ -3,10 +3,7 @@ package com.yosneaker.client.adapter;
 import java.util.List;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.content.SharedPreferences.Editor;
 import android.os.Parcelable;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
@@ -14,7 +11,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageView;
 
-import com.yosneaker.client.HomeActivity;
+import com.yosneaker.client.EditUserInfoActivity;
 import com.yosneaker.client.R;
 import com.yosneaker.client.util.SettingUtils;
 
@@ -77,7 +74,7 @@ public class ViewPagerAdapter extends PagerAdapter {
 
 	private void goHome() {
 		// 跳转
-		Intent intent = new Intent(activity, HomeActivity.class);
+		Intent intent = new Intent(activity, EditUserInfoActivity.class);
 		activity.startActivity(intent);
 		activity.finish();
 	}
