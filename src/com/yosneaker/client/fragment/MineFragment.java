@@ -38,7 +38,7 @@ import com.yosneaker.client.view.XListView.IXListViewListener;
  */
 public class MineFragment extends MyBaseFragment implements IXListViewListener, OnClickListener{
 
-	private CustomTitleBar titleBar;
+//	private CustomTitleBar titleBar;
 	private ImageView iv_mine_edit_info;
 	private RoundImageView riv_mine_user_icon;
 	private LinearLayout ll_tab_wish;
@@ -70,22 +70,22 @@ public class MineFragment extends MyBaseFragment implements IXListViewListener, 
 	public void onViewCreated(View view, Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onViewCreated(view, savedInstanceState);
-		titleBar=(CustomTitleBar) view.findViewById(R.id.titleBar);
-		titleBar.setCenterTitle(sp.getString("nick", "nick"));
-		titleBar.setOnClickLeftIconListener(new View.OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				startActivity(new Intent(getActivity(), MineMessageActivity.class));
-			}
-		});
-		titleBar.setOnClickFirstRightIconListener(new View.OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				startActivity(new Intent(getActivity(), MineSettingsActivity.class));
-			}
-		});
+//		titleBar=(CustomTitleBar) view.findViewById(R.id.titleBar);
+//		titleBar.setCenterTitle(sp.getString("nick", "nick"));
+//		titleBar.setOnClickLeftIconListener(new View.OnClickListener() {
+//			
+//			@Override
+//			public void onClick(View v) {
+//				startActivity(new Intent(getActivity(), MineMessageActivity.class));
+//			}
+//		});
+//		titleBar.setOnClickFirstRightIconListener(new View.OnClickListener() {
+//			
+//			@Override
+//			public void onClick(View v) {
+//				startActivity(new Intent(getActivity(), MineSettingsActivity.class));
+//			}
+//		});
 		
 		iv_mine_edit_info = (ImageView) view.findViewById(R.id.iv_mine_edit_info);
 		riv_mine_user_icon = (RoundImageView) view.findViewById(R.id.riv_mine_user_icon);
